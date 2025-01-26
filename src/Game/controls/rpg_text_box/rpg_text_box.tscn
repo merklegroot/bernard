@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://1en5051vcire"]
+
+[ext_resource type="Texture2D" uid="uid://db03v2ch3g8gu" path="res://assets/rect.png" id="rect"]
+[ext_resource type="Script" path="res://controls/rpg_text_box/rpg_text_box.gd" id="script"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("script")
+
+[node name="Control#NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("rect")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Control#TextLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = -15.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Some text for the game."
+autowrap_mode = 2
+text_overrun_behavior = 3
+
