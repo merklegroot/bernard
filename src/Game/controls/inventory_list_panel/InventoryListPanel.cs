@@ -11,6 +11,8 @@ public partial class InventoryListPanel : Panel
     public override void _Ready()
     {
         _container = GetNode<VBoxContainer>("VBoxContainer");
+
+        EventBus.Instance.InventoryChangedEventHandler += OnInventoryChanged;
     }
 	
     public void SetInventoryItems(IEnumerable<InventoryItem> items)
@@ -57,5 +59,10 @@ public partial class InventoryListPanel : Panel
             .AppendLine(manipulativeDef.IsWeapon ? " (Weapon)" : " (Misc)");
 
         return displayTextBuilder.ToString();
+    }
+
+    private void OnInventoryChanged()
+    {
+        
     }
 } 
