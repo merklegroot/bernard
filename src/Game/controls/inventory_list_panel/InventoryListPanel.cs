@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Godot;
 using System.Text;
 using System.Text.Json;
+using Game.Models;
 
 public partial class InventoryListPanel : Panel
 {
@@ -11,6 +12,8 @@ public partial class InventoryListPanel : Panel
     public override void _Ready()
     {
         _container = GetNode<VBoxContainer>("VBoxContainer");
+        
+        EventBus.Instance.InventoryChanged += OnInventoryChanged;
     }
 	
     public void SetInventoryItems(IEnumerable<InventoryItem> items)
@@ -61,6 +64,6 @@ public partial class InventoryListPanel : Panel
 
     private void OnInventoryChanged()
     {
-        
+        SetInventoryItems(GameStateContainer.GameState.Inventory);
     }
 } 

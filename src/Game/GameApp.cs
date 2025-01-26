@@ -15,5 +15,7 @@ public partial class GameApp : Node
         GD.Print($"Drop inventoryItemIndex: {inventoryItemIndex}");
         
         GameStateContainer.GameState.Inventory.RemoveAt(inventoryItemIndex);
+        
+        EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);
     }
 }

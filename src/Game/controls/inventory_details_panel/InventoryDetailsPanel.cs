@@ -22,7 +22,6 @@ public partial class InventoryDetailsPanel : Panel
 		_closeButton.Pressed += OnCloseButtonPressed;
 		_dropButton.Pressed += OnDropButtonPressed;
 		
-
 		EventBus.Instance.InventoryItemSelected += OnInventoryItemSelected;
 	}
 	
