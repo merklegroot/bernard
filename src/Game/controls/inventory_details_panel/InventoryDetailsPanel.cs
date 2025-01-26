@@ -8,19 +8,28 @@ public partial class InventoryDetailsPanel : Panel
 	private Label _titleLabel;
 	private Label _label;
 	private Button _closeButton;
+	private	Button _dropButton;
+
+	private int _inventoryItemIndex;
 
 	public override void _Ready()
 	{
 		_label = GetNode<Label>("Label");
 		_titleLabel = GetNode<Label>("TitleLabel");
 		_closeButton = GetNode<Button>("HBoxContainer/CloseButton");
+		_dropButton = GetNode<Button>("HBoxContainer/DropButton");
+		
 		_closeButton.Pressed += OnCloseButtonPressed;
+		_dropButton.Pressed += OnDropButtonPressed;
+		
 
 		EventBus.Instance.InventoryItemSelected += OnInventoryItemSelected;
 	}
 	
 	private void OnInventoryItemSelected(int inventoryItemIndex)
 	{
+		_inventoryItemIndex = inventoryItemIndex;
+
 		var inventoryItem = GameStateContainer.GameState.Inventory[inventoryItemIndex];
 		
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(inventoryItem.Id);
@@ -33,6 +42,12 @@ public partial class InventoryDetailsPanel : Panel
 
 	private void OnCloseButtonPressed()
 	{
+		Visible = false;
+	}
+
+	private void OnDropButtonPressed()
+	{
+		EventBus.Instance.EmitSignal(EventBus.SignalName.DropInventoryItem, _inventoryItemIndex);
 		Visible = false;
 	}
 	

@@ -80,12 +80,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Close"
 
-[node name="Button2" type="Button" parent="HBoxContainer"]
+[node name="DropButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Drop"
 
-[node name="Button3" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Info"
+; [node name="Button3" type="Button" parent="HBoxContainer"]
+; layout_mode = 2
+; size_flags_horizontal = 3
+; text = "Info"
