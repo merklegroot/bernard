@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bexqulhgt53ao"]
+[gd_scene load_steps=3 format=3 uid="uid://bexqulhgt53ao"]
 
 [ext_resource type="Script" path="res://scenes/VerticalLayoutScene.cs" id="1_vertical"]
+[ext_resource type="PackedScene" uid="uid://duhkq60a2swhd" path="res://controls/status_panel/status_panel.tscn" id="2_status"]
 
 [node name="VerticalLayoutScene" type="Control"]
 layout_mode = 3
@@ -24,16 +25,12 @@ theme_override_constants/separation = 10
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/Header"]
+[node name="StatusPanel" parent="VBoxContainer/Header" instance=ExtResource("2_status")]
 layout_mode = 1
 anchors_preset = 15
-anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
+offset_bottom = 0.0
 grow_vertical = 2
-text = "Header"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Body" type="Panel" parent="VBoxContainer"]
 layout_mode = 2
