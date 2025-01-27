@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/VerticalLayoutScene.cs" id="1_vertical"]
 [ext_resource type="PackedScene" uid="uid://duhkq60a2swhd" path="res://controls/status_panel/status_panel.tscn" id="2_status"]
 [ext_resource type="PackedScene" uid="uid://dfxr3mgums1jg" path="res://controls/inventory_list_panel/inventory_list_panel.tscn" id="3_inventory"]
-[ext_resource type="PackedScene" path="res://controls/nothing_panel/nothing_panel.tscn" id="4_nothing"]
+[ext_resource type="PackedScene" uid="uid://cntb5w8l1wcsx" path="res://controls/main_panel/main_panel.tscn" id="4_main"]
 
 [node name="VerticalLayoutScene" type="Control"]
 layout_mode = 3
@@ -52,7 +52,7 @@ theme_override_constants/separation = 10
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="NothingPanel" parent="VBoxContainer/Body/HBoxContainer/LeftPanel" instance=ExtResource("4_nothing")]
+[node name="MainPanel" parent="VBoxContainer/Body/HBoxContainer/LeftPanel" instance=ExtResource("4_main")]
 layout_mode = 1
 
 [node name="RightPanel" type="Panel" parent="VBoxContainer/Body/HBoxContainer"]
