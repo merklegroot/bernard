@@ -14,21 +14,8 @@ public partial class InventoryListPanel : Panel
         _container = GetNode<VBoxContainer>("VBoxContainer");
         
         EventBus.Instance.InventoryChanged += OnInventoryChanged;
-    }
-	
-    public void SetInventoryItems(IEnumerable<InventoryItem> items)
-    {
-        foreach (var child in _container.GetChildren())
-        {
-            child.QueueFree();
-        }
 
-        var index = 0;
-        foreach (var item in items)
-        {
-            AddInventoryItem(item, index);
-            index++;
-        }
+        UpdateInventoryItems();
     }
 
     private void AddInventoryItem(InventoryItem item, int inventoryItemIndex)
@@ -64,6 +51,23 @@ public partial class InventoryListPanel : Panel
 
     private void OnInventoryChanged()
     {
-        SetInventoryItems(GameStateContainer.GameState.Inventory);
+        UpdateInventoryItems();
+    }
+
+    private void UpdateInventoryItems()
+    {
+        var items = GameStateContainer.GameState.Inventory;
+
+        foreach (var child in _container.GetChildren())
+        {
+            child.QueueFree();
+        }
+
+        var index = 0;
+        foreach (var item in items)
+        {
+            AddInventoryItem(item, index);
+            index++;
+        }
     }
 } 

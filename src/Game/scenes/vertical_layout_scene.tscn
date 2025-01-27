@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bexqulhgt53ao"]
+[gd_scene load_steps=4 format=3 uid="uid://bexqulhgt53ao"]
 
 [ext_resource type="Script" path="res://scenes/VerticalLayoutScene.cs" id="1_vertical"]
 [ext_resource type="PackedScene" uid="uid://duhkq60a2swhd" path="res://controls/status_panel/status_panel.tscn" id="2_status"]
+[ext_resource type="PackedScene" uid="uid://dfxr3mgums1jg" path="res://controls/inventory_list_panel/inventory_list_panel.tscn" id="3_inventory"]
 
 [node name="VerticalLayoutScene" type="Control"]
 layout_mode = 3
@@ -37,16 +38,42 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="Label" type="Label" parent="VBoxContainer/Body"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Body"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Body"
+theme_override_constants/separation = 10
+
+[node name="LeftPanel" type="Panel" parent="VBoxContainer/Body/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/Body/HBoxContainer/LeftPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Left Panel"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="RightPanel" type="Panel" parent="VBoxContainer/Body/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="InventoryListPanel" parent="VBoxContainer/Body/HBoxContainer/RightPanel" instance=ExtResource("3_inventory")]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
 
 [node name="Info" type="Panel" parent="VBoxContainer"]
 layout_mode = 2

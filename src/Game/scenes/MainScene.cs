@@ -41,12 +41,6 @@ public partial class MainScene : Control
 		EventBus.Instance.InventoryItemSelected += OnInventoryItemSelected;
 		
 		SetRandomText();
-		ShowState();
-	}
-	
-	private void ShowState()
-	{
-		_inventoryListPanel.SetInventoryItems(_gameState.Inventory);
 	}
 	
 	private void SetRandomText()
@@ -62,8 +56,6 @@ public partial class MainScene : Control
 
 		_gameState.Health += 1;
 		EventBus.Instance.EmitSignal(EventBus.SignalName.StatusChanged);
-		
-		ShowState();
 		
 		_toast.Show("Health increased!");
 	}
