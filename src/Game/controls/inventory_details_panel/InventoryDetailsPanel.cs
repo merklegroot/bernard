@@ -41,13 +41,12 @@ public partial class InventoryDetailsPanel : Panel
 
 	private void OnCloseButtonPressed()
 	{
-		Visible = false;
+		EventBus.Instance.EmitSignal(EventBus.SignalName.CloseInventoryDetails);
 	}
 
 	private void OnDropButtonPressed()
 	{
 		EventBus.Instance.EmitSignal(EventBus.SignalName.DropInventoryItem, _inventoryItemIndex);
-		Visible = false;
 	}
 	
 	public override void _ExitTree()

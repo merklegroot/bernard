@@ -10,7 +10,7 @@ public static class InitialGameState
             RoomId = KnownRooms.StartingRoomId,
             Health = 25,
             Gold = 70,
-            MainPanel = PanelEnum.Nothing,
+            MainPanelStack = new Queue<PanelEnum>(),
             Inventory = InitialInventory()
         };
 

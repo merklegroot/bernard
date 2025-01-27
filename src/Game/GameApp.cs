@@ -23,9 +23,15 @@ public partial class GameApp : Node
     public void OnInventoryItemSelected(int inventoryItemIndex)
     {
         GD.Print($"Inventory item selected | InventoryItemIndex: {inventoryItemIndex}");
-        GameStateContainer.GameState.MainPanel = PanelEnum.InventoryDetails;
         
-        GD.Print($"Main panel set to {GameStateContainer.GameState.MainPanel}");
+        SetMainPanel(PanelEnum.InventoryDetails);
+        
         EventBus.Instance.EmitSignal(EventBus.SignalName.MainPanelChanged);
+    }
+
+    private void SetMainPanel(PanelEnum panelEnum)
+    {
+        // GameStateContainer.GameState.MainPanel = PanelEnum.InventoryDetails;
+        // GameStateContainer.GameState.MainPanelStack.
     }
 }
