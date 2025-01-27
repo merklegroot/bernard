@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://dbaqywbubsjts"]
 
 [ext_resource type="Script" path="res://controls/room_panel/RoomPanel.cs" id="1_room"]
 
@@ -43,4 +43,4 @@ offset_left = 5.0
 offset_top = 30.0
 offset_right = -5.0
 offset_bottom = 34.0
-grow_horizontal = 2 
+grow_horizontal = 2
