@@ -1,3 +1,4 @@
+using Game.Constants;
 using Game.Models;
 using Godot;
 
@@ -8,6 +9,7 @@ public partial class GameApp : Node
         GD.Print("GameApp initialized");
 
         EventBus.Instance.DropInventoryItem += OnDropInventoryItem;
+        EventBus.Instance.InventoryItemSelected += OnInventoryItemSelected;
     }
 
     public void OnDropInventoryItem(int inventoryItemIndex)
@@ -17,5 +19,14 @@ public partial class GameApp : Node
         GameStateContainer.GameState.Inventory.RemoveAt(inventoryItemIndex);
         
         EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);
+    }
+
+    public void OnInventoryItemSelected(int inventoryItemIndex)
+    {
+        GD.Print($"Inventory item selected | InventoryItemIndex: {inventoryItemIndex}");
+
+        GameStateContainer.GameState.MainPanel = PanelEnum.InventoryDetails;
+        
+        EventBus.Instance.EmitSignal(EventBus.SignalName.MainPanelChanged);
     }
 }

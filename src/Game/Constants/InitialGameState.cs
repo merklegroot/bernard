@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using Game.Constants;
+
+namespace Game.Constants;
 
 public static class InitialGameState
 {
@@ -9,11 +10,15 @@ public static class InitialGameState
             RoomId = KnownRooms.StartingRoomId,
             Health = 25,
             Gold = 70,
-            Inventory = new List<InventoryItem>
-            {
-                new InventoryItem { Id = KnownManipulatives.Torch },
-                new InventoryItem { Id = KnownManipulatives.Bread },
-                new InventoryItem { Id = KnownManipulatives.Knife },
-            }
+            MainPanel = PanelEnum.Nothing,
+            Inventory = InitialInventory()
+        };
+
+    private static List<InventoryItem> InitialInventory() => 
+        new()
+        {
+            new InventoryItem { Id = KnownManipulatives.Torch },
+            new InventoryItem { Id = KnownManipulatives.Bread },
+            new InventoryItem { Id = KnownManipulatives.Knife },
         };
 }

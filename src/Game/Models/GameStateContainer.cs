@@ -1,3 +1,5 @@
+using Game.Constants;
+
 namespace Game.Models;
 
 public static class GameStateContainer
