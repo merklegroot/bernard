@@ -1,3 +1,4 @@
+using Game.Models;
 using Godot;
 
 public partial class StatusPanel : Panel
@@ -12,11 +13,20 @@ public partial class StatusPanel : Panel
 	{
 		_healthLabel = GetNode<Label>(HealthLabelPath);
 		_goldLabel = GetNode<Label>(GoldLabelPath);
+
+		EventBus.Instance.StatusChanged += OnStatusChanged;
+		
+		UpdateStatus();
 	}
 	
-	public void SetHealth(int value) =>
-		_healthLabel.Text = $"Health: {value}";
-
-	public void SetGold(int value) =>
-		_goldLabel.Text = $"Gold: {value}";
+	private void OnStatusChanged()
+	{
+		UpdateStatus();
+	}
+	
+	private void UpdateStatus()
+	{
+		_healthLabel.Text = $"Health: {GameStateContainer.GameState.Health}";
+		_goldLabel.Text = $"Gold: {GameStateContainer.GameState.Gold}";
+	}
 }

@@ -11,7 +11,9 @@ public partial class EventBus : Node
     [Signal]
     public delegate void InventoryChangedEventHandler();
     
-
+    [Signal]
+    public delegate void StatusChangedEventHandler();
+    
     public static EventBus Instance { get; private set; } = new();
     
     public override void _Ready()

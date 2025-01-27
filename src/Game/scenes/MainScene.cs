@@ -46,9 +46,6 @@ public partial class MainScene : Control
 	
 	private void ShowState()
 	{
-		_statusPanel.SetHealth(_gameState.Health);
-		_statusPanel.SetGold(_gameState.Gold);
-		
 		_inventoryListPanel.SetInventoryItems(_gameState.Inventory);
 	}
 	
@@ -64,6 +61,8 @@ public partial class MainScene : Control
 		SetRandomText();
 
 		_gameState.Health += 1;
+		EventBus.Instance.EmitSignal(EventBus.SignalName.StatusChanged);
+		
 		ShowState();
 		
 		_toast.Show("Health increased!");
