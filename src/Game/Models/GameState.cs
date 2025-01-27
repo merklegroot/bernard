@@ -8,13 +8,7 @@ public class GameState
 	public int Health { get; set; }
 	public int Gold { get; set; }
 	
-	public Queue<PanelEnum> MainPanelStack { get; set; }
-
-	public PanelEnum CurrentMainPanel
-	{
-		get =>
-			MainPanelStack.Any() ? MainPanelStack.Peek() : PanelEnum.Nothing;
-	}
+	public PanelEnum CurrentMainPanel { get; set; }
 
 	public List<InventoryItem> Inventory { get; set; }
 }

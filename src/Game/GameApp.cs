@@ -10,6 +10,7 @@ public partial class GameApp : Node
 
         EventBus.Instance.DropInventoryItem += OnDropInventoryItem;
         EventBus.Instance.InventoryItemSelected += OnInventoryItemSelected;
+        EventBus.Instance.CloseInventoryDetails += OnCloseInventoryDetails;
     }
 
     public void OnDropInventoryItem(int inventoryItemIndex)
@@ -18,6 +19,8 @@ public partial class GameApp : Node
         GameStateContainer.GameState.Inventory.RemoveAt(inventoryItemIndex);
         
         EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);
+        
+        CloseInventoryDetails();
     }
 
     public void OnInventoryItemSelected(int inventoryItemIndex)
@@ -31,7 +34,17 @@ public partial class GameApp : Node
 
     private void SetMainPanel(PanelEnum panelEnum)
     {
-        // GameStateContainer.GameState.MainPanel = PanelEnum.InventoryDetails;
-        // GameStateContainer.GameState.MainPanelStack.
+        GameStateContainer.GameState.CurrentMainPanel = panelEnum;
+    }
+    
+    private void OnCloseInventoryDetails()
+    {
+        CloseInventoryDetails();
+    }
+    
+    private void CloseInventoryDetails()
+    {
+        GameStateContainer.GameState.CurrentMainPanel = PanelEnum.Room;
+        EventBus.Instance.EmitSignal(EventBus.SignalName.MainPanelChanged);
     }
 }

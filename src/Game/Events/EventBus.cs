@@ -17,6 +17,9 @@ public partial class EventBus : Node
     [Signal]
     public delegate void MainPanelChangedEventHandler();
     
+    [Signal]
+    public delegate void CloseInventoryDetailsEventHandler();
+    
     public static EventBus Instance { get; private set; } = new();
     
     public override void _Ready()
