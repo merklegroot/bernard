@@ -8,8 +8,7 @@ public abstract class ResourceListRepo<TData>
 
 	protected abstract string ResourcePath { get; }
 	protected abstract string Key { get; }
-
-
+	
 	public IResourceReader ResourceReader { private get; set; } = new ResourceReader();
 	
 	public List<TData> List()
