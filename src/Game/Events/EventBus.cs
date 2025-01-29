@@ -20,6 +20,9 @@ public partial class EventBus : Node
     [Signal]
     public delegate void CloseInventoryDetailsEventHandler();
     
+    [Signal]
+    public delegate void RoomChangedEventHandler();
+    
     public static EventBus Instance { get; private set; } = new();
     
     public override void _Ready()

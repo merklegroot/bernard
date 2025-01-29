@@ -4,7 +4,13 @@ using Game.Models;
 
 namespace Game.Repo;
 
-public abstract class ResourceEntityListRepo<TData> : ResourceListRepo<TData>
+public interface IResourceEntityListRepo<TData> : IResourceListRepo<TData>
+    where TData : IHasId
+{
+    TData Get(string id);
+}
+
+public abstract class ResourceEntityListRepo<TData> : ResourceListRepo<TData>, IResourceEntityListRepo<TData>
     where TData : IHasId
 {
     public TData Get(string id)

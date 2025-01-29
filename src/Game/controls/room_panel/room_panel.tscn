@@ -44,3 +44,29 @@ offset_top = 30.0
 offset_right = -5.0
 offset_bottom = 34.0
 grow_horizontal = 2
+
+[node name="RoomIdLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 10.0
+offset_top = 40.0
+offset_right = -10.0
+offset_bottom = 66.0
+grow_horizontal = 2
+text = "Room ID: ?"
+horizontal_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 70.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Room description goes here..."
+autowrap_mode = 1

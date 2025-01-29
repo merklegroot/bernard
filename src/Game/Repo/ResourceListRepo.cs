@@ -2,7 +2,12 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Godot;
 
-public abstract class ResourceListRepo<TData>
+public interface IResourceListRepo<TData>
+{
+	List<TData> List();
+}
+
+public abstract class ResourceListRepo<TData> : IResourceListRepo<TData>
 {
 	private static readonly Dictionary<string, List<TData>> _resourceCache = new();
 
