@@ -39,7 +39,6 @@ public partial class MainScene : Control
 		_toast = GetNode<Toast>(ToastPath);
 
 		_button.Pressed += OnButtonPressed;
-		EventBus.Instance.InventoryItemSelected += OnInventoryItemSelected;
 		
 		SetRandomText();
 	}
@@ -59,10 +58,5 @@ public partial class MainScene : Control
 		EventBus.Instance.EmitSignal(EventBus.SignalName.StatusChanged);
 		
 		_toast.Show("Health increased!");
-	}
-
-	private void OnInventoryItemSelected(int inventoryItemIndex)
-	{
-		_toast.Show($"Selected item: {inventoryItemIndex}");
 	}
 }

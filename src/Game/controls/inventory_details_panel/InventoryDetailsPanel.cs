@@ -1,3 +1,4 @@
+using System;
 using Game.Models;
 using Godot;
 
@@ -22,10 +23,23 @@ public partial class InventoryDetailsPanel : Panel
 		_closeButton.Pressed += OnCloseButtonPressed;
 		_dropButton.Pressed += OnDropButtonPressed;
 		
-		EventBus.Instance.InventoryItemSelected += OnInventoryItemSelected;
+		EventBus.Instance.InventoryItemSelctedFlexible += OnInventoryItemSelectedFlexible;
 	}
 	
-	private void OnInventoryItemSelected(int inventoryItemIndex)
+	private void OnInventoryItemSelectedFlexible(string data)
+	{
+		var inventoryItemSelectionData = (InventoryItemSelectionData)data;
+
+		if (inventoryItemSelectionData.Source == InventoryItemSelectionSource.Inventory)
+		{
+			ProcessInventoryItemSelected(inventoryItemSelectionData.Index);
+			return;
+		}
+
+		throw new ApplicationException($"Unexpected source: {inventoryItemSelectionData.Source}");
+	}
+
+	private void ProcessInventoryItemSelected(int inventoryItemIndex)
 	{
 		_inventoryItemIndex = inventoryItemIndex;
 
@@ -53,7 +67,7 @@ public partial class InventoryDetailsPanel : Panel
 	{
 		if (EventBus.Instance != null)
 		{
-			EventBus.Instance.InventoryItemSelected -= OnInventoryItemSelected;
+			EventBus.Instance.InventoryItemSelctedFlexible -= OnInventoryItemSelectedFlexible;
 		}
 	}
 }

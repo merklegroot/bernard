@@ -72,7 +72,7 @@ public partial class RoomPanel : Panel
 			{
 				Text = manipulativeDef.Name,
 				CustomMinimumSize = new Vector2(100, 30),
-				SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter
+				SizeFlagsHorizontal = SizeFlags.ShrinkCenter
 			};
 			
 			_manipulativesContainer.AddChild(button);

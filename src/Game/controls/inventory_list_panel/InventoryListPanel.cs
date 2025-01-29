@@ -32,7 +32,10 @@ public partial class InventoryListPanel : Panel
 		
         button.Pressed += () =>
         {
-            EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelected, inventoryItemIndex);
+            var selectionData = (string)new InventoryItemSelectionData
+                { Source = InventoryItemSelectionSource.Inventory, Index = inventoryItemIndex }; 
+            
+            EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelctedFlexible, selectionData);
         };
 		
         _container.AddChild(button);

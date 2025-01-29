@@ -12,7 +12,7 @@ public partial class GameApp : Node
 		GD.Print("GameApp initialized");
 
 		EventBus.Instance.DropInventoryItem += OnDropInventoryItem;
-		EventBus.Instance.InventoryItemSelected += OnInventoryItemSelected;
+		EventBus.Instance.InventoryItemSelctedFlexible += OnInventoryItemSelectedFlexible;
 		EventBus.Instance.CloseInventoryDetails += OnCloseInventoryDetails;
 	}
 
@@ -32,12 +32,9 @@ public partial class GameApp : Node
 		CloseInventoryDetails();
 	}
 
-	public void OnInventoryItemSelected(int inventoryItemIndex)
+	private void OnInventoryItemSelectedFlexible(string data)
 	{
-		GD.Print($"Inventory item selected | InventoryItemIndex: {inventoryItemIndex}");
-		
 		SetMainPanel(PanelEnum.InventoryDetails);
-		
 		EventBus.Instance.EmitSignal(EventBus.SignalName.MainPanelChanged);
 	}
 

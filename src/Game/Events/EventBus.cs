@@ -3,9 +3,6 @@ using Godot;
 public partial class EventBus : Node
 {
     [Signal]
-    public delegate void InventoryItemSelectedEventHandler(int inventoryItemIndex);
-
-    [Signal]
     public delegate void InventoryItemSelctedFlexibleEventHandler(string data);
 
     [Signal]
