@@ -19,7 +19,7 @@ public partial class RoomPanel : Panel
 	{
 		_roomIdLabel = GetNode<Label>("RoomIdLabel");
 		_descriptionLabel = GetNode<Label>("DescriptionLabel");
-		_manipulativesContainer = GetNode<HFlowContainer>("ManipulativesPanel/HFlowContainer");
+		_manipulativesContainer = GetNode<HFlowContainer>("ManipulativesPanel/ManipulativeContainer");
 
 		UpdateDisplay();
 		
@@ -73,8 +73,8 @@ public partial class RoomPanel : Panel
 			var button = new Button
 			{
 				Text = manipulativeDef.Name,
-				CustomMinimumSize = new Vector2(0, 30),
-				SizeFlagsHorizontal = Control.SizeFlags.Fill
+				CustomMinimumSize = new Vector2(100, 30),  // Set a minimum width
+				SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter  // Changed from Fill to Shrink
 			};
 			
 			_manipulativesContainer.AddChild(button);
