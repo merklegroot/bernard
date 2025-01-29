@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using System.Text;
@@ -8,6 +9,7 @@ public partial class InventoryListPanel : Panel
 {
     private readonly ManipulativeDefRepo _manipulativeDefRepo = new();
     private VBoxContainer _container;
+    private List<Action> _handlers = new List<Action>();
 	
     public override void _Ready()
     {
@@ -30,13 +32,16 @@ public partial class InventoryListPanel : Panel
             Alignment = HorizontalAlignment.Left
         };
 		
-        button.Pressed += () =>
+        var handler = new Action(() =>
         {
             var selectionData = (string)new InventoryItemSelectionData
                 { Source = InventoryItemSelectionSource.Inventory, Index = inventoryItemIndex }; 
             
             EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelctedFlexible, selectionData);
-        };
+        });
+		
+        button.Pressed += handler;
+        _handlers.Add(handler);
 		
         _container.AddChild(button);
     }
@@ -59,18 +64,23 @@ public partial class InventoryListPanel : Panel
 
     private void UpdateInventoryItems()
     {
-        var items = GameStateContainer.GameState.Inventory;
-
-        foreach (var child in _container.GetChildren())
+        var children = _container.GetChildren();
+        for (var index = 0; index < children.Count; index++)
         {
-            child.QueueFree();
+            var child = children[index];
+            if (child is not Button button)
+                continue;
+            
+            button.Pressed -= _handlers[index];
+            button.QueueFree();
         }
-
-        var index = 0;
-        foreach (var item in items)
+        
+        _handlers.Clear();
+        
+        for (var index = 0; index < GameStateContainer.GameState.Inventory.Count; index++)
         {
+            var item = GameStateContainer.GameState.Inventory[index];
             AddInventoryItem(item, index);
-            index++;
         }
     }
 } 

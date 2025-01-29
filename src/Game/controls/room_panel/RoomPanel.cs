@@ -87,7 +87,7 @@ public partial class RoomPanel : Panel
 			};
 
 			var handler = new Action(() => OnManipulativeButtonPressed(manipulativeId));
-;			button.Pressed += handler;
+			button.Pressed += handler;
 
 			_handlers.Add(handler);
 			_manipulativesContainer.AddChild(button);
