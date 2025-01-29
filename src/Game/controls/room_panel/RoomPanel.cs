@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -58,13 +59,23 @@ public partial class RoomPanel : Panel
 		UpdateManipulatives(roomState.ManipulativeIds);
 	}
 
+	private List<Action> _handlers = new List<Action>();
+	
 	private void UpdateManipulatives(List<string> manipulativeIds)
 	{
-		foreach (var child in _manipulativesContainer.GetChildren())
+		var children = _manipulativesContainer.GetChildren();
+		for (var index = 0; index < children.Count; index++)
 		{
-			child.QueueFree();
+			var child = children[index];
+			
+			if (child is not Button button)
+				continue;
+			
+			button.Pressed -= _handlers[index];
+			button.QueueFree();
 		}
 		
+		_handlers.Clear();
 		foreach (var manipulativeId in manipulativeIds)
 		{
 			var manipulativeDef = _manipulativeDefRepo.Get(manipulativeId);
@@ -74,9 +85,18 @@ public partial class RoomPanel : Panel
 				CustomMinimumSize = new Vector2(100, 30),
 				SizeFlagsHorizontal = SizeFlags.ShrinkCenter
 			};
-			
+
+			var handler = new Action(() => OnManipulativeButtonPressed(manipulativeId));
+;			button.Pressed += handler;
+
+			_handlers.Add(handler);
 			_manipulativesContainer.AddChild(button);
 		}
+	}
+
+	private void OnManipulativeButtonPressed(string manipulativeId)
+	{
+		GD.Print($"Manipulative button pressed: {manipulativeId}");
 	}
 
 	private string GetManipulativeDescription(string manipulativeId)
