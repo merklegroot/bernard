@@ -6,6 +6,9 @@ public partial class EventBus : Node
     public delegate void InventoryItemSelectedEventHandler(int inventoryItemIndex);
 
     [Signal]
+    public delegate void InventoryItemSelctedFlexibleEventHandler(string data);
+
+    [Signal]
     public delegate void DropInventoryItemEventHandler(int inventoryItemIndex);
     
     [Signal]

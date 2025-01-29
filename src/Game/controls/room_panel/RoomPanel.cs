@@ -60,21 +60,19 @@ public partial class RoomPanel : Panel
 
 	private void UpdateManipulatives(List<string> manipulativeIds)
 	{
-		// Clear existing buttons
 		foreach (var child in _manipulativesContainer.GetChildren())
 		{
 			child.QueueFree();
 		}
 		
-		// Add a button for each manipulative in the room
 		foreach (var manipulativeId in manipulativeIds)
 		{
 			var manipulativeDef = _manipulativeDefRepo.Get(manipulativeId);
 			var button = new Button
 			{
 				Text = manipulativeDef.Name,
-				CustomMinimumSize = new Vector2(100, 30),  // Set a minimum width
-				SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter  // Changed from Fill to Shrink
+				CustomMinimumSize = new Vector2(100, 30),
+				SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter
 			};
 			
 			_manipulativesContainer.AddChild(button);
