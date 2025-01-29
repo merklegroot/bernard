@@ -1,4 +1,5 @@
 using Game;
+using Game.Models;
 using Godot;
 
 public partial class MainScene : Control

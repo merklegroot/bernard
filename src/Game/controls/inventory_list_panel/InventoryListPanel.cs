@@ -18,7 +18,7 @@ public partial class InventoryListPanel : Panel
         UpdateInventoryItems();
     }
 
-    private void AddInventoryItem(InventoryItem item, int inventoryItemIndex)
+    private void AddInventoryItem(ManipulativeInstance item, int inventoryItemIndex)
     {
         var matchingManipulativeDef = _manipulativeDefRepo.Get(item.Id);
         var itemText = GetDisplayText(matchingManipulativeDef);

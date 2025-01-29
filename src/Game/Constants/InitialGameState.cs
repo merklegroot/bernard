@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game.Models;
 
 namespace Game.Constants;
 
@@ -14,11 +15,11 @@ public static class InitialGameState
             Inventory = InitialInventory()
         };
 
-    private static List<InventoryItem> InitialInventory() => 
+    private static List<ManipulativeInstance> InitialInventory() => 
         new()
         {
-            new InventoryItem { Id = KnownManipulatives.Torch },
-            new InventoryItem { Id = KnownManipulatives.Bread },
-            new InventoryItem { Id = KnownManipulatives.Knife },
+            new ManipulativeInstance { Id = KnownManipulatives.Torch },
+            new ManipulativeInstance { Id = KnownManipulatives.Bread },
+            new ManipulativeInstance { Id = KnownManipulatives.Knife },
         };
 }

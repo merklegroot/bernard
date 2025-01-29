@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text;
 using Game.Models;
 using Game.Repo;
@@ -10,6 +11,7 @@ public partial class RoomPanel : Panel
 
     private readonly RoomDefRepo _roomDefRepo = new();
     private readonly RoomStateRepo _roomStateRepo = new();
+    private readonly ManipulativeDefRepo _manipulativeDefRepo = new();
 
     public override void _Ready()
     {
@@ -22,8 +24,6 @@ public partial class RoomPanel : Panel
 
     private void OnRoomChanged()
     {
-        GD.Print("Room changed");
-
         UpdateDisplay();
     }
 
@@ -36,8 +36,23 @@ public partial class RoomPanel : Panel
         var descriptionBuilder = new StringBuilder();
         descriptionBuilder.AppendLine($"Room ID: {GameStateContainer.GameState.RoomId}");
         descriptionBuilder.AppendLine($"Room Name: {roomDef.Name}");
-        descriptionBuilder.AppendLine($"Manipulatives: {string.Join(", ", roomState.ManipulativeIds)}");
+        descriptionBuilder.AppendLine("Manipulatives:");
+        if (!roomState.ManipulativeIds.Any())
+        {
+            descriptionBuilder.AppendLine("  None");
+        }
+        
+        foreach (var manipulativeId in roomState.ManipulativeIds)
+        {
+            descriptionBuilder.AppendLine($"  {GetManipulativeDescription(manipulativeId)}");    
+        }
         
         _descriptionLabel.Text = descriptionBuilder.ToString();
+    }
+
+    private string GetManipulativeDescription(string manipulativeId)
+    {
+        var manipulative = _manipulativeDefRepo.Get(manipulativeId);
+        return $"{manipulative.Name} ({manipulative.Id})";
     }
 }
