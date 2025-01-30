@@ -33,6 +33,8 @@ public partial class InventoryDetailsPanel : Panel
 	
 	private void OnInventoryItemSelectedFlexible(string data)
 	{
+		GD.Print($"OnInventoryItemSelectedFlexible: {data}");
+		
 		var inventoryItemSelectionData = (InventoryItemSelectionData)data;
 
 		_dropButton.Visible = inventoryItemSelectionData.Source == InventoryItemSelectionSource.Inventory;
@@ -69,6 +71,8 @@ public partial class InventoryDetailsPanel : Panel
 
 	private void ProcessRoomItemSelected(int itemIndex)
 	{
+		GD.Print($"ProcessRoomItemSelected: {itemIndex}");
+		
 		_itemIndex = itemIndex;
 		_source = InventoryItemSelectionSource.Inventory;
 		var roomState = _roomStateRepo.Get(GameStateContainer.GameState.RoomId);

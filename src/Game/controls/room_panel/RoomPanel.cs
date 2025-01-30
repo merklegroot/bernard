@@ -88,7 +88,8 @@ public partial class RoomPanel : Panel
 				SizeFlagsHorizontal = SizeFlags.ShrinkCenter
 			};
 
-			var handler = new Action(() => OnManipulativeButtonPressed(i));
+			var scopeIndex = i;
+			var handler = new Action(() => OnManipulativeButtonPressed(scopeIndex));
 			button.Pressed += handler;
 
 			_handlers.Add(handler);
