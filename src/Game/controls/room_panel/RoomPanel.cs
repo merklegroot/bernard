@@ -43,16 +43,6 @@ public partial class RoomPanel : Panel
 		var descriptionBuilder = new StringBuilder();
 		descriptionBuilder.AppendLine($"Room ID: {currentRoomId}");
 		descriptionBuilder.AppendLine($"Room Name: {roomDef.Name}");
-		descriptionBuilder.AppendLine("Manipulatives:");
-		if (!roomState.ManipulativeIds.Any())
-		{
-			descriptionBuilder.AppendLine("  None");
-		}
-		
-		foreach (var manipulativeId in roomState.ManipulativeIds)
-		{
-			descriptionBuilder.AppendLine($"  {GetManipulativeDescription(manipulativeId)}");    
-		}
 		
 		_descriptionLabel.Text = descriptionBuilder.ToString();
 
@@ -67,18 +57,26 @@ public partial class RoomPanel : Panel
 		for (var index = 0; index < children.Count; index++)
 		{
 			var child = children[index];
-			
-			if (child is not Button button)
-				continue;
-			
-			button.Pressed -= _handlers[index];
-			button.QueueFree();
+
+			if (child is Button button)
+				button.Pressed -= _handlers[index];
+
+			child.QueueFree();
 		}
 		
 		_handlers.Clear();
-		for(var i = 0; i < manipulativeIds.Count; i++)
+
+		if (manipulativeIds.Count == 0)
 		{
-			var manipulativeId = manipulativeIds[i];
+			var label = new Label { Text = "None" };
+			_manipulativesContainer.AddChild(label);
+			return;
+		}
+		
+		for (var i = 0; i < manipulativeIds.Count; i++)
+		{
+			var scopeIndex = i;
+			var manipulativeId = manipulativeIds[i];			
 			
 			var manipulativeDef = _manipulativeDefRepo.Get(manipulativeId);
 			var button = new Button
@@ -88,7 +86,6 @@ public partial class RoomPanel : Panel
 				SizeFlagsHorizontal = SizeFlags.ShrinkCenter
 			};
 
-			var scopeIndex = i;
 			var handler = new Action(() => OnManipulativeButtonPressed(scopeIndex));
 			button.Pressed += handler;
 
