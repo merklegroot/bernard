@@ -30,9 +30,15 @@ public class RoomStateRepo
         return _roomStates[id];
     }
 
-    public void AddManipulative(string id, string manipulativeId)
+    public void AddManipulative(string roomId, string manipulativeId)
     {
-        var roomState = Get(id);
+        var roomState = Get(roomId);
         roomState.ManipulativeIds.Add(manipulativeId);
+    }
+
+    public void RemoveManipulative(string roomId, string manipulativeId)
+    {
+        var roomState = Get(roomId);
+        roomState.ManipulativeIds.Remove(manipulativeId);
     }
 }

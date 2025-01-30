@@ -22,7 +22,7 @@ public partial class InventoryListPanel : Panel
 
     private void AddInventoryItem(ManipulativeInstance item, int inventoryItemIndex)
     {
-        var matchingManipulativeDef = _manipulativeDefRepo.Get(item.Id);
+        var matchingManipulativeDef = _manipulativeDefRepo.Get(item.ManipulativeId);
         var itemText = GetDisplayText(matchingManipulativeDef);
 		
         var button = new Button

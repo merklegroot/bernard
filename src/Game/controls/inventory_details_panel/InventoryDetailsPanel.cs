@@ -59,7 +59,7 @@ public partial class InventoryDetailsPanel : Panel
 	{
 		var inventoryItem = GameStateContainer.GameState.Inventory[_itemSelection.Index];
 		
-		var matchingManipulativeDef = _manipulativeDefRepo.Get(inventoryItem.Id);
+		var matchingManipulativeDef = _manipulativeDefRepo.Get(inventoryItem.ManipulativeId);
 
 		_titleLabel.Text = matchingManipulativeDef.Name;
 		_label.Text = matchingManipulativeDef.Name;
