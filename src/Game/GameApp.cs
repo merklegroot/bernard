@@ -14,6 +14,7 @@ public partial class GameApp : Node
 		EventBus.Instance.DropInventoryItem += OnDropInventoryItem;
 		EventBus.Instance.InventoryItemSelctedFlexible += OnInventoryItemSelectedFlexible;
 		EventBus.Instance.CloseInventoryDetails += OnCloseInventoryDetails;
+		EventBus.Instance.PickupRoomItem += OnPickupRoomItem;
 	}
 
 	public void OnDropInventoryItem(int inventoryItemIndex)
@@ -30,6 +31,11 @@ public partial class GameApp : Node
 		EventBus.Instance.EmitSignal(EventBus.SignalName.RoomChanged);
 		
 		CloseInventoryDetails();
+	}
+
+	private void OnPickupRoomItem(int roomItemIndex)
+	{
+		GD.Print($"Pickup roomItemIndex: {roomItemIndex}");
 	}
 
 	private void OnInventoryItemSelectedFlexible(string data)

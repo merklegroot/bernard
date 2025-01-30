@@ -22,6 +22,9 @@ public partial class EventBus : Node
     
     [Signal]
     public delegate void RoomChangedEventHandler();
+
+    [Signal]
+    public delegate void PickupRoomItemEventHandler(int roomItemIndex);
     
     public static EventBus Instance { get; private set; } = new();
     

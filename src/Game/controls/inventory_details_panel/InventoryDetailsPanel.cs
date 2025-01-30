@@ -14,8 +14,7 @@ public partial class InventoryDetailsPanel : Panel
 	private	Button _dropButton;
 	private Button _pickupButton;
 
-	private int _itemIndex;
-	private InventoryItemSelectionSource _source;
+	private InventoryItemSelectionData _itemSelection;
 
 	public override void _Ready()
 	{
@@ -27,6 +26,7 @@ public partial class InventoryDetailsPanel : Panel
 		
 		_closeButton.Pressed += OnCloseButtonPressed;
 		_dropButton.Pressed += OnDropButtonPressed;
+		_pickupButton.Pressed += OnPickupButtonPressed;
 		
 		EventBus.Instance.InventoryItemSelctedFlexible += OnInventoryItemSelectedFlexible;
 	}
@@ -35,31 +35,29 @@ public partial class InventoryDetailsPanel : Panel
 	{
 		GD.Print($"OnInventoryItemSelectedFlexible: {data}");
 		
-		var inventoryItemSelectionData = (InventoryItemSelectionData)data;
+		_itemSelection = (InventoryItemSelectionData)data;
 
-		_dropButton.Visible = inventoryItemSelectionData.Source == InventoryItemSelectionSource.Inventory;
-		_pickupButton.Visible = inventoryItemSelectionData.Source == InventoryItemSelectionSource.Room;
+		_dropButton.Visible = _itemSelection.Source == InventoryItemSelectionSource.Inventory;
+		_pickupButton.Visible = _itemSelection.Source == InventoryItemSelectionSource.Room;
 
-		if (inventoryItemSelectionData.Source == InventoryItemSelectionSource.Inventory)
+		if (_itemSelection.Source == InventoryItemSelectionSource.Inventory)
 		{
-			ProcessInventoryItemSelected(inventoryItemSelectionData.Index);
+			ProcessInventoryItemSelected();
 			return;
 		}
 
-		if (inventoryItemSelectionData.Source == InventoryItemSelectionSource.Room)
+		if (_itemSelection.Source == InventoryItemSelectionSource.Room)
 		{
-			ProcessRoomItemSelected(inventoryItemSelectionData.Index);
+			ProcessRoomItemSelected();
 			return;
 		}
 		
-		throw new ApplicationException($"Unexpected source: {inventoryItemSelectionData.Source}");
+		throw new ApplicationException($"Unexpected source: {_itemSelection.Source}");
 	}
 
-	private void ProcessInventoryItemSelected(int inventoryItemIndex)
+	private void ProcessInventoryItemSelected()
 	{
-		_itemIndex = inventoryItemIndex;
-		_source = InventoryItemSelectionSource.Inventory;
-		var inventoryItem = GameStateContainer.GameState.Inventory[inventoryItemIndex];
+		var inventoryItem = GameStateContainer.GameState.Inventory[_itemSelection.Index];
 		
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(inventoryItem.Id);
 
@@ -69,15 +67,13 @@ public partial class InventoryDetailsPanel : Panel
 		Visible = true;
 	}
 
-	private void ProcessRoomItemSelected(int itemIndex)
+	private void ProcessRoomItemSelected()
 	{
-		GD.Print($"ProcessRoomItemSelected: {itemIndex}");
+		GD.Print($"ProcessRoomItemSelected: {_itemSelection.Index}");
 		
-		_itemIndex = itemIndex;
-		_source = InventoryItemSelectionSource.Inventory;
 		var roomState = _roomStateRepo.Get(GameStateContainer.GameState.RoomId);
 		
-		var manipulativeId = roomState.ManipulativeIds[itemIndex];
+		var manipulativeId = roomState.ManipulativeIds[_itemSelection.Index];
 		
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(manipulativeId);
 
@@ -94,12 +90,20 @@ public partial class InventoryDetailsPanel : Panel
 
 	private void OnDropButtonPressed()
 	{
-		if (_source != InventoryItemSelectionSource.Inventory)
-			throw new ApplicationException($"Unexpected source: {_source}");
+		if (_itemSelection.Source != InventoryItemSelectionSource.Inventory)
+			throw new ApplicationException($"Unexpected source: {_itemSelection.Source}");
 
-		EventBus.Instance.EmitSignal(EventBus.SignalName.DropInventoryItem, _itemIndex);
+		EventBus.Instance.EmitSignal(EventBus.SignalName.DropInventoryItem, _itemSelection.Index);
+	}	
+
+	private void OnPickupButtonPressed()
+	{
+		if (_itemSelection.Source != InventoryItemSelectionSource.Room)
+			throw new ApplicationException($"Unexpected source: {_itemSelection.Source}");
+
+		EventBus.Instance.EmitSignal(EventBus.SignalName.PickupRoomItem, _itemSelection.Index);
 	}
-	
+
 	public override void _ExitTree()
 	{
 		if (EventBus.Instance != null)
