@@ -59,7 +59,7 @@ public partial class RoomPanel : Panel
 		UpdateManipulatives(roomState.ManipulativeIds);
 	}
 
-	private List<Action> _handlers = new List<Action>();
+	private readonly List<Action> _handlers = new();
 	
 	private void UpdateManipulatives(List<string> manipulativeIds)
 	{
@@ -76,8 +76,10 @@ public partial class RoomPanel : Panel
 		}
 		
 		_handlers.Clear();
-		foreach (var manipulativeId in manipulativeIds)
+		for(var i = 0; i < manipulativeIds.Count; i++)
 		{
+			var manipulativeId = manipulativeIds[i];
+			
 			var manipulativeDef = _manipulativeDefRepo.Get(manipulativeId);
 			var button = new Button
 			{
@@ -86,7 +88,7 @@ public partial class RoomPanel : Panel
 				SizeFlagsHorizontal = SizeFlags.ShrinkCenter
 			};
 
-			var handler = new Action(() => OnManipulativeButtonPressed(manipulativeId));
+			var handler = new Action(() => OnManipulativeButtonPressed(i));
 			button.Pressed += handler;
 
 			_handlers.Add(handler);
@@ -94,9 +96,14 @@ public partial class RoomPanel : Panel
 		}
 	}
 
-	private void OnManipulativeButtonPressed(string manipulativeId)
+	private void OnManipulativeButtonPressed(int roomItemIndex)
 	{
-		GD.Print($"Manipulative button pressed: {manipulativeId}");
+		var selectionData = (string)new InventoryItemSelectionData
+			{ Source = InventoryItemSelectionSource.Room, Index = roomItemIndex }; 
+			
+		EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelctedFlexible, selectionData);
+		
+		GD.Print($"roomItemIndex: {roomItemIndex}");
 	}
 
 	private string GetManipulativeDescription(string manipulativeId)

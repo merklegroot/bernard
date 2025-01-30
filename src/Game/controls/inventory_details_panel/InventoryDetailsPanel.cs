@@ -1,17 +1,20 @@
 using System;
 using Game.Models;
+using Game.Repo;
 using Godot;
 
 public partial class InventoryDetailsPanel : Panel
 {
 	private readonly ManipulativeDefRepo _manipulativeDefRepo = new();
+	private readonly RoomStateRepo _roomStateRepo = new();
 
 	private Label _titleLabel;
 	private Label _label;
 	private Button _closeButton;
 	private	Button _dropButton;
 
-	private int _inventoryItemIndex;
+	private int _itemIndex;
+	private InventoryItemSelectionSource _source;
 
 	public override void _Ready()
 	{
@@ -36,16 +39,38 @@ public partial class InventoryDetailsPanel : Panel
 			return;
 		}
 
+		if (inventoryItemSelectionData.Source == InventoryItemSelectionSource.Room)
+		{
+			ProcessRoomItemSelected(inventoryItemSelectionData.Index);
+			return;
+		}
+		
 		throw new ApplicationException($"Unexpected source: {inventoryItemSelectionData.Source}");
 	}
 
 	private void ProcessInventoryItemSelected(int inventoryItemIndex)
 	{
-		_inventoryItemIndex = inventoryItemIndex;
-
+		_itemIndex = inventoryItemIndex;
+		_source = InventoryItemSelectionSource.Inventory;
 		var inventoryItem = GameStateContainer.GameState.Inventory[inventoryItemIndex];
 		
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(inventoryItem.Id);
+
+		_titleLabel.Text = matchingManipulativeDef.Name;
+		_label.Text = matchingManipulativeDef.Name;
+
+		Visible = true;
+	}
+
+	private void ProcessRoomItemSelected(int itemIndex)
+	{
+		_itemIndex = itemIndex;
+		_source = InventoryItemSelectionSource.Inventory;
+		var roomState = _roomStateRepo.Get(GameStateContainer.GameState.RoomId);
+		
+		var manipulativeId = roomState.ManipulativeIds[itemIndex];
+		
+		var matchingManipulativeDef = _manipulativeDefRepo.Get(manipulativeId);
 
 		_titleLabel.Text = matchingManipulativeDef.Name;
 		_label.Text = matchingManipulativeDef.Name;
@@ -60,7 +85,10 @@ public partial class InventoryDetailsPanel : Panel
 
 	private void OnDropButtonPressed()
 	{
-		EventBus.Instance.EmitSignal(EventBus.SignalName.DropInventoryItem, _inventoryItemIndex);
+		if (_source != InventoryItemSelectionSource.Inventory)
+			throw new ApplicationException($"Unexpected source: {_source}");
+
+		EventBus.Instance.EmitSignal(EventBus.SignalName.DropInventoryItem, _itemIndex);
 	}
 	
 	public override void _ExitTree()
