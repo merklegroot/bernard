@@ -12,6 +12,7 @@ public partial class InventoryDetailsPanel : Panel
 	private Label _label;
 	private Button _closeButton;
 	private	Button _dropButton;
+	private Button _pickupButton;
 
 	private int _itemIndex;
 	private InventoryItemSelectionSource _source;
@@ -22,6 +23,7 @@ public partial class InventoryDetailsPanel : Panel
 		_titleLabel = GetNode<Label>("TitleLabel");
 		_closeButton = GetNode<Button>("HBoxContainer/CloseButton");
 		_dropButton = GetNode<Button>("HBoxContainer/DropButton");
+		_pickupButton = GetNode<Button>("HBoxContainer/PickupButton");
 		
 		_closeButton.Pressed += OnCloseButtonPressed;
 		_dropButton.Pressed += OnDropButtonPressed;
@@ -32,6 +34,9 @@ public partial class InventoryDetailsPanel : Panel
 	private void OnInventoryItemSelectedFlexible(string data)
 	{
 		var inventoryItemSelectionData = (InventoryItemSelectionData)data;
+
+		_dropButton.Visible = inventoryItemSelectionData.Source == InventoryItemSelectionSource.Inventory;
+		_pickupButton.Visible = inventoryItemSelectionData.Source == InventoryItemSelectionSource.Room;
 
 		if (inventoryItemSelectionData.Source == InventoryItemSelectionSource.Inventory)
 		{
