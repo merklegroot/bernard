@@ -15,11 +15,18 @@ public partial class RoomManipulativesPanel : Panel
     {
         _manipulativesContainer = GetNode<HFlowContainer>("ManipulativeContainer");
         EventBus.Instance.RoomChanged += OnRoomChanged;
+        
+        UpdateDisplay();
     }
-    
+
     private void OnRoomChanged()
     {
-	    var currentRoomId = GameStateContainer.GameState.RoomId;
+	    UpdateDisplay();
+    }
+    
+    private void UpdateDisplay()
+    {
+		var currentRoomId = GameStateContainer.GameState.RoomId;
 	    var roomState = _roomStateRepo.Get(currentRoomId);
 	    
 	    UpdateManipulatives(roomState.ManipulativeIds);
