@@ -1,6 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dbaqywbubsjts"]
 
 [ext_resource type="Script" path="res://controls/room_panel/RoomPanel.cs" id="1_room"]
+[ext_resource type="PackedScene" path="res://controls/room_manipulatives_panel/room_manipulatives_panel.tscn" id="2_manipulatives"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
 bg_color = Color(0.1, 0.1, 0.1, 0.6)
@@ -83,7 +84,7 @@ grow_vertical = 2
 text = "Room description goes here..."
 autowrap_mode = 1
 
-[node name="ManipulativesPanel" type="Panel" parent="."]
+[node name="ManipulativesPanel" parent="." instance=ExtResource("2_manipulatives")]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
