@@ -1,12 +1,16 @@
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Game.Models;
 
-public class RoomDef : IHasId
+public record RoomDef : IHasId
 {
     [JsonPropertyName("id")]
     public string Id { get; init; }
 
     [JsonPropertyName("name")]
     public string Name { get; init; }
+
+    [JsonPropertyName("exits")]
+    public List<RoomExit> Exits { get; init; } = new();
 }
