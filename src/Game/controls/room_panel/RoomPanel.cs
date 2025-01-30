@@ -11,6 +11,7 @@ public partial class RoomPanel : Panel
 	private Label _roomIdLabel;
 	private Label _descriptionLabel;
 	private HFlowContainer _manipulativesContainer;
+	private Label _titleLabel;
 
 	private readonly RoomDefRepo _roomDefRepo = new();
 	private readonly RoomStateRepo _roomStateRepo = new();
@@ -21,6 +22,7 @@ public partial class RoomPanel : Panel
 		_roomIdLabel = GetNode<Label>("RoomIdLabel");
 		_descriptionLabel = GetNode<Label>("DescriptionLabel");
 		_manipulativesContainer = GetNode<HFlowContainer>("ManipulativesPanel/ManipulativeContainer");
+		_titleLabel = GetNode<Label>("TitleLabel");
 
 		UpdateDisplay();
 		
@@ -40,6 +42,8 @@ public partial class RoomPanel : Panel
 		var roomDef = _roomDefRepo.Get(currentRoomId);
 		var roomState = _roomStateRepo.Get(currentRoomId);
 
+		_titleLabel.Text = string.IsNullOrWhiteSpace(roomDef.Name) ? "Room" : roomDef.Name;
+		
 		var descriptionBuilder = new StringBuilder();
 		descriptionBuilder.AppendLine($"Room ID: {currentRoomId}");
 		descriptionBuilder.AppendLine($"Room Name: {roomDef.Name}");
