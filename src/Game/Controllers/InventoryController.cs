@@ -7,7 +7,6 @@ namespace Game.Controllers;
 
 public class InventoryController : IController
 {
-    private readonly RoomDefRepo _roomDefRepo = new();
     private readonly RoomStateRepo _roomStateRepo = new();
     private readonly InventoryStateRepo _inventoryStateRepo = new();
     
