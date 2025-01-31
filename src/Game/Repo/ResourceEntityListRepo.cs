@@ -5,23 +5,26 @@ using Game.Models;
 namespace Game.Repo;
 
 public interface IResourceEntityListRepo<TData> : IResourceListRepo<TData>
-    where TData : IHasId
+	where TData : IHasId
 {
-    TData Get(string id);
+	TData Get(string id);
 }
 
 public abstract class ResourceEntityListRepo<TData> : ResourceListRepo<TData>, IResourceEntityListRepo<TData>
-    where TData : IHasId
+	where TData : IHasId
 {
-    public TData Get(string id)
-    {
-        var all = List();
-        var matchingItem = all.FirstOrDefault(queryItem =>
-            string.Equals(queryItem.Id, id, StringComparison.OrdinalIgnoreCase));
-
-        if (matchingItem == null)
-            throw new ApplicationException($"No item with id: {id}");
+	public TData Get(string id)
+	{
+		if (string.IsNullOrEmpty(id))
+			throw new ArgumentNullException(nameof(id), $"{GetType().Name} -- {nameof(id)} cannot be null or empty.");
 		
-        return matchingItem;
-    }
+		var all = List();
+		var matchingItem = all.FirstOrDefault(queryItem =>
+			string.Equals(queryItem.Id, id, StringComparison.OrdinalIgnoreCase));
+
+		if (matchingItem == null)
+			throw new ApplicationException($"{GetType().Name} found no item with id: {id}");
+		
+		return matchingItem;
+	}
 }

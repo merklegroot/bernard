@@ -1,3 +1,4 @@
+using System.Linq;
 using Game.Constants;
 using Game.Models;
 using Godot;
@@ -5,6 +6,7 @@ using Game.Repo;
 
 public partial class GameApp : Node
 {
+	private readonly RoomDefRepo _roomDefRepo = new();
 	private readonly RoomStateRepo _roomStateRepo = new();
 	private readonly InventoryStateRepo _inventoryStateRepo = new();
 
@@ -14,6 +16,7 @@ public partial class GameApp : Node
 		EventBus.Instance.InventoryItemSelctedFlexible += OnInventoryItemSelectedFlexible;
 		EventBus.Instance.CloseInventoryDetails += OnCloseInventoryDetails;
 		EventBus.Instance.PickupRoomItem += OnPickupRoomItem;
+		EventBus.Instance.ExitRoom += OnExitRoom;
 	}
 
 	public void OnDropInventoryItem(int inventoryItemIndex)
@@ -68,5 +71,18 @@ public partial class GameApp : Node
 	{
 		GameStateContainer.GameState.CurrentMainPanel = PanelEnum.Room;
 		EventBus.Instance.EmitSignal(EventBus.SignalName.MainPanelChanged);
+	}
+
+	private void OnExitRoom(int directionId)
+	{
+		GD.Print($"GDApp - Exit room direction: {directionId}");
+		
+		var direction = (Direction)directionId;
+		var currentRoomDef = _roomDefRepo.Get(GameStateContainer.GameState.RoomId);
+		var matchingExit = currentRoomDef.Exits.Single(queryExit => queryExit.Direction == direction);
+
+		GameStateContainer.GameState.RoomId = matchingExit.DestinationId;
+		
+		EventBus.Instance.EmitSignal(EventBus.SignalName.RoomChanged);
 	}
 }

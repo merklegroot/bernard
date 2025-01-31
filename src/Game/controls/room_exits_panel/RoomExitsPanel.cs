@@ -59,10 +59,14 @@ public partial class RoomExitsPanel : Panel
             {
                 Text = exit.Direction.ToString(),
                 CustomMinimumSize = new Vector2(100, 30),
-                SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter
+                SizeFlagsHorizontal = SizeFlags.ShrinkCenter
             };
             
-            var handler = new Action(() => GD.Print($"Exit clicked: {exit.Direction}"));
+            var handler = new Action(() => {
+                GD.Print($"Exit clicked: {exit.Direction}");
+                EventBus.Instance.EmitSignal(EventBus.SignalName.ExitRoom, (int)exit.Direction);
+            });
+            
             button.Pressed += handler;
             _handlers.Add(handler);
             
