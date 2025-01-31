@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using Game.Models;
 using Game.Repo;
 using Godot;
+using Microsoft.Extensions.DependencyInjection;
 
 public partial class RoomManipulativesPanel : Panel
 {
-    private readonly ManipulativeDefRepo _manipulativeDefRepo = new();
-    private readonly RoomStateRepo _roomStateRepo = new();
+    private IManipulativeDefRepo _manipulativeDefRepo;
+    private IRoomStateRepo _roomStateRepo;
+    
     private readonly List<Action> _handlers = new();
 
     private HFlowContainer _manipulativesContainer;
     public override void _Ready()
     {
+	    _manipulativeDefRepo = GlobalContainer.Host.Services.GetRequiredService<IManipulativeDefRepo>();
+	    _roomStateRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomStateRepo>();
+	    
         _manipulativesContainer = GetNode<HFlowContainer>("ManipulativeContainer");
         EventBus.Instance.RoomChanged += OnRoomChanged;
         

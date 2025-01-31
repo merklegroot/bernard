@@ -4,6 +4,11 @@ using Godot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+public static class GlobalContainer
+{
+	public static IHost Host { get; set; }
+}
+
 public partial class GameApp : Node
 {
 	public override void _Ready()
@@ -16,6 +21,8 @@ public partial class GameApp : Node
 			.Build();
 
 		InitControllers(host);
+		
+		GlobalContainer.Host = host;
 	}
 
 	private void InitControllers(IHost host)

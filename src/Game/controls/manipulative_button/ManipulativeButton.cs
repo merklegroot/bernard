@@ -1,9 +1,8 @@
 using Godot;
-using Game.Models;
 
 public partial class ManipulativeButton : Button
 {
-	private readonly ManipulativeDefRepo _manipulativeDefRepo = new();
+	private readonly IManipulativeDefRepo _manipulativeDefRepo = new ManipulativeDefRepo();
 	private readonly Texture2D _defaultTexture = GD.Load<Texture2D>("res://assets/Pixel Art Icon Pack - RPG/Misc/Gear.png");
 	
 	private string _manipulativeId;

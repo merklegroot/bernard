@@ -15,7 +15,6 @@ public partial class RoomPanel : Panel
 	private RoomExitsPanel _exitsPanel;
 
 	private readonly RoomDefRepo _roomDefRepo = new();
-	private readonly RoomStateRepo _roomStateRepo = new();
 
 	public override void _Ready()
 	{

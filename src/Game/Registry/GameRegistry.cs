@@ -10,5 +10,6 @@ public static class GameRegistry
             .RegisterControllers()
             .AddScoped<IRoomDefRepo, RoomDefRepo>()
             .AddScoped<IRoomStateRepo, RoomStateRepo>()
-            .AddScoped<IInventoryStateRepo, InventoryStateRepo>();
+            .AddScoped<IInventoryStateRepo, InventoryStateRepo>()
+            .AddScoped<IManipulativeDefRepo, ManipulativeDefRepo>();
 }

@@ -2,11 +2,12 @@ using System;
 using Game.Models;
 using Game.Repo;
 using Godot;
+using Microsoft.Extensions.DependencyInjection;
 
 public partial class InventoryDetailsPanel : Panel
 {
-	private readonly ManipulativeDefRepo _manipulativeDefRepo = new();
-	private readonly RoomStateRepo _roomStateRepo = new();
+	private IManipulativeDefRepo _manipulativeDefRepo;
+	private IRoomStateRepo _roomStateRepo;
 
 	private Label _titleLabel;
 	private Label _label;
@@ -18,6 +19,9 @@ public partial class InventoryDetailsPanel : Panel
 
 	public override void _Ready()
 	{
+		_manipulativeDefRepo = GlobalContainer.Host.Services.GetRequiredService<IManipulativeDefRepo>();
+		_roomStateRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomStateRepo>();
+		
 		_label = GetNode<Label>("Label");
 		_titleLabel = GetNode<Label>("TitleLabel");
 		_closeButton = GetNode<Button>("HBoxContainer/CloseButton");
@@ -35,7 +39,7 @@ public partial class InventoryDetailsPanel : Panel
 	{
 		GD.Print($"OnInventoryItemSelectedFlexible: {data}");
 		
-		_itemSelection = (InventoryItemSelectionData)data;
+		_itemSelection = data;
 
 		_dropButton.Visible = _itemSelection.Source == InventoryItemSelectionSource.Inventory;
 		_pickupButton.Visible = _itemSelection.Source == InventoryItemSelectionSource.Room;

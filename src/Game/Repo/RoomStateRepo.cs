@@ -14,9 +14,7 @@ public interface IRoomStateRepo
 public class RoomStateRepo : IRoomStateRepo
 {
     private static Dictionary<string, RoomState> _roomStates = new();
-    private IRoomDefRepo _roomDefRepo;
-
-    public RoomStateRepo() : this(new RoomDefRepo()){}
+    private readonly IRoomDefRepo _roomDefRepo;
 
     public RoomStateRepo(IRoomDefRepo roomDefRepo)
     {

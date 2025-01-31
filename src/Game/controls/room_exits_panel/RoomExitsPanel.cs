@@ -3,16 +3,18 @@ using Godot;
 using System.Collections.Generic;
 using Game.Models;
 using Game.Repo;
+using Microsoft.Extensions.DependencyInjection;
 
 public partial class RoomExitsPanel : Panel
 {
     private HFlowContainer _itemContainer;
     private readonly List<Action> _handlers = new();
 
-    private readonly RoomDefRepo _roomDefRepo = new();
+    private IRoomDefRepo _roomDefRepo;
 
     public override void _Ready()
     {
+        _roomDefRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomDefRepo>();
         _itemContainer = GetNode<HFlowContainer>("ItemContainer");
         
         EventBus.Instance.RoomChanged += OnRoomChanged;
