@@ -2,16 +2,13 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
-  
   <ItemGroup>
-    <!-- Godot Packages -->
     <PackageVersion Include="GodotSharp" Version="4.3.0" />
     <PackageVersion Include="Godot.SourceGenerators" Version="4.3.0" />
-    
-    <!-- Game Project Packages -->
+
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     
-    <!-- Test Project Packages -->
     <PackageVersion Include="AutoFixture" Version="4.18.1" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
@@ -20,4 +17,4 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
   </ItemGroup>
-</Project> 
+</Project>
