@@ -10,7 +10,8 @@ public partial class InventoryListPanel : Panel
     private readonly ManipulativeDefRepo _manipulativeDefRepo = new();
     private VBoxContainer _container;
     private List<Action> _handlers = new List<Action>();
-    private readonly Texture2D _torchTexture = GD.Load<Texture2D>("res://assets/Pixel Art Icon Pack - RPG/Weapon & Tool/Torch.png");
+
+    //private readonly Texture2D _torchTexture = GD.Load<Texture2D>("res://assets/Pixel Art Icon Pack - RPG/Weapon & Tool/Torch.png");
     private readonly Texture2D _gearTexture = GD.Load<Texture2D>("res://assets/Pixel Art Icon Pack - RPG/Misc/Gear.png");
 	
     public override void _Ready()
@@ -27,12 +28,16 @@ public partial class InventoryListPanel : Panel
         var matchingManipulativeDef = _manipulativeDefRepo.Get(item.ManipulativeId);
         var itemText = GetDisplayText(matchingManipulativeDef);
 		
+        var iconTexture = !string.IsNullOrWhiteSpace(matchingManipulativeDef.ImageRes) 
+            ? GD.Load<Texture2D>(matchingManipulativeDef.ImageRes) 
+            : _gearTexture;
+
         var button = new Button
         {
             Text = itemText,
             LayoutMode = 2,
             Alignment = HorizontalAlignment.Left,
-            Icon = _gearTexture,
+            Icon = iconTexture,
             ExpandIcon = true
         };
 		
