@@ -14,6 +14,7 @@ public partial class InventoryDetailsPanel : Panel
 	private Button _closeButton;
 	private	Button _dropButton;
 	private Button _pickupButton;
+	private Button _equipButton;
 
 	private InventoryItemSelectionData _itemSelection;
 
@@ -27,6 +28,7 @@ public partial class InventoryDetailsPanel : Panel
 		_closeButton = GetNode<Button>("HBoxContainer/CloseButton");
 		_dropButton = GetNode<Button>("HBoxContainer/DropButton");
 		_pickupButton = GetNode<Button>("HBoxContainer/PickupButton");
+		_equipButton = GetNode<Button>("HBoxContainer/EquipButton");
 		
 		_closeButton.Pressed += OnCloseButtonPressed;
 		_dropButton.Pressed += OnDropButtonPressed;
@@ -68,6 +70,8 @@ public partial class InventoryDetailsPanel : Panel
 		_titleLabel.Text = matchingManipulativeDef.Name;
 		_label.Text = matchingManipulativeDef.Name;
 
+		_equipButton.Visible = matchingManipulativeDef.IsWeapon;
+
 		Visible = true;
 	}
 
@@ -83,6 +87,8 @@ public partial class InventoryDetailsPanel : Panel
 
 		_titleLabel.Text = matchingManipulativeDef.Name;
 		_label.Text = matchingManipulativeDef.Name;
+
+		_equipButton.Visible = matchingManipulativeDef.IsWeapon;
 
 		Visible = true;
 	}
