@@ -11,6 +11,7 @@ public partial class InventoryListPanel : Panel
     private VBoxContainer _container;
     private List<Action> _handlers = new List<Action>();
     private readonly Texture2D _torchTexture = GD.Load<Texture2D>("res://assets/Pixel Art Icon Pack - RPG/Weapon & Tool/Torch.png");
+    private readonly Texture2D _gearTexture = GD.Load<Texture2D>("res://assets/Pixel Art Icon Pack - RPG/Misc/Gear.png");
 	
     public override void _Ready()
     {
@@ -31,7 +32,7 @@ public partial class InventoryListPanel : Panel
             Text = itemText,
             LayoutMode = 2,
             Alignment = HorizontalAlignment.Left,
-            Icon = _torchTexture,
+            Icon = _gearTexture,
             ExpandIcon = true
         };
 		

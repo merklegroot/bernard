@@ -9,6 +9,9 @@ public record ManipulativeDef : IHasId
 
     [JsonPropertyName("name")]
     public string Name { get; init; }
+    
+    [JsonPropertyName("imageRes")]
+    public string ImageRes { get; init; }
 
     [JsonPropertyName("isWeapon")]
     public bool IsWeapon { get; init; }
