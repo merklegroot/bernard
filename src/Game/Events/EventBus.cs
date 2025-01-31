@@ -28,6 +28,9 @@ public partial class EventBus : Node
 	
 	[Signal]
 	public delegate void ExitRoomEventHandler(int directionId);
+	
+	[Signal]
+	public delegate void SetMainPanelEventHandler(int panelId);
 
 	public static EventBus Instance { get; private set; } = new();
 	

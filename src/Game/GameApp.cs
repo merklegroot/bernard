@@ -1,5 +1,6 @@
 using System.Linq;
 using Game.Constants;
+using Game.Controllers;
 using Game.Models;
 using Godot;
 using Game.Repo;
@@ -17,6 +18,16 @@ public partial class GameApp : Node
 		EventBus.Instance.CloseInventoryDetails += OnCloseInventoryDetails;
 		EventBus.Instance.PickupRoomItem += OnPickupRoomItem;
 		EventBus.Instance.ExitRoom += OnExitRoom;
+
+		var controllers = new IController[]
+		{
+			new PanelController()
+		};
+
+		foreach (var controller in controllers)
+		{
+			controller.Register();
+		}
 	}
 
 	public void OnDropInventoryItem(int inventoryItemIndex)
@@ -53,13 +64,14 @@ public partial class GameApp : Node
 
 	private void OnInventoryItemSelectedFlexible(string data)
 	{
-		SetMainPanel(PanelEnum.InventoryDetails);
-		EventBus.Instance.EmitSignal(EventBus.SignalName.MainPanelChanged);
+		EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.InventoryDetails);
 	}
 
-	private void SetMainPanel(PanelEnum panelEnum)
+	private void OnSetMainPanel(int panelId)
 	{
+		var panelEnum = (PanelEnum)panelId;
 		GameStateContainer.GameState.CurrentMainPanel = panelEnum;
+		EventBus.Instance.EmitSignal(EventBus.SignalName.MainPanelChanged);
 	}
 	
 	private void OnCloseInventoryDetails()
@@ -69,8 +81,7 @@ public partial class GameApp : Node
 	
 	private void CloseInventoryDetails()
 	{
-		GameStateContainer.GameState.CurrentMainPanel = PanelEnum.Room;
-		EventBus.Instance.EmitSignal(EventBus.SignalName.MainPanelChanged);
+		EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.Room);
 	}
 
 	private void OnExitRoom(int directionId)
