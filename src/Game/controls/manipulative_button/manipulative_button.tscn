@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpelju2bo0dk2"]
+
+[ext_resource type="Script" path="res://controls/manipulative_button/ManipulativeButton.cs" id="1_script"]
+
+[node name="ManipulativeButton" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_script")
