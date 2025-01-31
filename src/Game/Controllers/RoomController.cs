@@ -5,11 +5,19 @@ using Game.Repo;
 
 namespace Game.Controllers;
 
+// ReSharper disable once UnusedType.Global
 public class RoomController : IController
 {
-    private readonly RoomDefRepo _roomDefRepo = new();
-    private readonly RoomStateRepo _roomStateRepo = new();
-    private readonly InventoryStateRepo _inventoryStateRepo = new();
+    private readonly IRoomDefRepo _roomDefRepo;
+    private readonly IRoomStateRepo _roomStateRepo;
+    private readonly IInventoryStateRepo _inventoryStateRepo;
+
+    public RoomController(IRoomDefRepo roomDefRepo, IRoomStateRepo roomStateRepo, IInventoryStateRepo inventoryStateRepo)
+    {
+        _roomDefRepo = roomDefRepo;
+        _roomStateRepo = roomStateRepo;
+        _inventoryStateRepo = inventoryStateRepo;
+    }
     
     public void Register()
     {

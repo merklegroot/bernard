@@ -3,6 +3,7 @@ using Game.Models;
 
 namespace Game.Controllers;
 
+// ReSharper disable once UnusedType.Global
 public class PanelController : IController
 {
     public void Register()

@@ -15,6 +15,11 @@ public partial class GameApp : Node
 			})
 			.Build();
 
+		InitControllers(host);
+	}
+
+	private void InitControllers(IHost host)
+	{
 		var controllerTypes = ControllerUtil.GetControllerTypes();
 		foreach (var controllerType in controllerTypes)
 		{

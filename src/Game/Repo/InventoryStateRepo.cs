@@ -3,7 +3,16 @@ using Game.Models;
 
 namespace Game.Repo;
 
-public class InventoryStateRepo
+public interface IInventoryStateRepo
+{
+    List<ManipulativeInstance> List();
+
+    void RemoveIndex(int inventoryIndex);
+
+    void AddManipulaltive(string manipulativeId);
+}
+
+public class InventoryStateRepo : IInventoryStateRepo
 {
     public List<ManipulativeInstance> List()
     {
@@ -20,7 +29,7 @@ public class InventoryStateRepo
         GameStateContainer.GameState.Inventory.Add(
             new ManipulativeInstance
             {
-                ManipulativeId = manipulativeId,
+                ManipulativeId = manipulativeId
             });
     }
 }

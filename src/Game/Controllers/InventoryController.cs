@@ -5,10 +5,17 @@ using Godot;
 
 namespace Game.Controllers;
 
+// ReSharper disable once UnusedType.Global
 public class InventoryController : IController
 {
-    private readonly RoomStateRepo _roomStateRepo = new();
-    private readonly InventoryStateRepo _inventoryStateRepo = new();
+    private readonly IRoomStateRepo _roomStateRepo;
+    private readonly IInventoryStateRepo _inventoryStateRepo;
+
+    public InventoryController(IRoomStateRepo roomStateRepo, IInventoryStateRepo inventoryStateRepo)
+    {
+        _roomStateRepo = roomStateRepo;
+        _inventoryStateRepo = inventoryStateRepo;
+    }
     
     public void Register()
     {
@@ -22,7 +29,7 @@ public class InventoryController : IController
         EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.Room);
     }
     
-    public void OnDropInventoryItem(int inventoryItemIndex)
+    private void OnDropInventoryItem(int inventoryItemIndex)
     {
         GD.Print($"Drop inventoryItemIndex: {inventoryItemIndex}");
 

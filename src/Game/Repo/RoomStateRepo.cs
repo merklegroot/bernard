@@ -2,7 +2,16 @@ using System.Collections.Generic;
 
 namespace Game.Repo;
 
-public class RoomStateRepo
+public interface IRoomStateRepo
+{
+    RoomState Get(string id);
+
+    void AddManipulative(string roomId, string manipulativeId);
+
+    void RemoveManipulative(string roomId, string manipulativeId);
+}
+
+public class RoomStateRepo : IRoomStateRepo
 {
     private static Dictionary<string, RoomState> _roomStates = new();
     private IRoomDefRepo _roomDefRepo;
