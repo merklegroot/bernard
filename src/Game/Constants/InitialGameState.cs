@@ -20,6 +20,6 @@ public static class InitialGameState
         {
             new InventoryItem { ManipulativeId = KnownManipulatives.Torch },
             new InventoryItem { ManipulativeId = KnownManipulatives.Bread },
-            new InventoryItem { ManipulativeId = KnownManipulatives.Knife, IsEquiped = false },
+            new InventoryItem { ManipulativeId = KnownManipulatives.Knife, IsEquipped = false },
         };
 }

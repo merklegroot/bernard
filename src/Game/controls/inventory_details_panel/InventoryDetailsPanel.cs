@@ -67,13 +67,14 @@ public partial class InventoryDetailsPanel : Panel
 	private void ProcessInventoryItemSelected()
 	{
 		var inventoryItem = GameStateContainer.GameState.Inventory[_itemSelection.Index];
-		
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(inventoryItem.ManipulativeId);
 
 		_titleLabel.Text = matchingManipulativeDef.Name;
-		_label.Text = matchingManipulativeDef.Name;
+		_label.Text = $"{matchingManipulativeDef.Name}\n" + 
+					 (inventoryItem.IsEquipped ? "(Equipped)" : "(Not Equipped)");
 
 		_equipButton.Visible = matchingManipulativeDef.IsWeapon;
+		_equipButton.Text = inventoryItem.IsEquipped ? "Unequip" : "Equip";
 		
 		// Set the icon
 		_itemIcon.Texture = !string.IsNullOrWhiteSpace(matchingManipulativeDef.ImageRes)

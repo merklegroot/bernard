@@ -30,7 +30,7 @@ public class InventoryStateRepo : IInventoryStateRepo
             new InventoryItem
             {
                 ManipulativeId = manipulativeId,
-                IsEquiped = false
+                IsEquipped = false
             });
     }
 }
