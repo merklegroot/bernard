@@ -8,6 +8,8 @@ public partial class InventoryDetailsPanel : Panel
 {
 	private IManipulativeDefRepo _manipulativeDefRepo;
 	private IRoomStateRepo _roomStateRepo;
+	private TextureRect _itemIcon;
+	private readonly Texture2D _defaultTexture = GD.Load<Texture2D>("res://assets/Pixel Art Icon Pack - RPG/Misc/Gear.png");
 
 	private Label _titleLabel;
 	private Label _label;
@@ -23,6 +25,7 @@ public partial class InventoryDetailsPanel : Panel
 		_manipulativeDefRepo = GlobalContainer.Host.Services.GetRequiredService<IManipulativeDefRepo>();
 		_roomStateRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomStateRepo>();
 		
+		_itemIcon = GetNode<TextureRect>("ItemIcon");
 		_label = GetNode<Label>("Label");
 		_titleLabel = GetNode<Label>("TitleLabel");
 		_closeButton = GetNode<Button>("HBoxContainer/CloseButton");
@@ -71,6 +74,11 @@ public partial class InventoryDetailsPanel : Panel
 		_label.Text = matchingManipulativeDef.Name;
 
 		_equipButton.Visible = matchingManipulativeDef.IsWeapon;
+		
+		// Set the icon
+		_itemIcon.Texture = !string.IsNullOrWhiteSpace(matchingManipulativeDef.ImageRes)
+			? GD.Load<Texture2D>(matchingManipulativeDef.ImageRes)
+			: _defaultTexture;
 
 		Visible = true;
 	}
@@ -89,6 +97,11 @@ public partial class InventoryDetailsPanel : Panel
 		_label.Text = matchingManipulativeDef.Name;
 
 		_equipButton.Visible = matchingManipulativeDef.IsWeapon;
+		
+		// Set the icon
+		_itemIcon.Texture = !string.IsNullOrWhiteSpace(matchingManipulativeDef.ImageRes)
+			? GD.Load<Texture2D>(matchingManipulativeDef.ImageRes)
+			: _defaultTexture;
 
 		Visible = true;
 	}
