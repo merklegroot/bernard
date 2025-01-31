@@ -10,6 +10,7 @@ public partial class InventoryListPanel : Panel
     private readonly ManipulativeDefRepo _manipulativeDefRepo = new();
     private VBoxContainer _container;
     private List<Action> _handlers = new List<Action>();
+    private readonly Texture2D _torchTexture = GD.Load<Texture2D>("res://assets/Pixel Art Icon Pack - RPG/Weapon & Tool/Torch.png");
 	
     public override void _Ready()
     {
@@ -29,7 +30,9 @@ public partial class InventoryListPanel : Panel
         {
             Text = itemText,
             LayoutMode = 2,
-            Alignment = HorizontalAlignment.Left
+            Alignment = HorizontalAlignment.Left,
+            Icon = _torchTexture,
+            ExpandIcon = true
         };
 		
         var handler = new Action(() =>
