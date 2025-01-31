@@ -3,7 +3,7 @@ using Godot;
 public partial class EventBus : Node
 {
 	[Signal]
-	public delegate void InventoryItemSelctedFlexibleEventHandler(string data);
+	public delegate void InventoryItemSelectedFlexibleEventHandler(string data);
 
 	[Signal]
 	public delegate void DropInventoryItemEventHandler(int inventoryItemIndex);

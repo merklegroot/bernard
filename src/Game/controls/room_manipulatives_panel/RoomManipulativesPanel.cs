@@ -79,7 +79,7 @@ public partial class RoomManipulativesPanel : Panel
 		var selectionData = (string)new InventoryItemSelectionData
 			{ Source = InventoryItemSelectionSource.Room, Index = roomItemIndex }; 
 			
-		EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelctedFlexible, selectionData);
+		EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelectedFlexible, selectionData);
 		
 		GD.Print($"roomItemIndex: {roomItemIndex}");
 	}

@@ -13,15 +13,13 @@ public partial class GameApp : Node
 
 	public override void _Ready()
 	{
-		EventBus.Instance.DropInventoryItem += OnDropInventoryItem;
-		EventBus.Instance.InventoryItemSelctedFlexible += OnInventoryItemSelectedFlexible;
-		EventBus.Instance.CloseInventoryDetails += OnCloseInventoryDetails;
 		EventBus.Instance.PickupRoomItem += OnPickupRoomItem;
 		EventBus.Instance.ExitRoom += OnExitRoom;
 
 		var controllers = new IController[]
 		{
-			new PanelController()
+			new PanelController(),
+			new InventoryController()
 		};
 
 		foreach (var controller in controllers)
@@ -29,23 +27,7 @@ public partial class GameApp : Node
 			controller.Register();
 		}
 	}
-
-	public void OnDropInventoryItem(int inventoryItemIndex)
-	{
-		GD.Print($"Drop inventoryItemIndex: {inventoryItemIndex}");
-
-		var inventoryItem = GameStateContainer.GameState.Inventory[inventoryItemIndex];
-		_inventoryStateRepo.RemoveIndex(inventoryItemIndex);
-
-		GD.Print($"Adding manipulative {inventoryItem.ManipulativeId} to room {GameStateContainer.GameState.RoomId}");
-		_roomStateRepo.AddManipulative(GameStateContainer.GameState.RoomId, inventoryItem.ManipulativeId);
-
-		EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);
-		EventBus.Instance.EmitSignal(EventBus.SignalName.RoomChanged);
-		
-		CloseInventoryDetails();
-	}
-
+	
 	private void OnPickupRoomItem(int roomItemIndex)
 	{
 		GD.Print($"Pickup roomItemIndex: {roomItemIndex}");
@@ -58,32 +40,10 @@ public partial class GameApp : Node
 		
 		EventBus.Instance.EmitSignal(EventBus.SignalName.RoomChanged);
 		EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);
-		
-		CloseInventoryDetails();
+		EventBus.Instance.EmitSignal(EventBus.SignalName.CloseInventoryDetails);
 	}
 
-	private void OnInventoryItemSelectedFlexible(string data)
-	{
-		EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.InventoryDetails);
-	}
-
-	private void OnSetMainPanel(int panelId)
-	{
-		var panelEnum = (PanelEnum)panelId;
-		GameStateContainer.GameState.CurrentMainPanel = panelEnum;
-		EventBus.Instance.EmitSignal(EventBus.SignalName.MainPanelChanged);
-	}
 	
-	private void OnCloseInventoryDetails()
-	{
-		CloseInventoryDetails();
-	}
-	
-	private void CloseInventoryDetails()
-	{
-		EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.Room);
-	}
-
 	private void OnExitRoom(int directionId)
 	{
 		GD.Print($"GDApp - Exit room direction: {directionId}");

@@ -28,7 +28,7 @@ public partial class InventoryDetailsPanel : Panel
 		_dropButton.Pressed += OnDropButtonPressed;
 		_pickupButton.Pressed += OnPickupButtonPressed;
 		
-		EventBus.Instance.InventoryItemSelctedFlexible += OnInventoryItemSelectedFlexible;
+		EventBus.Instance.InventoryItemSelectedFlexible += OnInventoryItemSelectedFlexible;
 	}
 	
 	private void OnInventoryItemSelectedFlexible(string data)
@@ -108,7 +108,7 @@ public partial class InventoryDetailsPanel : Panel
 	{
 		if (EventBus.Instance != null)
 		{
-			EventBus.Instance.InventoryItemSelctedFlexible -= OnInventoryItemSelectedFlexible;
+			EventBus.Instance.InventoryItemSelectedFlexible -= OnInventoryItemSelectedFlexible;
 		}
 	}
 }
