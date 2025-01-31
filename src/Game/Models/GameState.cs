@@ -13,5 +13,5 @@ public class GameState
 	
 	public PanelEnum CurrentMainPanel { get; set; }
 
-	public List<ManipulativeInstance> Inventory { get; set; }
+	public List<InventoryItem> Inventory { get; set; }
 }

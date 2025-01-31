@@ -5,7 +5,7 @@ namespace Game.Repo;
 
 public interface IInventoryStateRepo
 {
-    List<ManipulativeInstance> List();
+    List<InventoryItem> List();
 
     void RemoveIndex(int inventoryIndex);
 
@@ -14,7 +14,7 @@ public interface IInventoryStateRepo
 
 public class InventoryStateRepo : IInventoryStateRepo
 {
-    public List<ManipulativeInstance> List()
+    public List<InventoryItem> List()
     {
         return GameStateContainer.GameState.Inventory;
     }
@@ -27,9 +27,10 @@ public class InventoryStateRepo : IInventoryStateRepo
     public void AddManipulaltive(string manipulativeId)
     {
         GameStateContainer.GameState.Inventory.Add(
-            new ManipulativeInstance
+            new InventoryItem
             {
-                ManipulativeId = manipulativeId
+                ManipulativeId = manipulativeId,
+                IsEquiped = false
             });
     }
 }
