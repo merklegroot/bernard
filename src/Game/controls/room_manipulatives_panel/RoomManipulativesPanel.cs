@@ -59,10 +59,9 @@ public partial class RoomManipulativesPanel : Panel
 			var scopeIndex = i;
 			var manipulativeId = manipulativeIds[i];			
 			
-			var manipulativeDef = _manipulativeDefRepo.Get(manipulativeId);
-			var button = new Button
+			var button = new ManipulativeButton
 			{
-				Text = manipulativeDef.Name,
+				ManipulativeId = manipulativeId,
 				CustomMinimumSize = new Vector2(100, 30),
 				SizeFlagsHorizontal = SizeFlags.ShrinkCenter
 			};
