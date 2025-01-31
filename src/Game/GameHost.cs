@@ -21,34 +21,4 @@ public class GameHost
         
         _serviceProvider = services.BuildServiceProvider();
     }
-    
-    public static T Resolve<T>() where T : class
-    {
-        if (_serviceProvider == null)
-        {
-            ConfigureServices();
-        }
-        
-        return _serviceProvider.GetRequiredService<T>();
-    }
-    
-    public static void InjectDependencies(MainScene scene)
-    {
-        if (_serviceProvider == null)
-        {
-            ConfigureServices();
-        }
-        
-        // Get required services
-        var altTextRepo = _serviceProvider.GetRequiredService<IAltTextRepo>();
-        var gameState = _serviceProvider.GetRequiredService<GameState>();
-        
-        // Use reflection to set private fields
-        var type = typeof(MainScene);
-        type.GetField("_altTextRepo", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            ?.SetValue(scene, altTextRepo);
-        
-        type.GetField("_gameState", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            ?.SetValue(scene, gameState);
-    }
 }
