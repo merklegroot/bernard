@@ -2,5 +2,5 @@ namespace Game.Models;
 
 public record InventoryItem : ManipulativeInstance
 {
-    public bool IsEquipped { get; init; }
+    public bool IsEquipped { get; set; }
 }

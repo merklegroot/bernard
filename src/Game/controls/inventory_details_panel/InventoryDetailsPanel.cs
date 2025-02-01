@@ -36,6 +36,7 @@ public partial class InventoryDetailsPanel : Panel
 		_closeButton.Pressed += OnCloseButtonPressed;
 		_dropButton.Pressed += OnDropButtonPressed;
 		_pickupButton.Pressed += OnPickupButtonPressed;
+		_equipButton.Pressed += OnEquipButtonPressed;
 		
 		EventBus.Instance.InventoryItemSelectedFlexible += OnInventoryItemSelectedFlexible;
 	}
@@ -128,11 +129,16 @@ public partial class InventoryDetailsPanel : Panel
 		EventBus.Instance.EmitSignal(EventBus.SignalName.PickupRoomItem, _itemSelection.Index);
 	}
 
+	private void OnEquipButtonPressed()
+	{
+		EventBus.Instance.EmitSignal(EventBus.SignalName.EquipItem, (string)_itemSelection);
+	}
+
 	public override void _ExitTree()
 	{
-		if (EventBus.Instance != null)
-		{
-			EventBus.Instance.InventoryItemSelectedFlexible -= OnInventoryItemSelectedFlexible;
-		}
+		if (EventBus.Instance == null)
+			return;
+		
+		EventBus.Instance.InventoryItemSelectedFlexible -= OnInventoryItemSelectedFlexible;
 	}
 }

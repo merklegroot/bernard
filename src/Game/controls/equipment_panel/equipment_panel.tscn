@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://boqo50nq5hevt"]
+[gd_scene load_steps=3 format=3 uid="uid://boqo50nq5hevt"]
 
 [ext_resource type="Script" path="res://controls/equipment_panel/EquipmentPanel.cs" id="1_script"]
 
@@ -59,4 +59,8 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 5 
+theme_override_constants/separation = 5
+
+[node name="WeaponSlot" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Weapon:"

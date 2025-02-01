@@ -31,6 +31,9 @@ public partial class EventBus : Node
 	
 	[Signal]
 	public delegate void SetMainPanelEventHandler(int panelId);
+	
+	[Signal]
+	public delegate void EquipItemEventHandler(string data);
 
 	public static EventBus Instance { get; private set; } = new();
 	
