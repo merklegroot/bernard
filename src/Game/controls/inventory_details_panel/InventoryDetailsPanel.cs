@@ -17,6 +17,7 @@ public partial class InventoryDetailsPanel : Panel
 	private	Button _dropButton;
 	private Button _pickupButton;
 	private Button _equipButton;
+	private Button _unequipButton;
 
 	private InventoryItemSelectionData _itemSelection;
 
@@ -32,11 +33,13 @@ public partial class InventoryDetailsPanel : Panel
 		_dropButton = GetNode<Button>("HBoxContainer/DropButton");
 		_pickupButton = GetNode<Button>("HBoxContainer/PickupButton");
 		_equipButton = GetNode<Button>("HBoxContainer/EquipButton");
+		_unequipButton = GetNode<Button>("HBoxContainer/UnequipButton");
 		
 		_closeButton.Pressed += OnCloseButtonPressed;
 		_dropButton.Pressed += OnDropButtonPressed;
 		_pickupButton.Pressed += OnPickupButtonPressed;
 		_equipButton.Pressed += OnEquipButtonPressed;
+		_unequipButton.Pressed += OnUnequipButtonPressed;
 		
 		EventBus.Instance.InventoryItemSelectedFlexible += OnInventoryItemSelectedFlexible;
 	}
@@ -74,8 +77,8 @@ public partial class InventoryDetailsPanel : Panel
 		_label.Text = $"{matchingManipulativeDef.Name}\n" + 
 					 (inventoryItem.IsEquipped ? "(Equipped)" : "(Not Equipped)");
 
-		_equipButton.Visible = matchingManipulativeDef.IsWeapon;
-		_equipButton.Text = inventoryItem.IsEquipped ? "Unequip" : "Equip";
+		_equipButton.Visible = matchingManipulativeDef.IsWeapon && !inventoryItem.IsEquipped;
+		_unequipButton.Visible = matchingManipulativeDef.IsWeapon && inventoryItem.IsEquipped;
 		
 		// Set the icon
 		_itemIcon.Texture = !string.IsNullOrWhiteSpace(matchingManipulativeDef.ImageRes)
@@ -132,6 +135,11 @@ public partial class InventoryDetailsPanel : Panel
 	private void OnEquipButtonPressed()
 	{
 		EventBus.Instance.EmitSignal(EventBus.SignalName.EquipItem, (string)_itemSelection);
+	}
+
+	private void OnUnequipButtonPressed()
+	{
+		GD.Print("Unequip");
 	}
 
 	public override void _ExitTree()

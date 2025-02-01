@@ -105,3 +105,9 @@ visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Equip"
+
+[node name="UnequipButton" type="Button" parent="HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Unequip"
