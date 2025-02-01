@@ -1,4 +1,3 @@
-using System.Text;
 using Game.Models;
 using Game.Repo;
 using Godot;
@@ -27,13 +26,11 @@ public partial class RoomPanel : Panel
 		UpdateDisplay();
 		
 		EventBus.Instance.RoomChanged += OnRoomChanged;
-		UpdateRoomDescription();
 	}
 
 	private void OnRoomChanged()
 	{
 		UpdateDisplay();
-		UpdateRoomDescription();
 	}
 
 	private void UpdateDisplay()
@@ -43,17 +40,6 @@ public partial class RoomPanel : Panel
 		var roomDef = _roomDefRepo.Get(currentRoomId);
 
 		_titleLabel.Text = string.IsNullOrWhiteSpace(roomDef.Name) ? "Room" : roomDef.Name;
-		
-		var descriptionBuilder = new StringBuilder();
-		descriptionBuilder.AppendLine($"Room ID: {currentRoomId}");
-		descriptionBuilder.AppendLine($"Room Name: {roomDef.Name}");
-		
-		_descriptionLabel.Text = descriptionBuilder.ToString();
-	}
-
-	private void UpdateRoomDescription()
-	{
-		var roomDef = _roomDefRepo.Get(GameStateContainer.GameState.RoomId);
 		_descriptionLabel.Text = roomDef.Description;
 	}
 

@@ -23,7 +23,19 @@ public partial class GameApp : Node
 			})
 			.Build();
 	
+		InitControllers(_host);
+		
 		GlobalContainer.Host = _host;
+	}
+	
+	private void InitControllers(IHost host)
+	{
+		var controllerTypes = ControllerUtil.GetControllerTypes();
+		foreach (var controllerType in controllerTypes)
+		{
+			var controller = (IController)host.Services.GetRequiredService(controllerType);
+			controller.Register();
+		}
 	}
 	
 	public override void _ExitTree()
