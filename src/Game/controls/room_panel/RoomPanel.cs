@@ -1,43 +1,44 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Game.Models;
 using Game.Repo;
 using Godot;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Game.controls.room_panel;
 
 public partial class RoomPanel : Panel
 {
-	private Label _roomIdLabel;
 	private Label _descriptionLabel;
 	private Label _titleLabel;
 	private RoomManipulativesPanel _manipulativesPanel;
 	private RoomExitsPanel _exitsPanel;
 
-	private readonly RoomDefRepo _roomDefRepo = new();
+	private IRoomDefRepo _roomDefRepo;
 
 	public override void _Ready()
 	{
-		_roomIdLabel = GetNode<Label>("RoomIdLabel");
 		_descriptionLabel = GetNode<Label>("DescriptionLabel");
 		_titleLabel = GetNode<Label>("TitleLabel");
 		_manipulativesPanel = GetNode<RoomManipulativesPanel>("ManipulativesPanel");
 		_exitsPanel = GetNode<RoomExitsPanel>("ExitsPanel");
 
+		_roomDefRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomDefRepo>();
+
 		UpdateDisplay();
 		
 		EventBus.Instance.RoomChanged += OnRoomChanged;
+		UpdateRoomDescription();
 	}
 
 	private void OnRoomChanged()
 	{
 		UpdateDisplay();
+		UpdateRoomDescription();
 	}
 
 	private void UpdateDisplay()
 	{
 		var currentRoomId = GameStateContainer.GameState.RoomId;
-		_roomIdLabel.Text = $"Room ID: {currentRoomId}";
 		
 		var roomDef = _roomDefRepo.Get(currentRoomId);
 
@@ -48,5 +49,19 @@ public partial class RoomPanel : Panel
 		descriptionBuilder.AppendLine($"Room Name: {roomDef.Name}");
 		
 		_descriptionLabel.Text = descriptionBuilder.ToString();
+	}
+
+	private void UpdateRoomDescription()
+	{
+		var roomDef = _roomDefRepo.Get(GameStateContainer.GameState.RoomId);
+		_descriptionLabel.Text = roomDef.Description;
+	}
+
+	public override void _ExitTree()
+	{
+		if (EventBus.Instance != null)
+		{
+			EventBus.Instance.RoomChanged -= OnRoomChanged;
+		}
 	}
 }

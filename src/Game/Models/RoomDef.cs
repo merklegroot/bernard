@@ -11,6 +11,9 @@ public record RoomDef : IHasId
     [JsonPropertyName("name")]
     public string Name { get; init; }
 
+    [JsonPropertyName("description")]
+    public string Description { get; init;}
+
     [JsonPropertyName("exits")]
     public List<RoomExit> Exits { get; init; } = new();
 }

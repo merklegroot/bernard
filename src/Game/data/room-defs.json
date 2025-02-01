@@ -1,7 +1,8 @@
 [
     {
         "id": "6274df43-761e-44ce-a551-e702408d77d5",
-        "name": "Some room",
+        "name": "Barracks",
+        "description": "A room with a few soldiers.",
         "exits": [
             {
                 "direction": "n",
@@ -11,7 +12,8 @@
     },
     {
         "id": "8f23e79b-0c2d-4e9f-a7b4-5f4b8d2c3a1e",
-        "name": "Another room",
+        "name": "Kitchen",
+        "description": "A kitchen with some food and a refrigerator full of food. Also a table with a few chairs. But wait until you hear about the food. It's awful because the cooks are idiots.",
         "exits": [
             {
                 "direction": "s",
