@@ -25,6 +25,7 @@ public class InventoryController : IController
         EventBus.Instance.DropInventoryItem += OnDropInventoryItem;
         EventBus.Instance.InventoryItemSelectedFlexible += OnInventoryItemSelectedFlexible;
         EventBus.Instance.EquipItem += OnEquipItem;
+        EventBus.Instance.UnequipItem += OnUnequipItem;
     }
     
     private void OnCloseInventoryDetails()
@@ -52,9 +53,15 @@ public class InventoryController : IController
         EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.InventoryDetails);
     }
 
-    private void OnEquipItem(string data)
+    private void OnEquipItem(string data) =>
+        EquipOrUnequip(data, true);
+    
+    private void OnUnequipItem(string data) =>
+        EquipOrUnequip(data, false);
+
+    private void EquipOrUnequip(string data, bool shouldEquip)
     {
-        GD.Print($"OnEquipItem: {data}");
+        GD.Print($"EquipOrUnequip: {data}");
         
         var selectionData = (InventoryItemSelectionData)data;
         
@@ -64,7 +71,7 @@ public class InventoryController : IController
         var inventoryItemIndex = selectionData.Index;
         var inventoryItem = GameStateContainer.GameState.Inventory[inventoryItemIndex];
 
-        inventoryItem.IsEquipped = true;
+        inventoryItem.IsEquipped = shouldEquip;
         
         EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);
         EventBus.Instance.EmitSignal(EventBus.SignalName.CloseInventoryDetails);

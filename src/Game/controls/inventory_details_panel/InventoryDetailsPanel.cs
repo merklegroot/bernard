@@ -80,7 +80,6 @@ public partial class InventoryDetailsPanel : Panel
 		_equipButton.Visible = matchingManipulativeDef.IsWeapon && !inventoryItem.IsEquipped;
 		_unequipButton.Visible = matchingManipulativeDef.IsWeapon && inventoryItem.IsEquipped;
 		
-		// Set the icon
 		_itemIcon.Texture = !string.IsNullOrWhiteSpace(matchingManipulativeDef.ImageRes)
 			? GD.Load<Texture2D>(matchingManipulativeDef.ImageRes)
 			: _defaultTexture;
@@ -139,7 +138,8 @@ public partial class InventoryDetailsPanel : Panel
 
 	private void OnUnequipButtonPressed()
 	{
-		GD.Print("Unequip");
+		GD.Print("InventoryDetailsPanel: OnUnequipButtonPressed");
+		EventBus.Instance.EmitSignal(EventBus.SignalName.UnequipItem, (string)_itemSelection);
 	}
 
 	public override void _ExitTree()

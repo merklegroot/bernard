@@ -35,6 +35,9 @@ public partial class EventBus : Node
 	[Signal]
 	public delegate void EquipItemEventHandler(string data);
 
+	[Signal]
+	public delegate void UnequipItemEventHandler(string data);
+
 	public static EventBus Instance { get; private set; } = new();
 	
 	public override void _Ready()
