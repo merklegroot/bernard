@@ -7,6 +7,7 @@ public static class GameRegistry
 {
     public static IServiceCollection RegisterGame(this IServiceCollection collection) =>
         collection
+            .RegisterMassTransit()
             .RegisterControllers()
             .AddScoped<IRoomDefRepo, RoomDefRepo>()
             .AddScoped<IRoomStateRepo, RoomStateRepo>()
