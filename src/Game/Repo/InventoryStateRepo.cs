@@ -8,9 +8,9 @@ public interface IInventoryStateRepo
 {
     List<InventoryItem> List();
 
-    void RemoveIndex(int inventoryIndex);
-
     void AddManipulaltive(Guid manipulativeDefId);
+
+    void RemoveByInstanceId(Guid inventoryInstanceId);
 }
 
 public class InventoryStateRepo : IInventoryStateRepo
@@ -25,11 +25,23 @@ public class InventoryStateRepo : IInventoryStateRepo
         GameStateContainer.GameState.Inventory.RemoveAt(inventoryIndex);
     }
 
+    public void RemoveByInstanceId(Guid inventoryInstanceId)
+    {
+        var matchingIndex = GameStateContainer.GameState.Inventory
+            .FindIndex(item => item.Id == inventoryInstanceId);
+
+        if (matchingIndex < 0)
+            throw new ApplicationException($"Inventory item not found with instance id {inventoryInstanceId}");
+        
+        GameStateContainer.GameState.Inventory.RemoveAt(matchingIndex);        
+    }
+
     public void AddManipulaltive(Guid manipulativeDefId)
     {
         GameStateContainer.GameState.Inventory.Add(
             new InventoryItem
             {
+                Id = Guid.NewGuid(),
                 ManipulativeDefId = manipulativeDefId,
                 IsEquipped = false
             });

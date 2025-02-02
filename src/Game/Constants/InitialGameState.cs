@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Game.Models;
 
@@ -18,8 +19,21 @@ public static class InitialGameState
     private static List<InventoryItem> InitialInventory() => 
         new()
         {
-            new InventoryItem { ManipulativeDefId = KnownManipulatives.Torch },
-            new InventoryItem { ManipulativeDefId = KnownManipulatives.Bread },
-            new InventoryItem { ManipulativeDefId = KnownManipulatives.Knife, IsEquipped = false },
+            new InventoryItem
+            {
+                Id = Guid.NewGuid(), 
+                ManipulativeDefId = KnownManipulatives.Torch
+            },
+            new InventoryItem
+            {
+                Id = Guid.NewGuid(), 
+                ManipulativeDefId = KnownManipulatives.Bread
+            },
+            new InventoryItem
+            {
+                Id = Guid.NewGuid(), 
+                ManipulativeDefId = KnownManipulatives.Knife,
+                IsEquipped = false
+            },
         };
 }
