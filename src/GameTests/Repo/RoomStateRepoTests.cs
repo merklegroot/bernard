@@ -20,7 +20,7 @@ public class RoomStateRepoTests
     [Fact]
     public void Should_get_room_state()
     {
-        var roomId = _fixture.Create<string>();
+        var roomId = _fixture.Create<Guid>();
         var roomDef = new RoomDef { Id = roomId };
 
         var roomDefRepo = Substitute.For<IRoomDefRepo>(); 
@@ -37,7 +37,7 @@ public class RoomStateRepoTests
     [Fact]
     public void Should_add_manipulative()
     {
-        var roomId = _fixture.Create<string>();
+        var roomId = _fixture.Create<Guid>();
         var roomDef = new RoomDef { Id = roomId };
 
         var roomDefRepo = Substitute.For<IRoomDefRepo>(); 
@@ -45,7 +45,7 @@ public class RoomStateRepoTests
 
         var roomStateRepo = new RoomStateRepo(roomDefRepo);
         
-        var manipulativeId = _fixture.Create<string>();
+        var manipulativeId = _fixture.Create<Guid>();
         roomStateRepo.AddManipulative(roomId, manipulativeId);
 
         var retrievedRoom = roomStateRepo.Get(roomId);

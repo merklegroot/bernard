@@ -1,6 +1,8 @@
+using System;
+
 namespace Game.Models;
 
 public record ManipulativeInstance
 {
-    public string ManipulativeId { get; init; }
+    public Guid ManipulativeDefId { get; init; }
 };

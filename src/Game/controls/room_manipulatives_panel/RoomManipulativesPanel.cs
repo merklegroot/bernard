@@ -37,7 +37,7 @@ public partial class RoomManipulativesPanel : Panel
 	    UpdateManipulatives(roomState.ManipulativeIds);
     }
     
-	private void UpdateManipulatives(List<string> manipulativeIds)
+	private void UpdateManipulatives(List<Guid> manipulativeIds)
 	{
 		var children = _manipulativesContainer.GetChildren();
 		for (var index = 0; index < children.Count; index++)
@@ -66,7 +66,7 @@ public partial class RoomManipulativesPanel : Panel
 			
 			var button = new ManipulativeButton
 			{
-				ManipulativeId = manipulativeId,
+				ManipulativeDefId = manipulativeId.ToString(),
 				CustomMinimumSize = new Vector2(100, 30),
 				SizeFlagsHorizontal = SizeFlags.ShrinkCenter
 			};
@@ -87,11 +87,5 @@ public partial class RoomManipulativesPanel : Panel
 		EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelectedFlexible, selectionData);
 		
 		GD.Print($"roomItemIndex: {roomItemIndex}");
-	}
-
-	private string GetManipulativeDescription(string manipulativeId)
-	{
-		var manipulative = _manipulativeDefRepo.Get(manipulativeId);
-		return $"{manipulative.Name} ({manipulative.Id})";
 	}
 }

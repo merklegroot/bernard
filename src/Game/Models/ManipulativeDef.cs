@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 
 namespace Game.Models;
@@ -5,7 +6,7 @@ namespace Game.Models;
 public record ManipulativeDef : IHasId
 {
     [JsonPropertyName("id")]
-    public string Id { get; init; }
+    public Guid Id { get; init; }
 
     [JsonPropertyName("name")]
     public string Name { get; init; }

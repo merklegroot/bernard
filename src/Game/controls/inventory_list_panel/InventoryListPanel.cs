@@ -23,7 +23,7 @@ public partial class InventoryListPanel : Panel
     {
         var button = new ManipulativeButton
         {
-            ManipulativeId = item.ManipulativeId,
+            ManipulativeDefId = item.ManipulativeDefId.ToString(),
         };
 		
         var handler = new Action(() =>

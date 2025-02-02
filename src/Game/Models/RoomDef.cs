@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -6,7 +7,7 @@ namespace Game.Models;
 public record RoomDef : IHasId
 {
     [JsonPropertyName("id")]
-    public string Id { get; init; }
+    public Guid Id { get; init; }
 
     [JsonPropertyName("name")]
     public string Name { get; init; }

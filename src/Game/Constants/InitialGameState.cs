@@ -18,8 +18,8 @@ public static class InitialGameState
     private static List<InventoryItem> InitialInventory() => 
         new()
         {
-            new InventoryItem { ManipulativeId = KnownManipulatives.Torch },
-            new InventoryItem { ManipulativeId = KnownManipulatives.Bread },
-            new InventoryItem { ManipulativeId = KnownManipulatives.Knife, IsEquipped = false },
+            new InventoryItem { ManipulativeDefId = KnownManipulatives.Torch },
+            new InventoryItem { ManipulativeDefId = KnownManipulatives.Bread },
+            new InventoryItem { ManipulativeDefId = KnownManipulatives.Knife, IsEquipped = false },
         };
 }

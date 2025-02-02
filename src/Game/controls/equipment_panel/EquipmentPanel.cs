@@ -33,7 +33,7 @@ public partial class EquipmentPanel : Panel
 
 		var combo = equippedItems.Select(inventoryItem =>
 			{
-				var manipulativeDef = _manipulativeDefRepo.Get(inventoryItem.ManipulativeId);
+				var manipulativeDef = _manipulativeDefRepo.Get(inventoryItem.ManipulativeDefId);
 				return new
 				{
 					inventoryItem,

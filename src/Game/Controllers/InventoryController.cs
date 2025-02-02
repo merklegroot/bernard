@@ -1,5 +1,4 @@
 using System;
-using System.Text.Json;
 using Game.Constants;
 using Game.Models;
 using Game.Repo;
@@ -40,8 +39,8 @@ public class InventoryController : IController
         var inventoryItem = GameStateContainer.GameState.Inventory[inventoryItemIndex];
         _inventoryStateRepo.RemoveIndex(inventoryItemIndex);
 
-        GD.Print($"Adding manipulative {inventoryItem.ManipulativeId} to room {GameStateContainer.GameState.RoomId}");
-        _roomStateRepo.AddManipulative(GameStateContainer.GameState.RoomId, inventoryItem.ManipulativeId);
+        GD.Print($"Adding manipulative {inventoryItem.ManipulativeDefId} to room {GameStateContainer.GameState.RoomId}");
+        _roomStateRepo.AddManipulative(GameStateContainer.GameState.RoomId, inventoryItem.ManipulativeDefId);
 
         EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);
         EventBus.Instance.EmitSignal(EventBus.SignalName.RoomChanged);

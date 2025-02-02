@@ -7,20 +7,20 @@ namespace Game.Repo;
 public interface IResourceEntityListRepo<TData> : IResourceListRepo<TData>
 	where TData : IHasId
 {
-	TData Get(string id);
+	TData Get(Guid id);
 }
 
 public abstract class ResourceEntityListRepo<TData> : ResourceListRepo<TData>, IResourceEntityListRepo<TData>
 	where TData : IHasId
 {
-	public TData Get(string id)
+	public TData Get(Guid id)
 	{
-		if (string.IsNullOrEmpty(id))
-			throw new ArgumentNullException(nameof(id), $"{GetType().Name} -- {nameof(id)} cannot be null or empty.");
+		if(id == Guid.Empty)
+			throw new ArgumentNullException(nameof(id), $"{GetType().Name} -- {nameof(id)} must not be empty.");
 		
 		var all = List();
 		var matchingItem = all.FirstOrDefault(queryItem =>
-			string.Equals(queryItem.Id, id, StringComparison.OrdinalIgnoreCase));
+			queryItem.Id == id);
 
 		if (matchingItem == null)
 			throw new ApplicationException($"{GetType().Name} found no item with id: {id}");

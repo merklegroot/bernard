@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public partial class ManipulativeButton : Button
@@ -5,15 +6,15 @@ public partial class ManipulativeButton : Button
 	private readonly IManipulativeDefRepo _manipulativeDefRepo = new ManipulativeDefRepo();
 	private readonly Texture2D _defaultTexture = GD.Load<Texture2D>("res://assets/Pixel Art Icon Pack - RPG/Misc/Gear.png");
 	
-	private string _manipulativeId;
+	private string _manipulativeDefId;
 	
 	[Export]
-	public string ManipulativeId
+	public string ManipulativeDefId
 	{
-		get => _manipulativeId;
+		get => _manipulativeDefId;
 		set
 		{
-			_manipulativeId = value;
+			_manipulativeDefId = value;
 			UpdateDisplay();
 		}
 	}
@@ -29,8 +30,10 @@ public partial class ManipulativeButton : Button
 	
 	private void UpdateDisplay()
 	{
-		var manipulativeDef = !string.IsNullOrWhiteSpace(_manipulativeId)
-			? _manipulativeDefRepo.Get(_manipulativeId)
+		var parsedManipulativeDefId = Guid.Parse(_manipulativeDefId);
+		
+		var manipulativeDef = !string.IsNullOrWhiteSpace(_manipulativeDefId)
+			? _manipulativeDefRepo.Get(parsedManipulativeDefId)
 			: null;
 		
 		Text = !string.IsNullOrWhiteSpace(manipulativeDef?.Name)

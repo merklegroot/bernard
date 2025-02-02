@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Game.Models;
 
@@ -9,7 +10,7 @@ public interface IInventoryStateRepo
 
     void RemoveIndex(int inventoryIndex);
 
-    void AddManipulaltive(string manipulativeId);
+    void AddManipulaltive(Guid manipulativeDefId);
 }
 
 public class InventoryStateRepo : IInventoryStateRepo
@@ -24,12 +25,12 @@ public class InventoryStateRepo : IInventoryStateRepo
         GameStateContainer.GameState.Inventory.RemoveAt(inventoryIndex);
     }
 
-    public void AddManipulaltive(string manipulativeId)
+    public void AddManipulaltive(Guid manipulativeDefId)
     {
         GameStateContainer.GameState.Inventory.Add(
             new InventoryItem
             {
-                ManipulativeId = manipulativeId,
+                ManipulativeDefId = manipulativeDefId,
                 IsEquipped = false
             });
     }
