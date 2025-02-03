@@ -7,6 +7,8 @@ namespace Game.Repo;
 
 public interface IEgoRepo
 {
+    int GetStr();
+    
     int GetAtk();
     
     List<InventoryItem> ListInventory();
@@ -24,6 +26,9 @@ public class EgoRepo : IEgoRepo
     
     public EgoRepo(IManipulativeDefRepo manipulativeDefRepo) =>
         _manipulativeDefRepo = manipulativeDefRepo;
+
+    public int GetStr() =>
+        GameStateContainer.GameState.Str;
     
     public int GetAtk()
     {

@@ -36,10 +36,17 @@ grow_vertical = 2
 theme_override_constants/separation = 20
 alignment = 2
 
+
+[node name="StrLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Str: -"
+vertical_alignment = 1
+
 [node name="AtkLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-text = "Health: -"
+text = "Atk: -"
 vertical_alignment = 1
 
 [node name="HealthLabel" type="Label" parent="HBoxContainer"]
