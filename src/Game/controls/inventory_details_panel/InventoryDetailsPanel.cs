@@ -8,6 +8,8 @@ public partial class InventoryDetailsPanel : Panel
 {
 	private IManipulativeDefRepo _manipulativeDefRepo;
 	private IRoomStateRepo _roomStateRepo;
+	private IInventoryStateRepo _inventoryStateRepo;
+	
 	private TextureRect _itemIcon;
 	private readonly Texture2D _defaultTexture = GD.Load<Texture2D>("res://assets/Pixel Art Icon Pack - RPG/Misc/Gear.png");
 
@@ -25,6 +27,7 @@ public partial class InventoryDetailsPanel : Panel
 	{
 		_manipulativeDefRepo = GlobalContainer.Host.Services.GetRequiredService<IManipulativeDefRepo>();
 		_roomStateRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomStateRepo>();
+		_inventoryStateRepo = GlobalContainer.Host.Services.GetRequiredService<IInventoryStateRepo>();
 		
 		_itemIcon = GetNode<TextureRect>("ItemIcon");
 		_label = GetNode<Label>("Label");
@@ -70,7 +73,7 @@ public partial class InventoryDetailsPanel : Panel
 
 	private void ProcessInventoryItemSelected()
 	{
-		var inventoryItem = GameStateContainer.GameState.Inventory[_itemSelection.Index];
+		var inventoryItem = _inventoryStateRepo.GetByInstanceId(_itemSelection.ManipulativeInstanceId);
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(inventoryItem.ManipulativeDefId);
 
 		_titleLabel.Text = matchingManipulativeDef.Name;
@@ -89,13 +92,15 @@ public partial class InventoryDetailsPanel : Panel
 
 	private void ProcessRoomItemSelected()
 	{
-		GD.Print($"ProcessRoomItemSelected: {_itemSelection.Index}");
+		GD.Print($"ProcessRoomItemSelected: {_itemSelection}");
 		
 		var roomState = _roomStateRepo.Get(GameStateContainer.GameState.RoomId);
+		var manipulativeInstance = _roomStateRepo.GetManipulativeByInstanceId(GameStateContainer.GameState.RoomId, _itemSelection.ManipulativeInstanceId);
+		var manipulativeDefId = manipulativeInstance.ManipulativeDefId;
 		
-		var manipulativeId = roomState.ManipulativeIds[_itemSelection.Index];
+		// var manipulativeId = roomState.ManipulativeInstances[_itemSelection.Index];
 		
-		var matchingManipulativeDef = _manipulativeDefRepo.Get(manipulativeId);
+		var matchingManipulativeDef = _manipulativeDefRepo.Get(manipulativeDefId);
 
 		_titleLabel.Text = matchingManipulativeDef.Name;
 		_label.Text = matchingManipulativeDef.Name;
@@ -120,7 +125,7 @@ public partial class InventoryDetailsPanel : Panel
 		if (_itemSelection.Source != InventoryItemSelectionSource.Inventory)
 			throw new ApplicationException($"Unexpected source: {_itemSelection.Source}");
 
-		EventBus.Instance.EmitSignal(EventBus.SignalName.DropInventoryItem, _itemSelection.Index);
+		EventBus.Instance.EmitSignal(EventBus.SignalName.DropInventoryItem, _itemSelection.ManipulativeInstanceId.ToString());
 	}	
 
 	private void OnPickupButtonPressed()
@@ -128,7 +133,7 @@ public partial class InventoryDetailsPanel : Panel
 		if (_itemSelection.Source != InventoryItemSelectionSource.Room)
 			throw new ApplicationException($"Unexpected source: {_itemSelection.Source}");
 
-		EventBus.Instance.EmitSignal(EventBus.SignalName.PickupRoomItem, _itemSelection.Index);
+		EventBus.Instance.EmitSignal(EventBus.SignalName.PickupRoomItem, _itemSelection.ManipulativeInstanceId.ToString());
 	}
 
 	private void OnEquipButtonPressed()

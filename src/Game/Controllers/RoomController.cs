@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Game.Models;
 using Godot;
@@ -25,15 +26,16 @@ public class RoomController : IController
         EventBus.Instance.ExitRoom += OnExitRoom;
     }
     
-    private void OnPickupRoomItem(int roomItemIndex)
+    private void OnPickupRoomItem(string instanceIdText)
     {
-        GD.Print($"Pickup roomItemIndex: {roomItemIndex}");
-		
-        var roomState = _roomStateRepo.Get(GameStateContainer.GameState.RoomId);
-        var manipulativeId = roomState.ManipulativeIds[roomItemIndex];
-
-        _roomStateRepo.RemoveManipulative(GameStateContainer.GameState.RoomId, manipulativeId);
-        _inventoryStateRepo.AddManipulaltive(manipulativeId);
+        GD.Print($"Pickup instanceId: {instanceIdText}");
+        var manipulativeInstanceId = Guid.Parse(instanceIdText);
+        
+        var manipulativeInstance = _roomStateRepo.GetManipulativeByInstanceId(GameStateContainer.GameState.RoomId, manipulativeInstanceId);
+        
+        _roomStateRepo.RemoveManipulativeByInstanceId(GameStateContainer.GameState.RoomId, manipulativeInstanceId);
+        _roomStateRepo.RemoveManipulativeByDefId(GameStateContainer.GameState.RoomId, manipulativeInstance.ManipulativeDefId);
+        _inventoryStateRepo.AddManipulaltiveByDefId(manipulativeInstance.ManipulativeDefId);
 		
         EventBus.Instance.EmitSignal(EventBus.SignalName.RoomChanged);
         EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);

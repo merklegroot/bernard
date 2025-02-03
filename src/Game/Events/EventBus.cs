@@ -6,7 +6,7 @@ public partial class EventBus : Node
 	public delegate void InventoryItemSelectedFlexibleEventHandler(string data);
 
 	[Signal]
-	public delegate void DropInventoryItemEventHandler(int inventoryItemIndex);
+	public delegate void DropInventoryItemEventHandler(string manipulativeInstanceId);
 	
 	[Signal]
 	public delegate void InventoryChangedEventHandler();
@@ -24,7 +24,7 @@ public partial class EventBus : Node
 	public delegate void RoomChangedEventHandler();
 
 	[Signal]
-	public delegate void PickupRoomItemEventHandler(int roomItemIndex);
+	public delegate void PickupRoomItemEventHandler(string manipulativeInstanceId);
 	
 	[Signal]
 	public delegate void ExitRoomEventHandler(int directionId);

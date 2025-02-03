@@ -45,11 +45,11 @@ public class RoomStateRepoTests
 
         var roomStateRepo = new RoomStateRepo(roomDefRepo);
         
-        var manipulativeId = _fixture.Create<Guid>();
-        roomStateRepo.AddManipulative(roomId, manipulativeId);
+        var manipulativeDefId = _fixture.Create<Guid>();
+        roomStateRepo.AddManipulative(roomId, manipulativeDefId);
 
         var retrievedRoom = roomStateRepo.Get(roomId);
-        retrievedRoom.ManipulativeIds.Single().ShouldBe(manipulativeId);
+        retrievedRoom.ManipulativeInstances.Single().ManipulativeDefId.ShouldBe(manipulativeDefId);
     }
 
     [Fact]

@@ -19,18 +19,20 @@ public partial class InventoryListPanel : Panel
         UpdateInventoryItems();
     }
 
-    private void AddInventoryItem(ManipulativeInstance item, int inventoryItemIndex)
+    private void AddInventoryItem(ManipulativeInstance item, Guid manipulativeInstanceId)
     {
+        var selectionData = (string)new InventoryItemSelectionData(
+            InventoryItemSelectionSource.Inventory,
+            manipulativeInstanceId,
+            item.ManipulativeDefId);
+        
         var button = new ManipulativeButton
         {
-            ManipulativeDefId = item.ManipulativeDefId.ToString(),
+            SelectionDataText = selectionData
         };
 		
         var handler = new Action(() =>
         {
-            var selectionData = (string)new InventoryItemSelectionData
-                { Source = InventoryItemSelectionSource.Inventory, Index = inventoryItemIndex }; 
-            
             EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelectedFlexible, selectionData);
         });
 		
@@ -63,7 +65,7 @@ public partial class InventoryListPanel : Panel
         for (var index = 0; index < GameStateContainer.GameState.Inventory.Count; index++)
         {
             var item = GameStateContainer.GameState.Inventory[index];
-            AddInventoryItem(item, index);
+            AddInventoryItem(item, item.Id);
         }
     }
 } 

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Game.Models;
 
 namespace Game.Repo;
 
@@ -7,9 +9,13 @@ public interface IRoomStateRepo
 {
     RoomState Get(Guid roomId);
 
-    void AddManipulative(Guid roomId, Guid manipulativeId);
+    void AddManipulative(Guid roomId, Guid manipulativeDefId);
 
-    void RemoveManipulative(Guid roomId, Guid manipulativeId);
+    void RemoveManipulativeByDefId(Guid roomId, Guid manipulativeDefId);
+    
+    void RemoveManipulativeByInstanceId(Guid roomId, Guid manipulativeInstanceId);
+    
+    ManipulativeInstance GetManipulativeByInstanceId(Guid roomId, Guid manipulativeInstanceId);
 }
 
 public class RoomStateRepo : IRoomStateRepo
@@ -26,27 +32,54 @@ public class RoomStateRepo : IRoomStateRepo
     {
         if (!_roomStates.ContainsKey(id))
         {
-            var roomDef = _roomDefRepo.Get(id);
-
             _roomStates[id] = new RoomState
             {
                 RoomId = id,
-                ManipulativeIds = new List<Guid>()
+                ManipulativeInstances = new List<ManipulativeInstance>()
             };
         }
 
         return _roomStates[id];
     }
 
-    public void AddManipulative(Guid roomId, Guid manipulativeId)
+    public void AddManipulative(Guid roomId, Guid manipulativeDefId)
     {
         var roomState = Get(roomId);
-        roomState.ManipulativeIds.Add(manipulativeId);
+        roomState.ManipulativeInstances.Add(new ManipulativeInstance
+        {
+            Id = Guid.NewGuid(),
+            ManipulativeDefId = manipulativeDefId
+        });
     }
 
-    public void RemoveManipulative(Guid roomId, Guid manipulativeId)
+    public void RemoveManipulativeByDefId(Guid roomId, Guid manipulativeDefId)
     {
         var roomState = Get(roomId);
-        roomState.ManipulativeIds.Remove(manipulativeId);
+        var matchingIndex = roomState.ManipulativeInstances
+            .FindIndex(item => item.ManipulativeDefId == manipulativeDefId);
+            
+        if (matchingIndex < 0)
+            throw new ApplicationException($"Cannot find manipulative in room {roomId} with manipulativeDefId {manipulativeDefId}");
+        
+        roomState.ManipulativeInstances.RemoveAt(matchingIndex);
+    }
+
+    public void RemoveManipulativeByInstanceId(Guid roomId, Guid manipulativeInstanceId)
+    {
+        var roomState = Get(roomId);
+        var matchingIndex = roomState.ManipulativeInstances
+            .FindIndex(item => item.Id == manipulativeInstanceId);
+            
+        if (matchingIndex < 0)
+            throw new ApplicationException($"Cannot find manipulative in room {roomId} with manipulativeInstanceId {manipulativeInstanceId}");
+        
+        roomState.ManipulativeInstances.RemoveAt(matchingIndex);
+    }
+    
+    public ManipulativeInstance GetManipulativeByInstanceId(Guid roomId, Guid manipulativeInstanceId)
+    {
+        var room = Get(roomId);
+        return room.ManipulativeInstances
+            .First(item => item.Id == manipulativeInstanceId);
     }
 }

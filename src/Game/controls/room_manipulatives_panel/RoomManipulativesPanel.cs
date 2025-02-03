@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Models;
 using Game.Repo;
 using Godot;
@@ -7,37 +8,37 @@ using Microsoft.Extensions.DependencyInjection;
 
 public partial class RoomManipulativesPanel : Panel
 {
-    private IManipulativeDefRepo _manipulativeDefRepo;
-    private IRoomStateRepo _roomStateRepo;
-    
-    private readonly List<Action> _handlers = new();
+	private IManipulativeDefRepo _manipulativeDefRepo;
+	private IRoomStateRepo _roomStateRepo;
+	
+	private readonly List<Action> _handlers = new();
 
-    private HFlowContainer _manipulativesContainer;
-    public override void _Ready()
-    {
-	    _manipulativeDefRepo = GlobalContainer.Host.Services.GetRequiredService<IManipulativeDefRepo>();
-	    _roomStateRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomStateRepo>();
-	    
-        _manipulativesContainer = GetNode<HFlowContainer>("ManipulativeContainer");
-        EventBus.Instance.RoomChanged += OnRoomChanged;
-        
-        UpdateDisplay();
-    }
+	private HFlowContainer _manipulativesContainer;
+	public override void _Ready()
+	{
+		_manipulativeDefRepo = GlobalContainer.Host.Services.GetRequiredService<IManipulativeDefRepo>();
+		_roomStateRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomStateRepo>();
+		
+		_manipulativesContainer = GetNode<HFlowContainer>("ManipulativeContainer");
+		EventBus.Instance.RoomChanged += OnRoomChanged;
+		
+		UpdateDisplay();
+	}
 
-    private void OnRoomChanged()
-    {
-	    UpdateDisplay();
-    }
-    
-    private void UpdateDisplay()
-    {
+	private void OnRoomChanged()
+	{
+		UpdateDisplay();
+	}
+	
+	private void UpdateDisplay()
+	{
 		var currentRoomId = GameStateContainer.GameState.RoomId;
-	    var roomState = _roomStateRepo.Get(currentRoomId);
-	    
-	    UpdateManipulatives(roomState.ManipulativeIds);
-    }
-    
-	private void UpdateManipulatives(List<Guid> manipulativeIds)
+		var roomState = _roomStateRepo.Get(currentRoomId);
+		
+		UpdateManipulatives(roomState.ManipulativeInstances);
+	}
+	
+	private void UpdateManipulatives(List<ManipulativeInstance> manipulativeInstances)
 	{
 		var children = _manipulativesContainer.GetChildren();
 		for (var index = 0; index < children.Count; index++)
@@ -52,26 +53,30 @@ public partial class RoomManipulativesPanel : Panel
 		
 		_handlers.Clear();
 
-		if (manipulativeIds.Count == 0)
+		if (manipulativeInstances.Count == 0)
 		{
 			var label = new Label { Text = "None" };
 			_manipulativesContainer.AddChild(label);
 			return;
 		}
 		
-		for (var i = 0; i < manipulativeIds.Count; i++)
+		for (var i = 0; i < manipulativeInstances.Count; i++)
 		{
-			var scopeIndex = i;
-			var manipulativeId = manipulativeIds[i];			
+			var manipulativeInstance = manipulativeInstances[i];
+
+			var selectionData = new InventoryItemSelectionData(
+				InventoryItemSelectionSource.Room,
+				manipulativeInstance.Id,
+				manipulativeInstance.ManipulativeDefId);
 			
 			var button = new ManipulativeButton
 			{
-				ManipulativeDefId = manipulativeId.ToString(),
+				SelectionDataText = selectionData,
 				CustomMinimumSize = new Vector2(100, 30),
 				SizeFlagsHorizontal = SizeFlags.ShrinkCenter
 			};
 
-			var handler = new Action(() => OnManipulativeButtonPressed(scopeIndex));
+			var handler = new Action(() => OnManipulativeButtonPressed(selectionData));
 			button.Pressed += handler;
 
 			_handlers.Add(handler);
@@ -79,13 +84,10 @@ public partial class RoomManipulativesPanel : Panel
 		}
 	}
 
-	private void OnManipulativeButtonPressed(int roomItemIndex)
+	private void OnManipulativeButtonPressed(InventoryItemSelectionData selectionData)
 	{
-		var selectionData = (string)new InventoryItemSelectionData
-			{ Source = InventoryItemSelectionSource.Room, Index = roomItemIndex }; 
-			
-		EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelectedFlexible, selectionData);
+		EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelectedFlexible, (string)selectionData);
 		
-		GD.Print($"roomItemIndex: {roomItemIndex}");
+		GD.Print($"OnManipulativeButtonPressed: {(string)selectionData}");
 	}
 }

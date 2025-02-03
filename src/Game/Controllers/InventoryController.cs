@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Game.Constants;
 using Game.Models;
 using Game.Repo;
@@ -31,13 +32,15 @@ public class InventoryController : IController
 	{
 		EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.Room);
 	}
-	
-	private void OnDropInventoryItem(int inventoryItemIndex)
-	{
-		GD.Print($"Drop inventoryItemIndex: {inventoryItemIndex}");
 
-		var inventoryItem = GameStateContainer.GameState.Inventory[inventoryItemIndex];
-		_inventoryStateRepo.RemoveByInstanceId(inventoryItem.Id);
+	private void OnDropInventoryItem(string manipulativeInstanceIdText)
+	{
+		var manipulativeInstanceId = Guid.Parse(manipulativeInstanceIdText);
+		
+		GD.Print($"Drop manipulativeInstanceId: {manipulativeInstanceId}");
+
+		var inventoryItem = _inventoryStateRepo.GetByInstanceId(manipulativeInstanceId);
+		_inventoryStateRepo.RemoveByInstanceId(manipulativeInstanceId);
 
 		GD.Print($"Adding manipulative {inventoryItem.ManipulativeDefId} to room {GameStateContainer.GameState.RoomId}");
 		_roomStateRepo.AddManipulative(GameStateContainer.GameState.RoomId, inventoryItem.ManipulativeDefId);
@@ -66,9 +69,10 @@ public class InventoryController : IController
 		
 		if (selectionData.Source != InventoryItemSelectionSource.Inventory)
 			throw new ApplicationException($"Unexpected source: {selectionData.Source}");
-
-		var inventoryItemIndex = selectionData.Index;
-		var inventoryItem = GameStateContainer.GameState.Inventory[inventoryItemIndex];
+		
+		var instanceId = selectionData.ManipulativeInstanceId;
+		var inventoryItem = GameStateContainer.GameState.Inventory
+			.First(item => item.Id == instanceId);
 
 		inventoryItem.IsEquipped = shouldEquip;
 		

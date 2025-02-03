@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Models;
 
 namespace Game.Repo;
@@ -7,8 +8,10 @@ namespace Game.Repo;
 public interface IInventoryStateRepo
 {
     List<InventoryItem> List();
+    
+    InventoryItem GetByInstanceId(Guid instanceId);
 
-    void AddManipulaltive(Guid manipulativeDefId);
+    void AddManipulaltiveByDefId(Guid manipulativeDefId);
 
     void RemoveByInstanceId(Guid inventoryInstanceId);
 }
@@ -20,9 +23,10 @@ public class InventoryStateRepo : IInventoryStateRepo
         return GameStateContainer.GameState.Inventory;
     }
 
-    public void RemoveIndex(int inventoryIndex)
+    public InventoryItem GetByInstanceId(Guid instanceId)
     {
-        GameStateContainer.GameState.Inventory.RemoveAt(inventoryIndex);
+        return GameStateContainer.GameState.Inventory
+            .First(item => item.Id == instanceId);
     }
 
     public void RemoveByInstanceId(Guid inventoryInstanceId)
@@ -36,7 +40,7 @@ public class InventoryStateRepo : IInventoryStateRepo
         GameStateContainer.GameState.Inventory.RemoveAt(matchingIndex);        
     }
 
-    public void AddManipulaltive(Guid manipulativeDefId)
+    public void AddManipulaltiveByDefId(Guid manipulativeDefId)
     {
         GameStateContainer.GameState.Inventory.Add(
             new InventoryItem
