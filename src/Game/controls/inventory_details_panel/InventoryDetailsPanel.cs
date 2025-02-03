@@ -9,7 +9,7 @@ public partial class InventoryDetailsPanel : Panel
 {
 	private IManipulativeDefRepo _manipulativeDefRepo;
 	private IRoomStateRepo _roomStateRepo;
-	private IInventoryStateRepo _inventoryStateRepo;
+	private IEgoRepo _iiEgoRepo;
 	
 	private TextureRect _itemIcon;
 	private readonly Texture2D _defaultTexture = GD.Load<Texture2D>("res://assets/Pixel Art Icon Pack - RPG/Misc/Gear.png");
@@ -28,7 +28,7 @@ public partial class InventoryDetailsPanel : Panel
 	{
 		_manipulativeDefRepo = GlobalContainer.Host.Services.GetRequiredService<IManipulativeDefRepo>();
 		_roomStateRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomStateRepo>();
-		_inventoryStateRepo = GlobalContainer.Host.Services.GetRequiredService<IInventoryStateRepo>();
+		_iiEgoRepo = GlobalContainer.Host.Services.GetRequiredService<IEgoRepo>();
 		
 		_itemIcon = GetNode<TextureRect>("ItemIcon");
 		_label = GetNode<Label>("Label");
@@ -74,7 +74,7 @@ public partial class InventoryDetailsPanel : Panel
 
 	private void ProcessInventoryItemSelected()
 	{
-		var inventoryItem = _inventoryStateRepo.GetByInstanceId(_itemSelection.ManipulativeInstanceId);
+		var inventoryItem = _iiEgoRepo.GetInventoryItemByInstanceId(_itemSelection.ManipulativeInstanceId);
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(inventoryItem.ManipulativeDefId);
 
 		_titleLabel.Text = matchingManipulativeDef.Name;

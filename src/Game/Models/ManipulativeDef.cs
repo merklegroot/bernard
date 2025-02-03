@@ -22,4 +22,7 @@ public record ManipulativeDef : IHasId
     
     [JsonPropertyName("isArmor")]
     public bool IsArmor { get; init; }
+    
+    [JsonPropertyName("atk")]
+    public int Atk { get; init; }
 }

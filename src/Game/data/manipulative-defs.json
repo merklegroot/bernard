@@ -13,6 +13,7 @@
         "id": "9c4f7d2e-3b5a-4c6d-8e9f-1a2b3c4d5e6f",
         "name": "Knife",
         "isWeapon": true,
+        "atk": 2,
         "imageRes": "res://assets/Pixel Art Icon Pack - RPG/Weapon & Tool/Knife.png"
     },
     {

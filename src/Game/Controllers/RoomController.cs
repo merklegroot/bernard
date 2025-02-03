@@ -11,13 +11,13 @@ public class RoomController : IController
 {
     private readonly IRoomDefRepo _roomDefRepo;
     private readonly IRoomStateRepo _roomStateRepo;
-    private readonly IInventoryStateRepo _inventoryStateRepo;
+    private readonly IEgoRepo _iiEgoRepo;
 
-    public RoomController(IRoomDefRepo roomDefRepo, IRoomStateRepo roomStateRepo, IInventoryStateRepo inventoryStateRepo)
+    public RoomController(IRoomDefRepo roomDefRepo, IRoomStateRepo roomStateRepo, IEgoRepo iiEgoRepo)
     {
         _roomDefRepo = roomDefRepo;
         _roomStateRepo = roomStateRepo;
-        _inventoryStateRepo = inventoryStateRepo;
+        _iiEgoRepo = iiEgoRepo;
     }
     
     public void Register()
@@ -34,7 +34,7 @@ public class RoomController : IController
         var manipulativeInstance = _roomStateRepo.GetManipulativeByInstanceId(GameStateContainer.GameState.RoomId, manipulativeInstanceId);
         
         _roomStateRepo.RemoveManipulativeByInstanceId(GameStateContainer.GameState.RoomId, manipulativeInstanceId);
-        _inventoryStateRepo.AddManipulaltiveByDefId(manipulativeInstance.ManipulativeDefId);
+        _iiEgoRepo.AddInventoryItemByDefId(manipulativeInstance.ManipulativeDefId);
 		
         EventBus.Instance.EmitSignal(EventBus.SignalName.RoomChanged);
         EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);

@@ -11,12 +11,12 @@ namespace Game.Controllers;
 public class InventoryController : IController
 {
 	private readonly IRoomStateRepo _roomStateRepo;
-	private readonly IInventoryStateRepo _inventoryStateRepo;
+	private readonly IEgoRepo _iiEgoRepo;
 
-	public InventoryController(IRoomStateRepo roomStateRepo, IInventoryStateRepo inventoryStateRepo)
+	public InventoryController(IRoomStateRepo roomStateRepo, IEgoRepo iiEgoRepo)
 	{
 		_roomStateRepo = roomStateRepo;
-		_inventoryStateRepo = inventoryStateRepo;
+		_iiEgoRepo = iiEgoRepo;
 	}
 	
 	public void Register()
@@ -39,8 +39,8 @@ public class InventoryController : IController
 		
 		GD.Print($"Drop manipulativeInstanceId: {manipulativeInstanceId}");
 
-		var inventoryItem = _inventoryStateRepo.GetByInstanceId(manipulativeInstanceId);
-		_inventoryStateRepo.RemoveByInstanceId(manipulativeInstanceId);
+		var inventoryItem = _iiEgoRepo.GetInventoryItemByInstanceId(manipulativeInstanceId);
+		_iiEgoRepo.RemoveInventoryItemByInstanceId(manipulativeInstanceId);
 
 		GD.Print($"Adding manipulative {inventoryItem.ManipulativeDefId} to room {GameStateContainer.GameState.RoomId}");
 		_roomStateRepo.AddManipulative(GameStateContainer.GameState.RoomId, inventoryItem.ManipulativeDefId);
