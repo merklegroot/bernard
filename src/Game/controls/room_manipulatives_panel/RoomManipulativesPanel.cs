@@ -68,7 +68,7 @@ public partial class RoomManipulativesPanel : Panel
 			var button = new ManipulativeButton
 			{
 				SelectionDataText = selectionData,
-				CustomMinimumSize = new Vector2(100, 30),
+				CustomMinimumSize = new Vector2(150, 30),
 				SizeFlagsHorizontal = SizeFlags.ShrinkCenter
 			};
 

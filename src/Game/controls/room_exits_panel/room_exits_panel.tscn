@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://73wef6ike4gd"]
 
 [ext_resource type="Script" path="res://controls/room_exits_panel/RoomExitsPanel.cs" id="1_exits"]
 
@@ -40,4 +40,4 @@ offset_top = 35.0
 offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
-grow_vertical = 2 
+grow_vertical = 2
