@@ -1,22 +1,33 @@
 using System;
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Models;
 using Game.Repo;
 using Microsoft.Extensions.DependencyInjection;
 
 public partial class RoomExitsPanel : Panel
 {
-    private HFlowContainer _itemContainer;
-    private readonly List<Action> _handlers = new();
+    private Button _northButton;
+    private Button _eastButton;
+    private Button _southButton;
+    private Button _westButton;
 
     private IRoomDefRepo _roomDefRepo;
 
     public override void _Ready()
     {
-        _roomDefRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomDefRepo>();
-        _itemContainer = GetNode<HFlowContainer>("ItemContainer");
+        _northButton = GetNode<Button>("GridContainer/NorthButton");
+        _eastButton = GetNode<Button>("GridContainer/EastButton");
+        _southButton = GetNode<Button>("GridContainer/SouthButton");
+        _westButton = GetNode<Button>("GridContainer/WestButton");
         
+        _northButton.Pressed += () => OnDirectionButtonPressed(Direction.North);
+        _eastButton.Pressed += () => OnDirectionButtonPressed(Direction.East);
+        _southButton.Pressed += () => OnDirectionButtonPressed(Direction.South);
+        _westButton.Pressed += () => OnDirectionButtonPressed(Direction.West);
+        
+        _roomDefRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomDefRepo>();
         EventBus.Instance.RoomChanged += OnRoomChanged;
         UpdateDisplay();
     }
@@ -33,46 +44,16 @@ public partial class RoomExitsPanel : Panel
         UpdateExits(roomDef.Exits);
     }
 
-    public void UpdateExits(List<RoomExit> exits)
+    private void OnDirectionButtonPressed(Direction direction)
     {
-        var children = _itemContainer.GetChildren();
-        for (var index = 0; index < children.Count; index++)
-        {
-            var child = children[index];
-            if (child is Button button)
-                button.Pressed -= _handlers[index];
-
-            child.QueueFree();
-        }
-        
-        _handlers.Clear();
-
-        if (exits.Count == 0)
-        {
-            var label = new Label { Text = "None" };
-            _itemContainer.AddChild(label);
-            return;
-        }
-
-        for (var i = 0; i < exits.Count; i++)
-        {
-            var exit = exits[i];
-            var button = new Button
-            {
-                Text = exit.Direction.ToString(),
-                CustomMinimumSize = new Vector2(100, 30),
-                SizeFlagsHorizontal = SizeFlags.ShrinkCenter
-            };
-            
-            var handler = new Action(() => {
-                GD.Print($"Exit clicked: {exit.Direction}");
-                EventBus.Instance.EmitSignal(EventBus.SignalName.ExitRoom, (int)exit.Direction);
-            });
-            
-            button.Pressed += handler;
-            _handlers.Add(handler);
-            
-            _itemContainer.AddChild(button);
-        }
+        EventBus.Instance.EmitSignal(EventBus.SignalName.ExitRoom, (int)direction);
     }
-} 
+
+    private void UpdateExits(List<RoomExit> exits)
+    {
+        _northButton.Disabled = exits.All(roomExit => roomExit.Direction != Direction.North);
+        _eastButton.Disabled = exits.All(roomExit => roomExit.Direction != Direction.East);
+        _southButton.Disabled = exits.All(roomExit => roomExit.Direction != Direction.South);
+        _westButton.Disabled = exits.All(roomExit => roomExit.Direction != Direction.West);
+    }
+}
