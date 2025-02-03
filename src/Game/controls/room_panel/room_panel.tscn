@@ -99,27 +99,3 @@ offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_2")
-
-[node name="TitleLabel" type="Label" parent="ManipulativesPanel"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 10.0
-offset_top = 5.0
-offset_right = -10.0
-offset_bottom = 31.0
-grow_horizontal = 2
-text = "Manipulatives"
-horizontal_alignment = 1
-
-[node name="ManipulativeContainer" type="HFlowContainer" parent="ManipulativesPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 35.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 2
