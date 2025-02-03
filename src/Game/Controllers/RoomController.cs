@@ -34,7 +34,6 @@ public class RoomController : IController
         var manipulativeInstance = _roomStateRepo.GetManipulativeByInstanceId(GameStateContainer.GameState.RoomId, manipulativeInstanceId);
         
         _roomStateRepo.RemoveManipulativeByInstanceId(GameStateContainer.GameState.RoomId, manipulativeInstanceId);
-        _roomStateRepo.RemoveManipulativeByDefId(GameStateContainer.GameState.RoomId, manipulativeInstance.ManipulativeDefId);
         _inventoryStateRepo.AddManipulaltiveByDefId(manipulativeInstance.ManipulativeDefId);
 		
         EventBus.Instance.EmitSignal(EventBus.SignalName.RoomChanged);
