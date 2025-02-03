@@ -12,6 +12,7 @@ public class GameState
 	public int Health { get; set; }
 	public int Gold { get; set; }
 	public int Str { get; set; }
+	public int Con { get; set; }
 	
 	public PanelEnum CurrentMainPanel { get; set; }
 

@@ -10,6 +10,10 @@ public interface IEgoRepo
     int GetStr();
     
     int GetAtk();
+
+    int GetDef();
+
+    int GetCon();
     
     List<InventoryItem> ListInventory();
     
@@ -27,9 +31,12 @@ public class EgoRepo : IEgoRepo
     public EgoRepo(IManipulativeDefRepo manipulativeDefRepo) =>
         _manipulativeDefRepo = manipulativeDefRepo;
 
+    public int GetCon() =>
+        GameStateContainer.GameState.Con;
+    
     public int GetStr() =>
         GameStateContainer.GameState.Str;
-    
+
     public int GetAtk()
     {
         var atkFromEquipment = 
@@ -39,6 +46,18 @@ public class EgoRepo : IEgoRepo
                 .Sum();
             
         return GameStateContainer.GameState.Str + atkFromEquipment;
+    }
+    
+    public int GetDef()
+    {
+        var defFromEquipment = 
+            ListInventory()
+                .Where(item => item.IsEquipped)
+                .Select(item => _manipulativeDefRepo.Get(item.ManipulativeDefId).Def)
+                .Sum();
+        
+        return GameStateContainer.GameState.Con
+               + defFromEquipment;
     }
     
     public List<InventoryItem> ListInventory()

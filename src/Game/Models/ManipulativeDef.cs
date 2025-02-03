@@ -25,4 +25,7 @@ public record ManipulativeDef : IHasId
     
     [JsonPropertyName("atk")]
     public int Atk { get; init; }
+    
+    [JsonPropertyName("def")]
+    public int Def { get; init; }
 }

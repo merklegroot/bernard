@@ -42,10 +42,22 @@ size_flags_horizontal = 0
 text = "Str: -"
 vertical_alignment = 1
 
+[node name="ConLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Con: -"
+vertical_alignment = 1
+
 [node name="AtkLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Atk: -"
+vertical_alignment = 1
+
+[node name="DefLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Def: -"
 vertical_alignment = 1
 
 [node name="HealthLabel" type="Label" parent="HBoxContainer"]

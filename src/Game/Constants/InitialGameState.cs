@@ -13,6 +13,7 @@ public static class InitialGameState
             Health = 25,
             Gold = 70,
             Str = 1,
+            Con = 1,
             CurrentMainPanel = PanelEnum.Room,
             Inventory = InitialInventory()
         };

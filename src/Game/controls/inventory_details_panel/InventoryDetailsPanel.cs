@@ -85,6 +85,16 @@ public partial class InventoryDetailsPanel : Panel
 			.AppendLine($"IsHelmet: {matchingManipulativeDef.IsHelmet}")
 			.AppendLine($"IsArmor: {matchingManipulativeDef.IsArmor}");
 
+		if (matchingManipulativeDef.Atk != 0)
+		{
+			labelDescriptionBuilder.AppendLine($"Atk: {matchingManipulativeDef.Atk}");
+		}
+		
+		if (matchingManipulativeDef.Def != 0)
+		{
+			labelDescriptionBuilder.AppendLine($"Def: {matchingManipulativeDef.Def}");
+		}
+
 		_label.Text = labelDescriptionBuilder.ToString();
 
 		_equipButton.Visible =
@@ -116,7 +126,16 @@ public partial class InventoryDetailsPanel : Panel
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(manipulativeDefId);
 
 		_titleLabel.Text = matchingManipulativeDef.Name;
-		_label.Text = matchingManipulativeDef.Name;
+		
+		var labelDescriptionBuilder = new StringBuilder()
+			.AppendLine(matchingManipulativeDef.Name);
+		
+		if (matchingManipulativeDef.Atk > 0)
+		{
+			labelDescriptionBuilder.AppendLine($"Atk: {matchingManipulativeDef.Atk}");
+		}
+
+		_label.Text = labelDescriptionBuilder.ToString();
 
 		_equipButton.Visible = false;
 		_unequipButton.Visible = false;

@@ -20,6 +20,7 @@
         "id": "3d81d926-e07d-4075-806b-fd1c76078b45",
         "name": "Iron Helmet",
         "isHelmet": true,
+        "def": 1,
         "imageRes": "res://assets/Pixel Art Icon Pack - RPG/Equipment/Iron Helmet.png"        
     }
 ]
