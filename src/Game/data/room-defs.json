@@ -7,6 +7,10 @@
             {
                 "direction": "n",
                 "destinationId": "8f23e79b-0c2d-4e9f-a7b4-5f4b8d2c3a1e"
+            },
+            {
+                "direction": "e",
+                "destinationId": "c4b0bfb3-5127-4e6b-a4a3-924e4d5b5c1d"
             }
         ]
     },
@@ -18,6 +22,47 @@
             {
                 "direction": "s",
                 "destinationId": "6274df43-761e-44ce-a551-e702408d77d5"
+            }
+        ]
+    },
+    {
+        "id": "c4b0bfb3-5127-4e6b-a4a3-924e4d5b5c1d",
+        "name": "Courtyard",
+        "description": "An open courtyard with stone paths and well-maintained gardens.\nA gentle breeze carries the scent of flowers.",
+        "exits": [
+            {
+                "direction": "w",
+                "destinationId": "6274df43-761e-44ce-a551-e702408d77d5"
+            },
+            {
+                "direction": "n",
+                "destinationId": "9e1c6c34-df76-4a28-b8aa-df91e2b1c5ed"
+            }
+        ]
+    },
+    {
+        "id": "9e1c6c34-df76-4a28-b8aa-df91e2b1c5ed",
+        "name": "Training Grounds",
+        "description": "A dusty yard filled with training dummies and weapon racks.\nThe sound of clashing steel and grunts of effort fill the air.\nA gruff instructor barks orders at new recruits.",
+        "exits": [
+            {
+                "direction": "s",
+                "destinationId": "c4b0bfb3-5127-4e6b-a4a3-924e4d5b5c1d"
+            },
+            {
+                "direction": "e",
+                "destinationId": "7d8f3e2a-1c5b-4b9d-8f1a-3c2e7d9b1a4f"
+            }
+        ]
+    },
+    {
+        "id": "7d8f3e2a-1c5b-4b9d-8f1a-3c2e7d9b1a4f",
+        "name": "Armory",
+        "description": "Racks of weapons line the walls of this well-maintained room.\nThe air smells of oil and leather.\nA stern-faced quartermaster keeps watch over the equipment.",
+        "exits": [
+            {
+                "direction": "w",
+                "destinationId": "9e1c6c34-df76-4a28-b8aa-df91e2b1c5ed"
             }
         ]
     }
