@@ -67,26 +67,13 @@ anchor_bottom = 1.0
 offset_left = 10.0
 offset_top = 42.0
 offset_right = -10.0
-offset_bottom = -184.0
+offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Room description goes here..."
 autowrap_mode = 1
 
-[node name="ExitsPanel" parent="." instance=ExtResource("3_exits")]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = -170.0
-offset_right = -10.0
-offset_bottom = -100.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="ManipulativesPanel" parent="." instance=ExtResource("2_manipulatives")]
+[node name="PanelsContainer" type="HFlowContainer" parent="."]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -98,4 +85,15 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/h_separation = 10
+
+[node name="ExitsPanel" parent="PanelsContainer" instance=ExtResource("3_exits")]
+custom_minimum_size = Vector2(200, 150)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="ManipulativesPanel" parent="PanelsContainer" instance=ExtResource("2_manipulatives")]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_2")

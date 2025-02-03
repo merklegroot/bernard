@@ -9,8 +9,6 @@ public partial class RoomPanel : Panel
 {
 	private Label _descriptionLabel;
 	private Label _titleLabel;
-	private RoomManipulativesPanel _manipulativesPanel;
-	private RoomExitsPanel _exitsPanel;
 
 	private IRoomDefRepo _roomDefRepo;
 
@@ -18,8 +16,6 @@ public partial class RoomPanel : Panel
 	{
 		_descriptionLabel = GetNode<Label>("DescriptionLabel");
 		_titleLabel = GetNode<Label>("TitleLabel");
-		_manipulativesPanel = GetNode<RoomManipulativesPanel>("ManipulativesPanel");
-		_exitsPanel = GetNode<RoomExitsPanel>("ExitsPanel");
 
 		_roomDefRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomDefRepo>();
 
