@@ -11,6 +11,7 @@ public class GameState
 	public Guid RoomId { get; set; }
 	public int Health { get; set; }
 	public int Gold { get; set; }
+	public int Atk { get; set; }
 	
 	public PanelEnum CurrentMainPanel { get; set; }
 

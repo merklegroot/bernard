@@ -36,14 +36,20 @@ grow_vertical = 2
 theme_override_constants/separation = 20
 alignment = 2
 
+[node name="AtkLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Health: -"
+vertical_alignment = 1
+
 [node name="HealthLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-text = "Health: 100"
+text = "Health: -"
 vertical_alignment = 1
 
 [node name="GoldLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-text = "Gold: 123"
+text = "Gold: -"
 vertical_alignment = 1

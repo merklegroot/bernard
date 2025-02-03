@@ -12,6 +12,7 @@ public static class InitialGameState
             RoomId = KnownRooms.StartingRoomId,
             Health = 25,
             Gold = 70,
+            Atk = 1,
             CurrentMainPanel = PanelEnum.Room,
             Inventory = InitialInventory()
         };
