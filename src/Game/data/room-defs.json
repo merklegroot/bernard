@@ -2,7 +2,7 @@
     {
         "id": "6274df43-761e-44ce-a551-e702408d77d5",
         "name": "Barracks",
-        "description": "A room with a few soldiers.",
+        "description": "A long room filled with neatly made bunk beds.\nOff-duty soldiers lounge about, some playing cards while others clean their equipment.\nThe walls are adorned with regimental banners and old war trophies.\nA faint smell of leather and polish hangs in the air.",
         "exits": [
             {
                 "direction": "n",
