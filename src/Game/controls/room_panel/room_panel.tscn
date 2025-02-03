@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbaqywbubsjts"]
+[gd_scene load_steps=7 format=3 uid="uid://dbaqywbubsjts"]
 
 [ext_resource type="Script" path="res://controls/room_panel/RoomPanel.cs" id="1_room"]
 [ext_resource type="PackedScene" path="res://controls/room_manipulatives_panel/room_manipulatives_panel.tscn" id="2_manipulatives"]
 [ext_resource type="PackedScene" uid="uid://73wef6ike4gd" path="res://controls/room_exits_panel/room_exits_panel.tscn" id="3_exits"]
+[ext_resource type="Texture2D" uid="uid://budpay10171mn" path="res://assets/nightcafe/nightcafe-barracks.webp" id="4_background"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
 bg_color = Color(0.1, 0.1, 0.1, 0.6)
@@ -36,6 +37,17 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_1")
 script = ExtResource("1_room")
+
+[node name="BackgroundImage" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_background")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="TitleLabel" type="Label" parent="."]
 layout_mode = 1
