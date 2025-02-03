@@ -1,3 +1,6 @@
 # Bernard
 
-This is just a Godot experiment for now.  
+An adventure game made in Godot with C#.
+
+![Game Screenshot](img/Screenshot_20250203_181902.png)
+
