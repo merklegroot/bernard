@@ -87,8 +87,15 @@ public partial class InventoryDetailsPanel : Panel
 
 		_label.Text = labelDescriptionBuilder.ToString();
 
-		_equipButton.Visible = IsEquipment(matchingManipulativeDef) && !inventoryItem.IsEquipped;
-		_unequipButton.Visible = IsEquipment(matchingManipulativeDef) && inventoryItem.IsEquipped;
+		_equipButton.Visible =
+			_itemSelection.Source == InventoryItemSelectionSource.Inventory
+			&& IsEquipment(matchingManipulativeDef)
+			&& !inventoryItem.IsEquipped;
+		
+		_unequipButton.Visible = 
+			_itemSelection.Source == InventoryItemSelectionSource.Inventory
+			&& IsEquipment(matchingManipulativeDef)
+			&& inventoryItem.IsEquipped;
 		
 		_itemIcon.Texture = !string.IsNullOrWhiteSpace(matchingManipulativeDef.ImageRes)
 			? GD.Load<Texture2D>(matchingManipulativeDef.ImageRes)
@@ -111,7 +118,8 @@ public partial class InventoryDetailsPanel : Panel
 		_titleLabel.Text = matchingManipulativeDef.Name;
 		_label.Text = matchingManipulativeDef.Name;
 
-		_equipButton.Visible = IsEquipment(matchingManipulativeDef);
+		_equipButton.Visible = false;
+		_unequipButton.Visible = false;
 		
 		_itemIcon.Texture = !string.IsNullOrWhiteSpace(matchingManipulativeDef.ImageRes)
 			? GD.Load<Texture2D>(matchingManipulativeDef.ImageRes)
@@ -143,12 +151,17 @@ public partial class InventoryDetailsPanel : Panel
 
 	private void OnEquipButtonPressed()
 	{
+		if (_itemSelection.Source != InventoryItemSelectionSource.Inventory)
+			return;
+		
 		EventBus.Instance.EmitSignal(EventBus.SignalName.EquipItem, (string)_itemSelection);
 	}
 
 	private void OnUnequipButtonPressed()
 	{
-		GD.Print("InventoryDetailsPanel: OnUnequipButtonPressed");
+		if (_itemSelection.Source != InventoryItemSelectionSource.Inventory)
+			return;
+		
 		EventBus.Instance.EmitSignal(EventBus.SignalName.UnequipItem, (string)_itemSelection);
 	}
 
