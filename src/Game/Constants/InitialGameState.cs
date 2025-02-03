@@ -35,5 +35,11 @@ public static class InitialGameState
                 ManipulativeDefId = KnownManipulatives.Knife,
                 IsEquipped = false
             },
+            new InventoryItem
+            {
+                Id = Guid.NewGuid(), 
+                ManipulativeDefId = KnownManipulatives.IronHelmet,
+                IsEquipped = false
+            },
         };
 }

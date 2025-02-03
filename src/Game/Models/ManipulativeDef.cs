@@ -16,4 +16,10 @@ public record ManipulativeDef : IHasId
 
     [JsonPropertyName("isWeapon")]
     public bool IsWeapon { get; init; }
+    
+    [JsonPropertyName("isHelmet")]
+    public bool IsHelmet { get; init; }
+    
+    [JsonPropertyName("isArmor")]
+    public bool IsArmor { get; init; }
 }

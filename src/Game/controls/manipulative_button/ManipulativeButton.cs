@@ -1,4 +1,3 @@
-using System;
 using Game.Models;
 using Godot;
 

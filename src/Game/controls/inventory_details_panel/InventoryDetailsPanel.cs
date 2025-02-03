@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using Game.Models;
 using Game.Repo;
 using Godot;
@@ -77,11 +78,17 @@ public partial class InventoryDetailsPanel : Panel
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(inventoryItem.ManipulativeDefId);
 
 		_titleLabel.Text = matchingManipulativeDef.Name;
-		_label.Text = $"{matchingManipulativeDef.Name}\n" + 
-					 (inventoryItem.IsEquipped ? "(Equipped)" : "(Not Equipped)");
+		var labelDescriptionBuilder = new StringBuilder()
+			.AppendLine(matchingManipulativeDef.Name)
+			.AppendLine(inventoryItem.IsEquipped ? "(Equipped)" : "(Not Equipped)")
+			.AppendLine($"IsWeapon: {matchingManipulativeDef.IsWeapon}")
+			.AppendLine($"IsHelmet: {matchingManipulativeDef.IsHelmet}")
+			.AppendLine($"IsArmor: {matchingManipulativeDef.IsArmor}");
 
-		_equipButton.Visible = matchingManipulativeDef.IsWeapon && !inventoryItem.IsEquipped;
-		_unequipButton.Visible = matchingManipulativeDef.IsWeapon && inventoryItem.IsEquipped;
+		_label.Text = labelDescriptionBuilder.ToString();
+
+		_equipButton.Visible = IsEquipment(matchingManipulativeDef) && !inventoryItem.IsEquipped;
+		_unequipButton.Visible = IsEquipment(matchingManipulativeDef) && inventoryItem.IsEquipped;
 		
 		_itemIcon.Texture = !string.IsNullOrWhiteSpace(matchingManipulativeDef.ImageRes)
 			? GD.Load<Texture2D>(matchingManipulativeDef.ImageRes)
@@ -90,24 +97,22 @@ public partial class InventoryDetailsPanel : Panel
 		Visible = true;
 	}
 
+	private bool IsEquipment(ManipulativeDef item) =>
+		item.IsWeapon || item.IsArmor || item.IsHelmet;
+
 	private void ProcessRoomItemSelected()
 	{
 		GD.Print($"ProcessRoomItemSelected: {_itemSelection}");
 		
-		var roomState = _roomStateRepo.Get(GameStateContainer.GameState.RoomId);
 		var manipulativeInstance = _roomStateRepo.GetManipulativeByInstanceId(GameStateContainer.GameState.RoomId, _itemSelection.ManipulativeInstanceId);
 		var manipulativeDefId = manipulativeInstance.ManipulativeDefId;
-		
-		// var manipulativeId = roomState.ManipulativeInstances[_itemSelection.Index];
-		
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(manipulativeDefId);
 
 		_titleLabel.Text = matchingManipulativeDef.Name;
 		_label.Text = matchingManipulativeDef.Name;
 
-		_equipButton.Visible = matchingManipulativeDef.IsWeapon;
+		_equipButton.Visible = IsEquipment(matchingManipulativeDef);
 		
-		// Set the icon
 		_itemIcon.Texture = !string.IsNullOrWhiteSpace(matchingManipulativeDef.ImageRes)
 			? GD.Load<Texture2D>(matchingManipulativeDef.ImageRes)
 			: _defaultTexture;

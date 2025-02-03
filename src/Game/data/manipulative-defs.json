@@ -14,5 +14,11 @@
         "name": "Knife",
         "isWeapon": true,
         "imageRes": "res://assets/Pixel Art Icon Pack - RPG/Weapon & Tool/Knife.png"
+    },
+    {
+        "id": "3d81d926-e07d-4075-806b-fd1c76078b45",
+        "name": "Iron Helmet",
+        "isHelmet": true,
+        "imageRes": "res://assets/Pixel Art Icon Pack - RPG/Equipment/Iron Helmet.png"        
     }
 ]
