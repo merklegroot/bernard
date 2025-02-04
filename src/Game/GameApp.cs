@@ -1,7 +1,8 @@
+using Game.Constants;
 using Game.Controllers;
 using Game.Registry;
+using Game.Models;
 using Godot;
-using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -26,6 +27,30 @@ public partial class GameApp : Node
 		InitControllers(_host);
 		
 		GlobalContainer.Host = _host;
+	}
+	
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is not InputEventKey keyEvent) 
+			return;
+			
+		if (!keyEvent.Pressed || keyEvent.Echo)
+			return;
+
+		if (GameStateContainer.GameState.CurrentMainPanel == PanelEnum.Room)
+		{
+			var direction = keyEvent.Keycode switch
+			{
+				Key.W => Direction.North,
+				Key.A => Direction.West,
+				Key.S => Direction.South,
+				Key.D => Direction.East,
+				_ => Direction.Invalid
+			};
+
+			if (direction != Direction.Invalid)
+				EventBus.Instance.EmitSignal(EventBus.SignalName.ExitRoom, (int)direction);
+		}
 	}
 	
 	private void InitControllers(IHost host)

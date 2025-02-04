@@ -21,18 +21,13 @@ public partial class MainPanel : Panel
         ShowCurrentPanel();
     }
 
-    private const string NothingPanelName = "NothingPanel";
-    
-    private static readonly Dictionary<PanelEnum, string> PanelNameDictionary = new()
-    {
-        { PanelEnum.Nothing, NothingPanelName },
-        { PanelEnum.Room, "RoomPanel" },
-        { PanelEnum.InventoryDetails, "InventoryDetailsPanel" }
-    };
-    
     private void ShowCurrentPanel()
     {
-        var expectedPanelName = CollectionExtensions.GetValueOrDefault(PanelNameDictionary, GameStateContainer.GameState.CurrentMainPanel, NothingPanelName);
+        var expectedPanelName = CollectionExtensions
+            .GetValueOrDefault(
+                GameConstants.PanelNameDictionary, 
+                GameStateContainer.GameState.CurrentMainPanel, 
+                GameConstants.NothingPanelName);
         
         foreach (var child in GetChildren())
         {
