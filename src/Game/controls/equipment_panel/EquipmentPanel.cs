@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 public partial class EquipmentPanel : Panel
 {
 	private VBoxContainer _container;
+	private HBoxContainer _helmetContainer;
 	private Label _weaponSlot;
-	private Label _helmetSlot;
 	private Label _armorSlot;
 
 	private IManipulativeDefRepo _manipulativeDefRepo;
@@ -17,8 +17,8 @@ public partial class EquipmentPanel : Panel
 		_manipulativeDefRepo = GlobalContainer.Host.Services.GetRequiredService<IManipulativeDefRepo>();
 		
 		_weaponSlot = GetNode<Label>("VBoxContainer/WeaponSlot");
-		_helmetSlot = GetNode<Label>("VBoxContainer/HelmetSlot");
 		_armorSlot = GetNode<Label>("VBoxContainer/ArmorSlot");
+		_helmetContainer = GetNode<HBoxContainer>("VBoxContainer/HelmetSlot");
 		_container = GetNode<VBoxContainer>("VBoxContainer");
 		
 		EventBus.Instance.InventoryChanged += OnInventoryChanged;
@@ -54,26 +54,55 @@ public partial class EquipmentPanel : Panel
 			combo.FirstOrDefault(item => 
 				item.manipulativeDef.IsArmor);
 		
-		var helmet = 
-			combo.FirstOrDefault(item => 
-				item.manipulativeDef.IsHelmet);
-		
 		var weaponName = weapon != null
 			? weapon.manipulativeDef.Name
 			: "None";
 
 		_weaponSlot.Text = $"Weapon: {weaponName}";
 		
-		var helmetName = helmet != null
-			? helmet.manipulativeDef.Name
-			: "None";
-
-		_helmetSlot.Text = $"Helmet: {helmetName}";
+		var helmet = 
+			combo.FirstOrDefault(item => 
+				item.manipulativeDef.IsHelmet);
+		
+		AddHelmetInfo(helmet?.inventoryItem);
 		
 		var armorName = armor != null
 			? armor.manipulativeDef.Name
 			: "None";
 		
 		_armorSlot.Text = $"Armor: {armorName}";
+		
+	}
+
+	private void AddHelmetInfo(InventoryItem inventoryItem)
+	{
+		foreach (var child in _helmetContainer.GetChildren())
+		{
+			child.QueueFree();
+		}
+
+		var label = new Label { Text = "Helmet:" };
+		_helmetContainer.AddChild(label);
+
+		if (inventoryItem == null)
+		{
+			_helmetContainer.AddChild(new Label { Text = "None" });
+			return;
+		}
+		
+		var selectionData = new InventoryItemSelectionData(
+			InventoryItemSelectionSource.Inventory,
+			inventoryItem.Id,
+			inventoryItem.ManipulativeDefId);
+		
+		var button = new ManipulativeButton
+		{
+			SelectionDataText = selectionData,
+			CustomMinimumSize = new Vector2(150, 30),
+			SizeFlagsHorizontal = SizeFlags.ShrinkCenter
+		};
+		
+		// _helmetContainer.AddChild(new Label { Text = manipulativeDef.Name });
+		_helmetContainer.AddChild(button);
 	}
 } 

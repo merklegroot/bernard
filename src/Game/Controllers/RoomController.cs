@@ -40,15 +40,20 @@ public class RoomController : IController
         EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);
         EventBus.Instance.EmitSignal(EventBus.SignalName.CloseInventoryDetails);
     }
-
 	
     private void OnExitRoom(int directionId)
     {
-        GD.Print($"GDApp - Exit room direction: {directionId}");
-		
         var direction = (Direction)directionId;
+        
+        GD.Print($"Exit room direction: {direction}");
+        
         var currentRoomDef = _roomDefRepo.Get(GameStateContainer.GameState.RoomId);
-        var matchingExit = currentRoomDef.Exits.Single(queryExit => queryExit.Direction == direction);
+        var matchingExit = currentRoomDef.Exits.FirstOrDefault(queryExit => queryExit.Direction == direction);
+        if (matchingExit == null)
+        {
+            GD.Print($"No exit in direction: {direction}");
+            return;
+        }
 
         GameStateContainer.GameState.RoomId = matchingExit.DestinationId;
 		
