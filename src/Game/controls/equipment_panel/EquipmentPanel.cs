@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Game.Models;
 using Godot;
@@ -5,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 public partial class EquipmentPanel : Panel
 {
-	private VBoxContainer _container;
+	private VBoxContainer _vboxContainer;
 	private HBoxContainer _helmetContainer;
 	private Label _weaponSlot;
 	private Label _armorSlot;
@@ -19,7 +21,7 @@ public partial class EquipmentPanel : Panel
 		_weaponSlot = GetNode<Label>("VBoxContainer/WeaponSlot");
 		_armorSlot = GetNode<Label>("VBoxContainer/ArmorSlot");
 		_helmetContainer = GetNode<HBoxContainer>("VBoxContainer/HelmetSlot");
-		_container = GetNode<VBoxContainer>("VBoxContainer");
+		_vboxContainer = GetNode<VBoxContainer>("VBoxContainer");
 		
 		EventBus.Instance.InventoryChanged += OnInventoryChanged;
 		
@@ -30,79 +32,134 @@ public partial class EquipmentPanel : Panel
 	{
 		UpdateDisplay();
 	}
+
+	private record ArmorInfo
+	{
+		public ArmorInfo()
+		{
+		}
+
+		public ArmorInfo(Func<ManipulativeDef, bool> isOfType, string labelText)
+		{
+			IsOfType = isOfType;
+			LabelText = labelText;
+		}
+
+		public Func<ManipulativeDef, bool> IsOfType { get; init; }
+		public string LabelText { get; init; }
+	}
+
+	private class ButtonHandlerCombo
+	{
+		public Button Button { get; init; }
+		public Action Handler { get; init; }
+	}
+	
+	private readonly List<ButtonHandlerCombo> _buttonHandlerCombos = new();
+
+	private void CleanDisplay()
+	{
+		foreach (var buttonHandlerCombo in _buttonHandlerCombos)
+		{
+			buttonHandlerCombo.Button.Pressed -= buttonHandlerCombo.Handler;
+		}
+		
+		_buttonHandlerCombos.Clear();
+		
+		foreach (var child in _vboxContainer.GetChildren())
+		{
+			child.QueueFree();
+		}
+	}
+
+	private class InventoryItemAndManipulativeDef
+	{
+		public InventoryItem InventoryItem { get; init; }
+		public ManipulativeDef ManipulativeDef { get; init; }
+	}
+
+	private static readonly List<ArmorInfo> ArmorInfos = new()
+	{
+		new ArmorInfo(isOfType: def => def.IsWeapon, labelText: "Weapon:"),
+		new ArmorInfo(isOfType: def => def.IsHelmet, labelText: "Helmet:"),
+		new ArmorInfo(isOfType: def => def.IsArmor, labelText: "Armor:")
+	};
 	
 	private void UpdateDisplay()
 	{
+		CleanDisplay();
+		
 		var equippedItems = GameStateContainer.GameState.Inventory.Where(item => item.IsEquipped).ToList();
 
 		var combo = equippedItems.Select(inventoryItem =>
 			{
 				var manipulativeDef = _manipulativeDefRepo.Get(inventoryItem.ManipulativeDefId);
-				return new
+				return new InventoryItemAndManipulativeDef
 				{
-					inventoryItem,
-					manipulativeDef
+					InventoryItem = inventoryItem,
+					ManipulativeDef = manipulativeDef
 				};
 			})
 			.ToList();
 
-		var weapon = 
-			combo.FirstOrDefault(item => 
-				item.manipulativeDef.IsWeapon);
-		
-		var armor = 
-			combo.FirstOrDefault(item => 
-				item.manipulativeDef.IsArmor);
-		
-		var weaponName = weapon != null
-			? weapon.manipulativeDef.Name
-			: "None";
-
-		_weaponSlot.Text = $"Weapon: {weaponName}";
-		
-		var helmet = 
-			combo.FirstOrDefault(item => 
-				item.manipulativeDef.IsHelmet);
-		
-		AddHelmetInfo(helmet?.inventoryItem);
-		
-		var armorName = armor != null
-			? armor.manipulativeDef.Name
-			: "None";
-		
-		_armorSlot.Text = $"Armor: {armorName}";
-		
+		foreach (var info in ArmorInfos)
+		{
+			AddArmorInfo(info, combo);
+		}
 	}
 
-	private void AddHelmetInfo(InventoryItem inventoryItem)
+	private void AddArmorInfo(ArmorInfo info, List<InventoryItemAndManipulativeDef> combo)
 	{
-		foreach (var child in _helmetContainer.GetChildren())
-		{
-			child.QueueFree();
-		}
+		var container = new HBoxContainer();
+		container.LayoutMode = 2;
 
-		var label = new Label { Text = "Helmet:" };
-		_helmetContainer.AddChild(label);
+		_vboxContainer.AddChild(container);
 
-		if (inventoryItem == null)
+		var label = new Label { Text = info.LabelText };
+		container.AddChild(label);
+		
+		var equippedItemOfType =
+			combo.FirstOrDefault(item =>
+				item.ManipulativeDef != null &&
+				info.IsOfType(item.ManipulativeDef));
+
+		if (equippedItemOfType == null)
 		{
-			_helmetContainer.AddChild(new Label { Text = "None" });
+			container.AddChild(new Label { Text = "None" });
 			return;
 		}
-		
+
 		var selectionData = new InventoryItemSelectionData(
 			InventoryItemSelectionSource.Inventory,
-			inventoryItem.Id,
-			inventoryItem.ManipulativeDefId);
-		
+			equippedItemOfType.InventoryItem.Id,
+			equippedItemOfType.InventoryItem.ManipulativeDefId);
+
 		var button = new ManipulativeButton
 		{
 			SelectionDataText = selectionData,
 			CustomMinimumSize = new Vector2(150, 30),
 			SizeFlagsHorizontal = SizeFlags.ShrinkCenter
 		};
-		
-		// _helmetContainer.AddChild(new Label { Text = manipulativeDef.Name });
-		_helmetContainer.AddChild(button);
+
+		var handler = new Action(() =>
+		{
+			EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelectedFlexible,
+				(string)selectionData);
+		});
+
+		button.Pressed += handler;
+
+		_buttonHandlerCombos.Add(new ButtonHandlerCombo
+		{
+			Button = button,
+			Handler = handler
+		});
+
+		container.AddChild(button);
+	}
+
+	public override void _ExitTree()
+	{
+		CleanDisplay();
 	}
 } 
