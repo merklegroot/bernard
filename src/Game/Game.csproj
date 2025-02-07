@@ -7,8 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DuckDB.NET.Data.Full" Version="1.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="MassTransit" Version="8.1.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\schema.sql" />
+  </ItemGroup>
+
 </Project>
