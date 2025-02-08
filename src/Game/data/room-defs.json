@@ -25,7 +25,7 @@
             },
             {
                 "direction": "w",
-                "destinationId": "kitchen"
+                "destinationId": "dining_hall"
             }
         ]
     },
@@ -41,13 +41,28 @@
         ]
     },
     {
+        "id": "dining_hall",
+        "name": "Dining Hall",
+        "description": "A large room with a long table and benches.\nThe table is laden with food, and the air is filled with the scent of cooking meat.\nA stern-faced cook stands at the head of the table, watching the soldiers eat.",
+        "exits": [
+            {
+                "direction": "e",
+                "destinationId": "courtyard"
+            },
+            {
+                "direction": "w",
+                "destinationId": "kitchen"
+            }
+        ]
+    },
+    {
         "id": "kitchen",
         "name": "Kitchen",
         "description": "A kitchen with some food and a refrigerator full of food.\nAlso a table with a few chairs.\nBut wait until you hear about the food.\nIt's awful because the cooks are idiots.",
         "exits": [
             {
                 "direction": "e",
-                "destinationId": "courtyard"
+                "destinationId": "dining_hall"
             }
         ]
     },
