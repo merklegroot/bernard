@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://73wef6ike4gd"]
+[gd_scene load_steps=4 format=3 uid="uid://73wef6ike4gd"]
 
 [ext_resource type="Script" path="res://controls/room_exits_panel/RoomExitsPanel.cs" id="1_exits"]
+[ext_resource type="PackedScene" uid="uid://wccg8vhqx57y" path="res://controls/direction_button/direction_button.tscn" id="2_24n0k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2"]
 bg_color = Color(0.1, 0.1, 0.1, 0.3)
@@ -38,10 +39,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="NorthButton" type="Button" parent="GridContainer"]
+[node name="NorthButton" parent="GridContainer" instance=ExtResource("2_24n0k")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 text = "North"
 
 [node name="Spacer2" type="Control" parent="GridContainer"]
@@ -49,10 +48,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="WestButton" type="Button" parent="GridContainer"]
+[node name="WestButton" parent="GridContainer" instance=ExtResource("2_24n0k")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 text = "West"
 
 [node name="Spacer3" type="Control" parent="GridContainer"]
@@ -60,10 +57,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="EastButton" type="Button" parent="GridContainer"]
+[node name="EastButton" parent="GridContainer" instance=ExtResource("2_24n0k")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 text = "East"
 
 [node name="Spacer4" type="Control" parent="GridContainer"]
@@ -71,10 +66,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="SouthButton" type="Button" parent="GridContainer"]
+[node name="SouthButton" parent="GridContainer" instance=ExtResource("2_24n0k")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 text = "South"
 
 [node name="Spacer5" type="Control" parent="GridContainer"]
