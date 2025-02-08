@@ -9,5 +9,5 @@ public record RoomExit
     public Direction Direction { get; init; }
 
     [JsonPropertyName("destinationId")]
-    public Guid DestinationId { get; init; }
+    public string DestinationId { get; init; }
 }

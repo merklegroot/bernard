@@ -7,20 +7,20 @@ namespace Game.Repo;
 
 public interface IRoomStateRepo
 {
-    RoomState Get(Guid roomId);
+    RoomState Get(string roomId);
 
-    void AddManipulative(Guid roomId, Guid manipulativeDefId);
+    void AddManipulative(string roomId, Guid manipulativeDefId);
 
-    void RemoveManipulativeByDefId(Guid roomId, Guid manipulativeDefId);
+    void RemoveManipulativeByDefId(string roomId, Guid manipulativeDefId);
     
-    void RemoveManipulativeByInstanceId(Guid roomId, Guid manipulativeInstanceId);
+    void RemoveManipulativeByInstanceId(string roomId, Guid manipulativeInstanceId);
     
-    ManipulativeInstance GetManipulativeByInstanceId(Guid roomId, Guid manipulativeInstanceId);
+    ManipulativeInstance GetManipulativeByInstanceId(string roomId, Guid manipulativeInstanceId);
 }
 
 public class RoomStateRepo : IRoomStateRepo
 {
-    private static Dictionary<Guid, RoomState> _roomStates = new();
+    private static Dictionary<string, RoomState> _roomStates = new(StringComparer.OrdinalIgnoreCase);
     private readonly IRoomDefRepo _roomDefRepo;
 
     public RoomStateRepo(IRoomDefRepo roomDefRepo)
@@ -28,7 +28,7 @@ public class RoomStateRepo : IRoomStateRepo
         _roomDefRepo = roomDefRepo;
     }
     
-    public RoomState Get(Guid id)
+    public RoomState Get(string id)
     {
         if (!_roomStates.ContainsKey(id))
         {
@@ -42,7 +42,7 @@ public class RoomStateRepo : IRoomStateRepo
         return _roomStates[id];
     }
 
-    public void AddManipulative(Guid roomId, Guid manipulativeDefId)
+    public void AddManipulative(string roomId, Guid manipulativeDefId)
     {
         var roomState = Get(roomId);
         roomState.ManipulativeInstances.Add(new ManipulativeInstance
@@ -52,7 +52,7 @@ public class RoomStateRepo : IRoomStateRepo
         });
     }
 
-    public void RemoveManipulativeByDefId(Guid roomId, Guid manipulativeDefId)
+    public void RemoveManipulativeByDefId(string roomId, Guid manipulativeDefId)
     {
         var roomState = Get(roomId);
         var matchingIndex = roomState.ManipulativeInstances
@@ -64,7 +64,7 @@ public class RoomStateRepo : IRoomStateRepo
         roomState.ManipulativeInstances.RemoveAt(matchingIndex);
     }
 
-    public void RemoveManipulativeByInstanceId(Guid roomId, Guid manipulativeInstanceId)
+    public void RemoveManipulativeByInstanceId(string roomId, Guid manipulativeInstanceId)
     {
         var roomState = Get(roomId);
         var matchingIndex = roomState.ManipulativeInstances
@@ -76,7 +76,7 @@ public class RoomStateRepo : IRoomStateRepo
         roomState.ManipulativeInstances.RemoveAt(matchingIndex);
     }
     
-    public ManipulativeInstance GetManipulativeByInstanceId(Guid roomId, Guid manipulativeInstanceId)
+    public ManipulativeInstance GetManipulativeByInstanceId(string roomId, Guid manipulativeInstanceId)
     {
         var room = Get(roomId);
         return room.ManipulativeInstances

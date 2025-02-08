@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Game.Models;
 
-public record ManipulativeDef : IHasId
+public record ManipulativeDef : IHasId<Guid>
 {
     [JsonPropertyName("id")]
     public Guid Id { get; init; }

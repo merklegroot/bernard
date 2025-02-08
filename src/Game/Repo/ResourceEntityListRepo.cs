@@ -5,13 +5,13 @@ using Game.Models;
 namespace Game.Repo;
 
 public interface IResourceEntityListRepo<TData> : IResourceListRepo<TData>
-	where TData : IHasId
+	where TData : IHasId<Guid>
 {
 	TData Get(Guid id);
 }
 
 public abstract class ResourceEntityListRepo<TData> : ResourceListRepo<TData>, IResourceEntityListRepo<TData>
-	where TData : IHasId
+	where TData : IHasId<Guid>
 {
 	public TData Get(Guid id)
 	{

@@ -4,10 +4,10 @@ using System.Text.Json.Serialization;
 
 namespace Game.Models;
 
-public record RoomDef : IHasId
+public record RoomDef : IHasId<string>
 {
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public string Id { get; init; }
 
     [JsonPropertyName("name")]
     public string Name { get; init; }

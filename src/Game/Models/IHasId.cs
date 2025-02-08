@@ -3,8 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace Game.Models;
 
-public interface IHasId
+public interface IHasId<TIdType>
 {
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public TIdType Id { get; init; }
 }
