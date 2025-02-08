@@ -1,5 +1,16 @@
 [
     {
+        "id": "2f3e4d5c-6b7a-8c9d-0e1f-2a3b4c5d6e7f",
+        "name": "Castle Entrance",
+        "description": "A grand archway marks the entrance to the castle.\nMassive wooden doors, reinforced with iron bands, stand open during the day.\nArmored guards stand at attention, watching all who enter and exit.",
+        "exits": [
+            {
+                "direction": "n",
+                "destinationId": "c4b0bfb3-5127-4e6b-a4a3-924e4d5b5c1d"
+            }
+        ]
+    },
+    {
         "id": "6274df43-761e-44ce-a551-e702408d77d5",
         "name": "Barracks",
         "description": "A long room filled with neatly made bunk beds.\nOff-duty soldiers lounge about, some playing cards while others clean their equipment.\nThe walls are adorned with regimental banners and old war trophies.\nA faint smell of leather and polish hangs in the air.",
@@ -37,6 +48,10 @@
             {
                 "direction": "n",
                 "destinationId": "9e1c6c34-df76-4a28-b8aa-df91e2b1c5ed"
+            },
+            {
+                "direction": "s",
+                "destinationId": "2f3e4d5c-6b7a-8c9d-0e1f-2a3b4c5d6e7f"
             }
         ]
     },
