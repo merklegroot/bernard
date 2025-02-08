@@ -6,54 +6,47 @@ namespace Game.Handlers;
 
 public record EgoState
 {
+    public int Con { get; private set; } = 5;
     
+    public EgoState ConDelta(int delta)
+    {
+        Con += delta;
+        return this;
+    }
 }
 
-public record GetEgoStatsQuery : IRequest<EgoState> { }
+public record GetEgoStateQuery : IRequest<EgoState> { }
 
-public class GetEgoStatsHandler : IRequestHandler<GetEgoStatsQuery, EgoStats>
+public class GetEgoStateHandler : IRequestHandler<GetEgoStateQuery, EgoState>
 {
-    private readonly CounterState _state;
+    private readonly EgoState _state;
 
-    public GetCounterHandler(CounterState state)
+    public GetEgoStateHandler(EgoState state)
     {
         _state = state;
     }
 
-    public Task<int> Handle(GetCounterQuery request, CancellationToken cancellationToken)
+    public Task<EgoState> Handle(GetEgoStateQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(_state.Value);
+        return Task.FromResult(_state);
     }
 }
 
-public class IncrementCounterHandler : IRequestHandler<IncrementCounterCommand>
+public record EgoConDeltaCommand : IRequest
 {
-    private readonly CounterState _state;
-
-    public IncrementCounterHandler(CounterState state)
-    {
-        _state = state;
-    }
-
-    public Task Handle(IncrementCounterCommand request, CancellationToken cancellationToken)
-    {
-        _state.Increment();
-        return Task.CompletedTask;
-    }
+    public int Delta { get; init; }
 }
 
-public class DecrementCounterHandler : IRequestHandler<DecrementCounterCommand>
+public class EgoConDeltaHandler : IRequestHandler<EgoConDeltaCommand>
 {
-    private readonly CounterState _state;
-
-    public DecrementCounterHandler(CounterState state)
-    {
+    private readonly EgoState _state;
+    
+    public EgoConDeltaHandler(EgoState state) =>
         _state = state;
-    }
-
-    public Task Handle(DecrementCounterCommand request, CancellationToken cancellationToken)
+    
+    public Task Handle(EgoConDeltaCommand request, CancellationToken cancellationToken)
     {
-        _state.Decrement();
+        _state.ConDelta(request.Delta);
         return Task.CompletedTask;
     }
 }
