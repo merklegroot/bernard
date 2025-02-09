@@ -1,4 +1,3 @@
-using Game.Models;
 using Game.Repo;
 using Godot;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,16 +49,13 @@ public partial class StatusPanel : Panel
 	
 	private void UpdateStatus()
 	{
-		var str = _egoRepo.GetStr();
-		var atk = _egoRepo.GetAtk();
-		var def = _egoRepo.GetDef();
-		var con = _egoRepo.GetCon();
+		var viewModel = _egoRepo.GetStatusPanelViewModel();
 
-		_strLabel.Text = $"Str: {str}";
-		_atkLabel.Text = $"Atk: {atk}";
-		_defLabel.Text = $"Def: {def}";
-		_conLabel.Text = $"Con: {con}";
-		_healthLabel.Text = $"Health: {GameStateContainer.GameState.Health}";
-		_goldLabel.Text = $"Gold: {GameStateContainer.GameState.Gold}";
+		_strLabel.Text = $"Str: {viewModel.Str}";
+		_atkLabel.Text = $"Atk: {viewModel.Atk}";
+		_defLabel.Text = $"Def: {viewModel.Def}";
+		_conLabel.Text = $"Con: {viewModel.Con}";
+		_healthLabel.Text = $"HP: {viewModel.CurrentHp} of {viewModel.MaxHp}";
+		_goldLabel.Text = $"Gold: {viewModel.Gold}";
 	}
 }

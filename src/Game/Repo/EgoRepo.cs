@@ -2,18 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.Models;
+using Game.Models.ViewModels;
+using Game.Utils;
 
 namespace Game.Repo;
 
 public interface IEgoRepo
 {
-    int GetStr();
-    
-    int GetAtk();
-
-    int GetDef();
-
-    int GetCon();
+    StatusPanelViewModel GetStatusPanelViewModel();
     
     List<InventoryItem> ListInventory();
     
@@ -31,13 +27,25 @@ public class EgoRepo : IEgoRepo
     public EgoRepo(IManipulativeDefRepo manipulativeDefRepo) =>
         _manipulativeDefRepo = manipulativeDefRepo;
 
-    public int GetCon() =>
+    public StatusPanelViewModel GetStatusPanelViewModel() =>
+        new()
+        {
+            Str = GetStr(),
+            Atk = GetAtk(),
+            Def = GetDef(),
+            Con = GetCon(),
+            CurrentHp = GetCurrentHp(),
+            MaxHp = GetMaxHp(),
+            Gold = GetGold()
+        };
+    
+    private int GetCon() =>
         GameStateContainer.GameState.Con;
     
-    public int GetStr() =>
+    private int GetStr() =>
         GameStateContainer.GameState.Str;
 
-    public int GetAtk()
+    private int GetAtk()
     {
         var atkFromEquipment = 
             ListInventory()
@@ -48,7 +56,7 @@ public class EgoRepo : IEgoRepo
         return GameStateContainer.GameState.Str + atkFromEquipment;
     }
     
-    public int GetDef()
+    private int GetDef()
     {
         var defFromEquipment = 
             ListInventory()
@@ -59,7 +67,16 @@ public class EgoRepo : IEgoRepo
         return GameStateContainer.GameState.Con
                + defFromEquipment;
     }
+
+    private int GetCurrentHp() =>
+        GameStateContainer.GameState.CurrentHp;
     
+    private int GetMaxHp() =>
+        CharacterUtil.GetMaxHp(GetCon());
+    
+    private int GetGold() =>
+        GameStateContainer.GameState.Gold;
+
     public List<InventoryItem> ListInventory()
     {
         return GameStateContainer.GameState.Inventory;

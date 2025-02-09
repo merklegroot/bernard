@@ -63,7 +63,7 @@ vertical_alignment = 1
 [node name="HealthLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-text = "Health: -"
+text = "HP: -"
 vertical_alignment = 1
 
 [node name="GoldLabel" type="Label" parent="HBoxContainer"]

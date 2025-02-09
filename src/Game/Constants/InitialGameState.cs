@@ -1,22 +1,28 @@
 using System;
 using System.Collections.Generic;
 using Game.Models;
+using Game.Utils;
 
 namespace Game.Constants;
 
 public static class InitialGameState
 {
-    public static GameState Get() =>
-        new()
+    public static GameState Get()
+    {
+        const int initialCon = 1;
+        var currentHp = CharacterUtil.GetMaxHp(initialCon);
+        
+        return new GameState
         {
             RoomId = KnownRooms.StartingRoomId,
-            Health = 25,
+            CurrentHp = currentHp,
             Gold = 70,
             Str = 1,
-            Con = 1,
+            Con = initialCon,
             CurrentMainPanel = PanelEnum.Room,
             Inventory = InitialInventory()
         };
+    }
 
     private static List<InventoryItem> InitialInventory() => 
         new()
