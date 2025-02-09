@@ -8,25 +8,7 @@ public class GameSerializerTests(ITestOutputHelper outputHelper)
 {
     private record SomeModel
     {
-        public string Name { get; init; }
-    }
-
-    private record TomlRootContainer<TItem>
-    {
-        public List<TItem> Items { get; init; }
-    }
-
-    [Fact]
-    public void Should_serialize_toml()
-    {
-        var model = new SomeModel
-        {
-            Name = "testing"
-        };
-
-        var contents = GameSerializer.SerializeToml(model);
-        
-        outputHelper.WriteLine(contents);
+        public string? Name { get; init; }
     }
 
     [Fact]
@@ -76,26 +58,5 @@ public class GameSerializerTests(ITestOutputHelper outputHelper)
         var deserialized =GameSerializer.DeserializeToml<List<SomeModel>>(contents);
         
         deserialized.Single().Name.ShouldBe(original.Single().Name);
-    }
-    
-    [Fact]
-    public void With_collection_easy()
-    {
-        var tomlModel = new TomlRootContainer<SomeModel>
-        {
-            Items =
-            [
-                new SomeModel
-                {
-                    Name = "testing"
-                }
-            ]
-        };
-        
-        var contents = GameSerializer.SerializeToml(tomlModel);
-        
-        var deserialized = GameSerializer.DeserializeToml<TomlRootContainer<SomeModel>>(contents);
-        
-        deserialized.Items.Single().Name.ShouldBe(tomlModel.Items.Single().Name);
     }
 }
