@@ -1,11 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Tomlyn;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Game.Utils;
 
 public static class GameSerializer
 {
+    private static readonly ISerializer YamlSerializer = new SerializerBuilder()
+        .WithNamingConvention(CamelCaseNamingConvention.Instance)
+        .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
+        .Build();
+
+    private static readonly IDeserializer YamlDeserializer = new DeserializerBuilder()
+        .WithNamingConvention(CamelCaseNamingConvention.Instance)
+        .Build();
+
     private record TomlRootCollectionContainer<TCollection>
     {
         public TCollection TomlRootItems { get; init; }
@@ -35,6 +47,17 @@ public static class GameSerializer
         {
             TomlRootItems = model
         });
+    }
+
+    public static string SerializeYml<TModel>(TModel model)
+    {
+        return YamlSerializer.Serialize(model);
+    }
+
+    public static TModel DeserializeYml<TModel>(string contents)
+        where TModel : class
+    {
+        return YamlDeserializer.Deserialize<TModel>(contents);
     }
 
     private static bool IsArrayLike<T>()

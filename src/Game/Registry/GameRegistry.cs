@@ -9,6 +9,7 @@ public static class GameRegistry
         collection
             .RegisterMassTransit()
             .RegisterControllers()
+            .AddScoped<IResourceReader, ResourceReader>()
             .AddScoped<IRoomDefRepo, RoomDefRepo>()
             .AddScoped<IRoomStateRepo, RoomStateRepo>()
             .AddScoped<IEgoRepo, EgoRepo>()

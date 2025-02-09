@@ -12,6 +12,21 @@ public class GameSerializerTests(ITestOutputHelper outputHelper)
     }
 
     [Fact]
+    public void Should_serialize_and_deserialize_yml()
+    {
+        var original = new SomeModel
+        {
+            Name = "testing"
+        };
+        
+        var contents = GameSerializer.SerializeYml(original);
+        
+        var deserialized = GameSerializer.DeserializeYml<SomeModel>(contents);
+        
+        deserialized.Name.ShouldBe(original.Name);
+    }
+    
+    [Fact]
     public void Should_serialize_collection_toml()
     {
         var contents = GameSerializer.SerializeToml(

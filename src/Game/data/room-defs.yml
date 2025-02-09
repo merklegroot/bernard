@@ -1,0 +1,89 @@
+- id: castle_entrance
+  name: Castle Entrance
+  description: >-
+    A grand archway marks the entrance to the castle.
+
+    Massive wooden doors, reinforced with iron bands, stand open during the day.
+
+    Armored guards stand at attention, watching all who enter and exit.
+  exits:
+  - direction: North
+    destinationId: courtyard
+- id: courtyard
+  name: Courtyard
+  description: >-
+    An open courtyard with stone paths and well-maintained gardens.
+
+    A gentle breeze carries the scent of flowers.
+  exits:
+  - direction: South
+    destinationId: castle_entrance
+  - direction: East
+    destinationId: training_grounds
+  - direction: West
+    destinationId: dining_hall
+- id: barracks
+  name: Barracks
+  description: >-
+    A long room filled with neatly made bunk beds.
+
+    Off-duty soldiers lounge about, some playing cards while others clean their equipment.
+
+    The walls are adorned with regimental banners and old war trophies.
+
+    A faint smell of leather and polish hangs in the air.
+  exits:
+  - direction: South
+    destinationId: training_grounds
+- id: dining_hall
+  name: Dining Hall
+  description: >-
+    A large room with a long table and benches.
+
+    The table is laden with food, and the air is filled with the scent of cooking meat.
+
+    A stern-faced cook stands at the head of the table, watching the soldiers eat.
+  exits:
+  - direction: East
+    destinationId: courtyard
+  - direction: West
+    destinationId: kitchen
+- id: kitchen
+  name: Kitchen
+  description: >-
+    A kitchen with some food and a refrigerator full of food.
+
+    Also a table with a few chairs.
+
+    But wait until you hear about the food.
+
+    It's awful because the cooks are idiots.
+  exits:
+  - direction: East
+    destinationId: dining_hall
+- id: training_grounds
+  name: Training Grounds
+  description: >-
+    A dusty yard filled with training dummies and weapon racks.
+
+    The sound of clashing steel and grunts of effort fill the air.
+
+    A gruff instructor barks orders at new recruits.
+  exits:
+  - direction: West
+    destinationId: courtyard
+  - direction: East
+    destinationId: armory
+  - direction: North
+    destinationId: barracks
+- id: armory
+  name: Armory
+  description: >-
+    Racks of weapons line the walls of this well-maintained room.
+
+    The air smells of oil and leather.
+
+    A stern-faced quartermaster keeps watch over the equipment.
+  exits:
+  - direction: West
+    destinationId: training_grounds

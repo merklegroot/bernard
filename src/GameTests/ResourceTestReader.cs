@@ -10,6 +10,12 @@ public class TestResourceReader : IResourceReader
         return File.ReadAllText(filePath);
     }
 
+    public void Write(string resourcePath, string contents)
+    {
+        var filePath = ResToFilePath(resourcePath);
+        File.WriteAllText(filePath, contents);
+    }
+
     private string ResToFilePath(string resourcePath)
     {
         const string resPortion = "res://";
