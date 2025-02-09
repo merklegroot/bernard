@@ -32,6 +32,29 @@ public partial class RoomExitsPanel : Panel
 		UpdateDisplay();
 	}
 
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is not InputEventKey keyEvent) 
+			return;
+			
+		if (!keyEvent.Pressed || keyEvent.Echo)
+			return;
+
+		var direction = keyEvent.Keycode switch
+		{
+			Key.W when !_northButton.Disabled => Direction.North,
+			Key.A when !_westButton.Disabled => Direction.West,
+			Key.S when !_southButton.Disabled => Direction.South,
+			Key.D when !_eastButton.Disabled => Direction.East,
+			_ => Direction.Invalid
+		};
+
+		if (direction != Direction.Invalid)
+		{
+			OnDirectionButtonPressed(direction);
+		}
+	}
+
 	private void OnRoomChanged()
 	{
 		UpdateDisplay();
