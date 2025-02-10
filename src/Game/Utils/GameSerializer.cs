@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Game.Converters;
 using Tomlyn;
+using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -49,15 +52,17 @@ public static class GameSerializer
         });
     }
 
-    public static string SerializeYml<TModel>(TModel model)
-    {
-        return YamlSerializer.Serialize(model);
-    }
+    public static string SerializeYml<TModel>(TModel value) => 
+        new SerializerBuilder()
+            .WithTypeConverter(new DirectionYamlConverter())
+            .Build().Serialize(value);
 
-    public static TModel DeserializeYml<TModel>(string contents)
-        where TModel : class
+    public static TModel DeserializeYml<TModel>(string yml)
     {
-        return YamlDeserializer.Deserialize<TModel>(contents);
+        var deserializer = new DeserializerBuilder()
+            .WithTypeConverter(new DirectionYamlConverter())
+            .Build();
+        return deserializer.Deserialize<TModel>(yml);
     }
 
     private static bool IsArrayLike<T>()

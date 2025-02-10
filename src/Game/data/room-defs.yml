@@ -7,8 +7,9 @@
 
     Armored guards stand at attention, watching all who enter and exit.
   exits:
-  - direction: North
+  - direction: n
     destinationId: courtyard
+
 - id: courtyard
   name: Courtyard
   description: >-
@@ -16,12 +17,13 @@
 
     A gentle breeze carries the scent of flowers.
   exits:
-  - direction: South
+  - direction: s
     destinationId: castle_entrance
-  - direction: East
+  - direction: e
     destinationId: training_grounds
-  - direction: West
+  - direction: w
     destinationId: dining_hall
+
 - id: barracks
   name: Barracks
   description: >-
@@ -33,8 +35,9 @@
 
     A faint smell of leather and polish hangs in the air.
   exits:
-  - direction: South
-    destinationId: training_grounds
+  - direction: s
+    destinationId: training_ground
+
 - id: dining_hall
   name: Dining Hall
   description: >-
@@ -44,10 +47,11 @@
 
     A stern-faced cook stands at the head of the table, watching the soldiers eat.
   exits:
-  - direction: East
+  - direction: e
     destinationId: courtyard
-  - direction: West
+  - direction: w
     destinationId: kitchen
+
 - id: kitchen
   name: Kitchen
   description: >-
@@ -59,8 +63,9 @@
 
     It's awful because the cooks are idiots.
   exits:
-  - direction: East
+  - direction: e
     destinationId: dining_hall
+
 - id: training_grounds
   name: Training Grounds
   description: >-
@@ -70,12 +75,13 @@
 
     A gruff instructor barks orders at new recruits.
   exits:
-  - direction: West
+  - direction: w
     destinationId: courtyard
-  - direction: East
+  - direction: e
     destinationId: armory
-  - direction: North
+  - direction: n
     destinationId: barracks
+
 - id: armory
   name: Armory
   description: >-
@@ -85,5 +91,5 @@
 
     A stern-faced quartermaster keeps watch over the equipment.
   exits:
-  - direction: West
+  - direction: w
     destinationId: training_grounds

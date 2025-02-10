@@ -10,7 +10,7 @@ public class GameSerializerTests(ITestOutputHelper outputHelper)
     {
         public string? Name { get; init; }
     }
-
+    
     [Fact]
     public void Should_serialize_and_deserialize_yml()
     {
