@@ -22,7 +22,25 @@
   - direction: e
     destinationId: training_grounds
   - direction: w
+    destinationId: great_hall
+
+- id: great_hall
+  name: Great Hall
+  description: >-
+    A vast hall with soaring stone columns and high vaulted ceilings.
+
+    Ornate tapestries depicting historic battles adorn the walls.
+
+    Sunlight streams through tall stained glass windows, casting colorful patterns on the floor.
+
+    The room echoes with footsteps and hushed conversations.
+  exits:
+  - direction: e
+    destinationId: courtyard
+  - direction: w
     destinationId: dining_hall
+  - direction: n
+    destinationId: throne_room
 
 - id: barracks
   name: Barracks
@@ -48,7 +66,7 @@
     A stern-faced cook stands at the head of the table, watching the soldiers eat.
   exits:
   - direction: e
-    destinationId: courtyard
+    destinationId: great_hall
   - direction: w
     destinationId: kitchen
 
@@ -93,3 +111,17 @@
   exits:
   - direction: w
     destinationId: training_grounds
+
+- id: throne_room
+  name: Throne Room
+  description: >-
+    The most majestic chamber in the castle, dominated by an ornate golden throne.
+
+    Rich crimson carpets lead to the dais, and crystal chandeliers sparkle overhead.
+
+    Elaborate frescoes cover the domed ceiling, depicting scenes of triumph and glory.
+
+    The air here feels heavy with authority and tradition.
+  exits:
+  - direction: s
+    destinationId: great_hall
