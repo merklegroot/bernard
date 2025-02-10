@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
 using Game.Models;
 using Game.Utils;
 
@@ -17,7 +15,6 @@ public interface IRoomDefRepo
 
 public class RoomDefRepo : IRoomDefRepo
 {
-    private const string ResourceJsonPath = "res://data/room-defs.json";
     private const string ResourcePath = "res://data/room-defs.yml";
 
     private readonly IResourceReader _resourceReader;

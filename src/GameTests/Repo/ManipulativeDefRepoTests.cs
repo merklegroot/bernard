@@ -9,7 +9,7 @@ public class ManipulativeDefRepoTests
     {
         var repo = new ManipulativeDefRepo
         {
-            ResourceReader = new TestResourceReader()
+            ResourceReader = new ResourceTestReader()
         };
 
         var all = repo.List();

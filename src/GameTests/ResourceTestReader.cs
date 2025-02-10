@@ -1,6 +1,6 @@
 namespace GameTests;
 
-public class TestResourceReader : IResourceReader
+public class ResourceTestReader : IResourceReader
 {
     public string Read(string resourcePath)
     {
