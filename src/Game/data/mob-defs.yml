@@ -1,3 +1,7 @@
 - id: shrimp
-  name: Shrimp
-  imageAsset: res://assets/rpg-beings-all/shrimp.png
+  name: Giant Battle Shrimp
+  imageAsset: res://assets/rpg-beings-all/Shrimp.png
+
+- id: bat
+  name: Bat
+  imageAsset: res://assets/rpg-beings-all/Bat.png

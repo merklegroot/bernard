@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 public partial class FightPanel : Panel
 {
     private Button _closeButton;
+    private Label _mobNameLabel;
+    private TextureRect _mobImage;
     private IMobDefRepo _mobDefRepo;
     
     public override void _Ready()
@@ -14,6 +16,9 @@ public partial class FightPanel : Panel
         _mobDefRepo = GlobalContainer.Host.Services.GetRequiredService<IMobDefRepo>();
         
         _closeButton = GetNode<Button>("VBoxContainer/HBoxContainer/CloseButton");
+        _mobNameLabel = GetNode<Label>("VBoxContainer/MobContainer/MobName");
+        _mobImage = GetNode<TextureRect>("VBoxContainer/MobContainer/MobImage");
+        
         _closeButton.Pressed += OnCloseButtonPressed;
     }
 
