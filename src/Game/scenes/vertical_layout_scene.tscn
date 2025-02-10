@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bexqulhgt53ao"]
+[gd_scene load_steps=7 format=3 uid="uid://bexqulhgt53ao"]
 
 [ext_resource type="Script" path="res://scenes/VerticalLayoutScene.cs" id="1_vertical"]
 [ext_resource type="PackedScene" uid="uid://duhkq60a2swhd" path="res://controls/status_panel/status_panel.tscn" id="2_status"]
 [ext_resource type="PackedScene" uid="uid://dfxr3mgums1jg" path="res://controls/inventory_list_panel/inventory_list_panel.tscn" id="3_inventory"]
 [ext_resource type="PackedScene" uid="uid://cntb5w8l1wcsx" path="res://controls/main_panel/main_panel.tscn" id="4_main"]
 [ext_resource type="PackedScene" uid="uid://boqo50nq5hevt" path="res://controls/equipment_panel/equipment_panel.tscn" id="5_61tcw"]
+[ext_resource type="PackedScene" path="res://controls/footer_panel/footer_panel.tscn" id="6_footer"]
 
 [node name="VerticalLayoutScene" type="Control"]
 layout_mode = 3
@@ -77,17 +78,5 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Footer" type="Panel" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+[node name="Footer" parent="VBoxContainer" instance=ExtResource("6_footer")]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/Footer"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Footer"
-horizontal_alignment = 1
-vertical_alignment = 1
