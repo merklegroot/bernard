@@ -8,13 +8,13 @@ public class PanelController : IController
 {
     public void Register()
     {
-        EventBus.Instance.SetMainPanel += OnSetMainPanel;
+        Events.EventBus.Instance.SetMainPanel += OnSetMainPanel;
     }
     
     private void OnSetMainPanel(int panelId)
     {
         var panelEnum = (PanelEnum)panelId;
         GameStateContainer.GameState.CurrentMainPanel = panelEnum;
-        EventBus.Instance.EmitSignal(EventBus.SignalName.MainPanelChanged);
+        Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.MainPanelChanged);
     }
 }

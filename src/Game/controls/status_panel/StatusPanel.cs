@@ -31,8 +31,8 @@ public partial class StatusPanel : Panel
 		_healthLabel = GetNode<Label>(HealthLabelPath);
 		_goldLabel = GetNode<Label>(GoldLabelPath);
 		
-		EventBus.Instance.StatusChanged += OnStatusChanged;
-		EventBus.Instance.InventoryChanged += OnInventoryChanged;
+		Game.Events.EventBus.Instance.StatusChanged += OnStatusChanged;
+		Game.Events.EventBus.Instance.InventoryChanged += OnInventoryChanged;
 		
 		UpdateStatus();
 	}

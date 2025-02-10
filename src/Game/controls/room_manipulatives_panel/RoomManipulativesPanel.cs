@@ -16,7 +16,7 @@ public partial class RoomManipulativesPanel : Panel
 		_roomStateRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomStateRepo>();
 		
 		_manipulativesContainer = GetNode<HFlowContainer>("ItemContainer");
-		EventBus.Instance.RoomChanged += OnRoomChanged;
+		Game.Events.EventBus.Instance.RoomChanged += OnRoomChanged;
 		
 		UpdateDisplay();
 	}
@@ -82,7 +82,7 @@ public partial class RoomManipulativesPanel : Panel
 
 	private void OnManipulativeButtonPressed(InventoryItemSelectionData selectionData)
 	{
-		EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelectedFlexible, (string)selectionData);
+		Game.Events.EventBus.Instance.EmitSignal(Game.Events.EventBus.SignalName.InventoryItemSelectedFlexible, (string)selectionData);
 		
 		GD.Print($"OnManipulativeButtonPressed: {(string)selectionData}");
 	}

@@ -12,7 +12,7 @@ public partial class MainPanel : Panel
     public override void _Ready()
     {
         ShowCurrentPanel();
-        EventBus.Instance.MainPanelChanged += OnMainPanelChanged;
+        Game.Events.EventBus.Instance.MainPanelChanged += OnMainPanelChanged;
     }
     
     private void OnMainPanelChanged()

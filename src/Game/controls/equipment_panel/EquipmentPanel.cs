@@ -23,7 +23,7 @@ public partial class EquipmentPanel : Panel
 		_helmetContainer = GetNode<HBoxContainer>("VBoxContainer/HelmetSlot");
 		_vboxContainer = GetNode<VBoxContainer>("VBoxContainer");
 		
-		EventBus.Instance.InventoryChanged += OnInventoryChanged;
+		Game.Events.EventBus.Instance.InventoryChanged += OnInventoryChanged;
 		
 		UpdateDisplay();
 	}
@@ -143,7 +143,7 @@ public partial class EquipmentPanel : Panel
 
 		var handler = new Action(() =>
 		{
-			EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelectedFlexible,
+			Game.Events.EventBus.Instance.EmitSignal(Game.Events.EventBus.SignalName.InventoryItemSelectedFlexible,
 				(string)selectionData);
 		});
 

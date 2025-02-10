@@ -1,4 +1,6 @@
+using Game.Constants;
 using Godot;
+using Game.Events;
 
 public partial class FooterPanel : Panel
 {
@@ -13,6 +15,7 @@ public partial class FooterPanel : Panel
     private void OnFightButtonPressed()
     {
         GD.Print("Fight button pressed!");
+        EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.Fight);
     }
 
     public override void _ExitTree()

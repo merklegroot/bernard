@@ -49,7 +49,7 @@ public partial class GameApp : Node
 			};
 
 			if (direction != Direction.Invalid)
-				EventBus.Instance.EmitSignal(EventBus.SignalName.ExitRoom, (int)direction);
+				Game.Events.EventBus.Instance.EmitSignal(Game.Events.EventBus.SignalName.ExitRoom, (int)direction);
 		}
 	}
 	

@@ -1,5 +1,7 @@
 using Godot;
 
+namespace Game.Events;
+
 public partial class EventBus : Node
 {
 	[Signal]

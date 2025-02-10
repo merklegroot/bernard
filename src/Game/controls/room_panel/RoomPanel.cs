@@ -21,7 +21,7 @@ public partial class RoomPanel : Panel
 
 		UpdateDisplay();
 		
-		EventBus.Instance.RoomChanged += OnRoomChanged;
+		Events.EventBus.Instance.RoomChanged += OnRoomChanged;
 	}
 
 	private void OnRoomChanged()
@@ -41,9 +41,9 @@ public partial class RoomPanel : Panel
 
 	public override void _ExitTree()
 	{
-		if (EventBus.Instance != null)
+		if (Events.EventBus.Instance != null)
 		{
-			EventBus.Instance.RoomChanged -= OnRoomChanged;
+			Events.EventBus.Instance.RoomChanged -= OnRoomChanged;
 		}
 	}
 }

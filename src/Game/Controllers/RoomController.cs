@@ -22,8 +22,8 @@ public class RoomController : IController
     
     public void Register()
     {
-        EventBus.Instance.PickupRoomItem += OnPickupRoomItem;
-        EventBus.Instance.ExitRoom += OnExitRoom;
+        Events.EventBus.Instance.PickupRoomItem += OnPickupRoomItem;
+        Events.EventBus.Instance.ExitRoom += OnExitRoom;
     }
     
     private void OnPickupRoomItem(string instanceIdText)
@@ -36,9 +36,9 @@ public class RoomController : IController
         _roomStateRepo.RemoveManipulativeByInstanceId(GameStateContainer.GameState.RoomId, manipulativeInstanceId);
         _iiEgoRepo.AddInventoryItemByDefId(manipulativeInstance.ManipulativeDefId);
 		
-        EventBus.Instance.EmitSignal(EventBus.SignalName.RoomChanged);
-        EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);
-        EventBus.Instance.EmitSignal(EventBus.SignalName.CloseInventoryDetails);
+        Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.RoomChanged);
+        Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.InventoryChanged);
+        Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.CloseInventoryDetails);
     }
 	
     private void OnExitRoom(int directionId)
@@ -57,6 +57,6 @@ public class RoomController : IController
 
         GameStateContainer.GameState.RoomId = matchingExit.DestinationId;
 		
-        EventBus.Instance.EmitSignal(EventBus.SignalName.RoomChanged);
+        Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.RoomChanged);
     }
 }

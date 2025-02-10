@@ -45,7 +45,7 @@ public partial class InventoryDetailsPanel : Panel
 		_equipButton.Pressed += OnEquipButtonPressed;
 		_unequipButton.Pressed += OnUnequipButtonPressed;
 		
-		EventBus.Instance.InventoryItemSelectedFlexible += OnInventoryItemSelectedFlexible;
+		Game.Events.EventBus.Instance.InventoryItemSelectedFlexible += OnInventoryItemSelectedFlexible;
 	}
 	
 	private void OnInventoryItemSelectedFlexible(string data)
@@ -149,7 +149,7 @@ public partial class InventoryDetailsPanel : Panel
 
 	private void OnCloseButtonPressed()
 	{
-		EventBus.Instance.EmitSignal(EventBus.SignalName.CloseInventoryDetails);
+		Game.Events.EventBus.Instance.EmitSignal(Game.Events.EventBus.SignalName.CloseInventoryDetails);
 	}
 
 	private void OnDropButtonPressed()
@@ -157,7 +157,7 @@ public partial class InventoryDetailsPanel : Panel
 		if (_itemSelection.Source != InventoryItemSelectionSource.Inventory)
 			throw new ApplicationException($"Unexpected source: {_itemSelection.Source}");
 
-		EventBus.Instance.EmitSignal(EventBus.SignalName.DropInventoryItem, _itemSelection.ManipulativeInstanceId.ToString());
+		Game.Events.EventBus.Instance.EmitSignal(Game.Events.EventBus.SignalName.DropInventoryItem, _itemSelection.ManipulativeInstanceId.ToString());
 	}	
 
 	private void OnPickupButtonPressed()
@@ -165,7 +165,7 @@ public partial class InventoryDetailsPanel : Panel
 		if (_itemSelection.Source != InventoryItemSelectionSource.Room)
 			throw new ApplicationException($"Unexpected source: {_itemSelection.Source}");
 
-		EventBus.Instance.EmitSignal(EventBus.SignalName.PickupRoomItem, _itemSelection.ManipulativeInstanceId.ToString());
+		Game.Events.EventBus.Instance.EmitSignal(Game.Events.EventBus.SignalName.PickupRoomItem, _itemSelection.ManipulativeInstanceId.ToString());
 	}
 
 	private void OnEquipButtonPressed()
@@ -173,7 +173,7 @@ public partial class InventoryDetailsPanel : Panel
 		if (_itemSelection.Source != InventoryItemSelectionSource.Inventory)
 			return;
 		
-		EventBus.Instance.EmitSignal(EventBus.SignalName.EquipItem, (string)_itemSelection);
+		Game.Events.EventBus.Instance.EmitSignal(Game.Events.EventBus.SignalName.EquipItem, (string)_itemSelection);
 	}
 
 	private void OnUnequipButtonPressed()
@@ -181,14 +181,14 @@ public partial class InventoryDetailsPanel : Panel
 		if (_itemSelection.Source != InventoryItemSelectionSource.Inventory)
 			return;
 		
-		EventBus.Instance.EmitSignal(EventBus.SignalName.UnequipItem, (string)_itemSelection);
+		Game.Events.EventBus.Instance.EmitSignal(Game.Events.EventBus.SignalName.UnequipItem, (string)_itemSelection);
 	}
 
 	public override void _ExitTree()
 	{
-		if (EventBus.Instance == null)
+		if (Game.Events.EventBus.Instance == null)
 			return;
 		
-		EventBus.Instance.InventoryItemSelectedFlexible -= OnInventoryItemSelectedFlexible;
+		Game.Events.EventBus.Instance.InventoryItemSelectedFlexible -= OnInventoryItemSelectedFlexible;
 	}
 }

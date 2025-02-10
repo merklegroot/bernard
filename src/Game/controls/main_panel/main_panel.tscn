@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cntb5w8l1wcsx"]
+[gd_scene load_steps=7 format=3 uid="uid://cntb5w8l1wcsx"]
 
 [ext_resource type="Script" path="res://controls/main_panel/MainPanel.cs" id="1_main"]
 [ext_resource type="PackedScene" path="res://controls/nothing_panel/nothing_panel.tscn" id="2_nothing"]
 [ext_resource type="PackedScene" uid="uid://dbaqywbubsjts" path="res://controls/room_panel/room_panel.tscn" id="3_room"]
 [ext_resource type="PackedScene" uid="uid://cr8wwnr0185l7" path="res://controls/inventory_details_panel/inventory_details_panel.tscn" id="4_inventory"]
+[ext_resource type="PackedScene" path="res://controls/fight_panel/fight_panel.tscn" id="5_fight"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
 bg_color = Color(0.1, 0.1, 0.1, 0.6)
@@ -28,9 +29,15 @@ script = ExtResource("1_main")
 
 [node name="NothingPanel" parent="." instance=ExtResource("2_nothing")]
 layout_mode = 1
+visible = false
 
 [node name="RoomPanel" parent="." instance=ExtResource("3_room")]
 layout_mode = 1
+visible = false
+
+[node name="FightPanel" parent="." instance=ExtResource("5_fight")]
+layout_mode = 1
+visible = false
 
 [node name="InventoryDetailsPanel" parent="." instance=ExtResource("4_inventory")]
 layout_mode = 1
@@ -42,3 +49,4 @@ offset_top = 0.0
 offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
+visible = false

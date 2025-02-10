@@ -28,7 +28,7 @@ public partial class RoomExitsPanel : Panel
 		_westButton.Pressed += () => OnDirectionButtonPressed(Direction.West);
 		
 		_roomDefRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomDefRepo>();
-		EventBus.Instance.RoomChanged += OnRoomChanged;
+		Game.Events.EventBus.Instance.RoomChanged += OnRoomChanged;
 		UpdateDisplay();
 	}
 
@@ -69,7 +69,7 @@ public partial class RoomExitsPanel : Panel
 
 	private void OnDirectionButtonPressed(Direction direction)
 	{
-		EventBus.Instance.EmitSignal(EventBus.SignalName.ExitRoom, (int)direction);
+		Game.Events.EventBus.Instance.EmitSignal(Game.Events.EventBus.SignalName.ExitRoom, (int)direction);
 	}
 
 	private void UpdateExits(List<RoomExit> exits)

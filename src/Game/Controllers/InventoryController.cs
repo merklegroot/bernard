@@ -21,16 +21,16 @@ public class InventoryController : IController
 	
 	public void Register()
 	{
-		EventBus.Instance.CloseInventoryDetails += OnCloseInventoryDetails;
-		EventBus.Instance.DropInventoryItem += OnDropInventoryItem;
-		EventBus.Instance.InventoryItemSelectedFlexible += OnInventoryItemSelectedFlexible;
-		EventBus.Instance.EquipItem += OnEquipItem;
-		EventBus.Instance.UnequipItem += OnUnequipItem;
+		Events.EventBus.Instance.CloseInventoryDetails += OnCloseInventoryDetails;
+		Events.EventBus.Instance.DropInventoryItem += OnDropInventoryItem;
+		Events.EventBus.Instance.InventoryItemSelectedFlexible += OnInventoryItemSelectedFlexible;
+		Events.EventBus.Instance.EquipItem += OnEquipItem;
+		Events.EventBus.Instance.UnequipItem += OnUnequipItem;
 	}
 	
 	private void OnCloseInventoryDetails()
 	{
-		EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.Room);
+		Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.SetMainPanel, (int)PanelEnum.Room);
 	}
 
 	private void OnDropInventoryItem(string manipulativeInstanceIdText)
@@ -45,14 +45,14 @@ public class InventoryController : IController
 		GD.Print($"Adding manipulative {inventoryItem.ManipulativeDefId} to room {GameStateContainer.GameState.RoomId}");
 		_roomStateRepo.AddManipulative(GameStateContainer.GameState.RoomId, inventoryItem.ManipulativeDefId);
 
-		EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);
-		EventBus.Instance.EmitSignal(EventBus.SignalName.RoomChanged);
-		EventBus.Instance.EmitSignal(EventBus.SignalName.CloseInventoryDetails);
+		Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.InventoryChanged);
+		Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.RoomChanged);
+		Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.CloseInventoryDetails);
 	}
 	
 	private void OnInventoryItemSelectedFlexible(string data)
 	{
-		EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.InventoryDetails);
+		Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.SetMainPanel, (int)PanelEnum.InventoryDetails);
 	}
 
 	private void OnEquipItem(string data) =>
@@ -76,7 +76,7 @@ public class InventoryController : IController
 
 		inventoryItem.IsEquipped = shouldEquip;
 		
-		EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryChanged);
-		EventBus.Instance.EmitSignal(EventBus.SignalName.CloseInventoryDetails);
+		Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.InventoryChanged);
+		Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.CloseInventoryDetails);
 	}
 }

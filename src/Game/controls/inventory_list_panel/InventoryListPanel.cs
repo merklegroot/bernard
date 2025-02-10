@@ -14,7 +14,7 @@ public partial class InventoryListPanel : Panel
     {
         _container = GetNode<VBoxContainer>("VBoxContainer");
         
-        EventBus.Instance.InventoryChanged += OnInventoryChanged;
+        Game.Events.EventBus.Instance.InventoryChanged += OnInventoryChanged;
 
         UpdateInventoryItems();
     }
@@ -33,7 +33,7 @@ public partial class InventoryListPanel : Panel
 		
         var handler = new Action(() =>
         {
-            EventBus.Instance.EmitSignal(EventBus.SignalName.InventoryItemSelectedFlexible, selectionData);
+            Game.Events.EventBus.Instance.EmitSignal(Game.Events.EventBus.SignalName.InventoryItemSelectedFlexible, selectionData);
         });
 		
         button.Pressed += handler;
