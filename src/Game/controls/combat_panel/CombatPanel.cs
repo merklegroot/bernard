@@ -1,8 +1,6 @@
-using System.Linq;
 using Godot;
 using Game.Events;
 using Game.Constants;
-using Game.Models;
 using Game.Repo;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,25 +9,36 @@ public partial class CombatPanel : Panel
     private Button _closeButton;
     private Label _mobNameLabel;
     private TextureRect _mobImage;
-    private IMobDefRepo _mobDefRepo;
+    private ICombatRepo _combatRepo;
     
     public override void _Ready()
     {
-        _mobDefRepo = GlobalContainer.Host.Services.GetRequiredService<IMobDefRepo>();
+        _combatRepo = GlobalContainer.Host.Services.GetRequiredService<ICombatRepo>();
         
         _closeButton = GetNode<Button>("VBoxContainer/HBoxContainer/CloseButton");
         _mobNameLabel = GetNode<Label>("VBoxContainer/MobContainer/MobName");
         _mobImage = GetNode<TextureRect>("VBoxContainer/MobContainer/MobImage");
         
         _closeButton.Pressed += OnCloseButtonPressed;
-
-        UseMob(_mobDefRepo.List().First());
+        
+        EventBus.Instance.CombatChanged += OnCombatChanged;
+        
+        UpdateDisplay();
     }
 
-    private void UseMob(MobDef mobDef)
+    private void OnCombatChanged()
     {
-        _mobNameLabel.Text = mobDef.Name;
-        _mobImage.Texture = GD.Load<Texture2D>(mobDef.ImageAsset);
+        UpdateDisplay();
+    }
+    
+    private void UpdateDisplay()
+    {
+        var viewModel = _combatRepo.GetCombatViewModel();
+        
+        _mobNameLabel.Text = viewModel.MobName;
+        _mobImage.Texture = !string.IsNullOrWhiteSpace(viewModel.MobImageRes)
+            ? GD.Load<Texture2D>(viewModel.MobImageRes)
+            : null;
     }
 
     private void OnCloseButtonPressed()

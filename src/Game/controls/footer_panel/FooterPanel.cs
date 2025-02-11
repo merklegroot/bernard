@@ -15,7 +15,8 @@ public partial class FooterPanel : Panel
     private void OnFightButtonPressed()
     {
         GD.Print("Fight button pressed!");
-        EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.Combat);
+        EventBus.Instance.EmitSignal(EventBus.SignalName.InitiateCombat);
+        // EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.Combat);
     }
 
     public override void _ExitTree()

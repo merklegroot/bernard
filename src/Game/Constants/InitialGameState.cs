@@ -21,7 +21,8 @@ public static class InitialGameState
             Str = 1,
             Con = initialCon,
             CurrentMainPanel = PanelEnum.Room,
-            Inventory = InitialInventory()
+            Inventory = InitialInventory(),
+            CombatState = new CombatState()
         };
     }
 

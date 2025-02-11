@@ -15,5 +15,5 @@ public class GameState
 
 	public List<InventoryItem> Inventory { get; set; }
 	
-	public MobState CurrentMobState { get; init; }
+	public CombatState CombatState { get; set; }
 }
