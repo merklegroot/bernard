@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" path="res://controls/nothing_panel/nothing_panel.tscn" id="2_nothing"]
 [ext_resource type="PackedScene" uid="uid://dbaqywbubsjts" path="res://controls/room_panel/room_panel.tscn" id="3_room"]
 [ext_resource type="PackedScene" uid="uid://cr8wwnr0185l7" path="res://controls/inventory_details_panel/inventory_details_panel.tscn" id="4_inventory"]
-[ext_resource type="PackedScene" path="res://controls/fight_panel/fight_panel.tscn" id="5_fight"]
+[ext_resource type="PackedScene" path="res://controls/combat_panel/combat_panel.tscn" id="5_combat"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
 bg_color = Color(0.1, 0.1, 0.1, 0.6)
@@ -35,7 +35,7 @@ visible = false
 layout_mode = 1
 visible = false
 
-[node name="FightPanel" parent="." instance=ExtResource("5_fight")]
+[node name="CombatPanel" parent="." instance=ExtResource("5_combat")]
 layout_mode = 1
 visible = false
 

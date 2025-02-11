@@ -11,6 +11,6 @@ public static class GameConstants
         { PanelEnum.Nothing, NothingPanelName },
         { PanelEnum.Room, "RoomPanel" },
         { PanelEnum.InventoryDetails, "InventoryDetailsPanel" },
-        { PanelEnum.Fight, "FightPanel" },
+        { PanelEnum.Combat, "CombatPanel" },
     };
 }

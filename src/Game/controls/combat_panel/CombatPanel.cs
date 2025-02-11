@@ -6,7 +6,7 @@ using Game.Models;
 using Game.Repo;
 using Microsoft.Extensions.DependencyInjection;
 
-public partial class FightPanel : Panel
+public partial class CombatPanel : Panel
 {
     private Button _closeButton;
     private Label _mobNameLabel;
