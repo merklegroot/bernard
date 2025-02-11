@@ -2,6 +2,7 @@ using Game.Constants;
 using Game.Controllers;
 using Game.Registry;
 using Game.Models;
+using Game.Models.State;
 using Godot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

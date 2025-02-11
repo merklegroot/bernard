@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.Models;
+using Game.Models.State;
 using Game.Models.ViewModels;
 using Game.Utils;
 
@@ -72,7 +73,7 @@ public class EgoRepo : IEgoRepo
         GameStateContainer.GameState.CurrentHp;
     
     private int GetMaxHp() =>
-        CharacterUtil.GetMaxHp(GetCon());
+        CreatureUtility.GetMaxHp(GetCon());
     
     private int GetGold() =>
         GameStateContainer.GameState.Gold;

@@ -1,6 +1,6 @@
 using Game.Constants;
 
-namespace Game.Models;
+namespace Game.Models.State;
 
 public static class GameStateContainer
 {

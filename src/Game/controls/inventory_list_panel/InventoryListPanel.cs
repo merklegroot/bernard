@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using Game.Models;
+using Game.Models.State;
 
 public partial class InventoryListPanel : Panel
 {

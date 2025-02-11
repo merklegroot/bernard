@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Game.Models;
+using Game.Models.State;
 using Game.Utils;
 
 namespace Game.Constants;
@@ -10,7 +11,7 @@ public static class InitialGameState
     public static GameState Get()
     {
         const int initialCon = 1;
-        var currentHp = CharacterUtil.GetMaxHp(initialCon);
+        var currentHp = CreatureUtility.GetMaxHp(initialCon);
         
         return new GameState
         {

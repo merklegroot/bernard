@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Game.Models;
+using Game.Models.State;
 using Game.Repo;
 using Godot;
 using Microsoft.Extensions.DependencyInjection;

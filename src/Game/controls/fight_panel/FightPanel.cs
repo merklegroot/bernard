@@ -1,6 +1,8 @@
+using System.Linq;
 using Godot;
 using Game.Events;
 using Game.Constants;
+using Game.Models;
 using Game.Repo;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,6 +22,14 @@ public partial class FightPanel : Panel
         _mobImage = GetNode<TextureRect>("VBoxContainer/MobContainer/MobImage");
         
         _closeButton.Pressed += OnCloseButtonPressed;
+
+        UseMob(_mobDefRepo.List().First());
+    }
+
+    private void UseMob(MobDef mobDef)
+    {
+        _mobNameLabel.Text = mobDef.Name;
+        _mobImage.Texture = GD.Load<Texture2D>(mobDef.ImageAsset);
     }
 
     private void OnCloseButtonPressed()

@@ -2,7 +2,7 @@ using YamlDotNet.Serialization;
 
 namespace Game.Models;
 
-public record MobDef
+public record MobDef : ICreature
 {
     [YamlMember(Alias = "id")]
     public string Id { get; init; }
@@ -11,5 +11,8 @@ public record MobDef
     public string Name { get; init; }
 
     [YamlMember(Alias = "imageAsset")]
-    public string ImageAsset { get; init;}
+    public string ImageAsset { get; init; }
+
+    [YamlMember(Alias = "description")]
+    public int Con { get; init; }
 }

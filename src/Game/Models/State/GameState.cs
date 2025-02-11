@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Game.Constants;
 
-namespace Game.Models;
+namespace Game.Models.State;
 
 public class GameState
 {
@@ -14,4 +14,6 @@ public class GameState
 	public PanelEnum CurrentMainPanel { get; set; }
 
 	public List<InventoryItem> Inventory { get; set; }
+	
+	public MobState CurrentMobState { get; init; }
 }

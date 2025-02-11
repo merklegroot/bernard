@@ -1,6 +1,6 @@
 namespace Game.Utils;
 
-public static class CharacterUtil
+public static class CreatureUtility
 {
     public static int GetMaxHp(int constitution)
     {

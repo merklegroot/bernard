@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using Game.Models;
+
+namespace Game.Models.State;
 
 public class RoomState
 {
