@@ -15,13 +15,16 @@ public static class InitialGameState
         
         return new GameState
         {
-            RoomId = KnownRooms.StartingRoomId,
-            CurrentHp = currentHp,
-            Gold = 70,
-            Str = 2,
-            Con = initialCon,
+            PlayerState = new PlayerState
+            {
+                RoomId = KnownRooms.StartingRoomId,
+                CurrentHp = currentHp,
+                Gold = 70,
+                Strength = 2,
+                Constitution = initialCon,
+                Inventory = InitialInventory()
+            },
             CurrentMainPanel = PanelEnum.Room,
-            Inventory = InitialInventory(),
             CombatState = new CombatState()
         };
     }

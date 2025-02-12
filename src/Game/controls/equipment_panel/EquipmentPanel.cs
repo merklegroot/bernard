@@ -90,7 +90,7 @@ public partial class EquipmentPanel : Panel
 	{
 		CleanDisplay();
 		
-		var equippedItems = GameStateContainer.GameState.Inventory.Where(item => item.IsEquipped).ToList();
+		var equippedItems = GameStateContainer.GameState.PlayerState.Inventory.Where(item => item.IsEquipped).ToList();
 
 		var combo = equippedItems.Select(inventoryItem =>
 			{

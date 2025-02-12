@@ -32,9 +32,9 @@ public class RoomController : IController
         GD.Print($"Pickup instanceId: {instanceIdText}");
         var manipulativeInstanceId = Guid.Parse(instanceIdText);
         
-        var manipulativeInstance = _roomStateRepo.GetManipulativeByInstanceId(GameStateContainer.GameState.RoomId, manipulativeInstanceId);
+        var manipulativeInstance = _roomStateRepo.GetManipulativeByInstanceId(GameStateContainer.GameState.PlayerState.RoomId, manipulativeInstanceId);
         
-        _roomStateRepo.RemoveManipulativeByInstanceId(GameStateContainer.GameState.RoomId, manipulativeInstanceId);
+        _roomStateRepo.RemoveManipulativeByInstanceId(GameStateContainer.GameState.PlayerState.RoomId, manipulativeInstanceId);
         _iiEgoRepo.AddInventoryItemByDefId(manipulativeInstance.ManipulativeDefId);
 		
         Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.RoomChanged);
@@ -48,7 +48,7 @@ public class RoomController : IController
         
         GD.Print($"Exit room direction: {direction}");
         
-        var currentRoomDef = _roomDefRepo.Get(GameStateContainer.GameState.RoomId);
+        var currentRoomDef = _roomDefRepo.Get(GameStateContainer.GameState.PlayerState.RoomId);
         var matchingExit = currentRoomDef.Exits.FirstOrDefault(queryExit => queryExit.Direction == direction);
         if (matchingExit == null)
         {
@@ -56,7 +56,7 @@ public class RoomController : IController
             return;
         }
 
-        GameStateContainer.GameState.RoomId = matchingExit.DestinationId;
+        GameStateContainer.GameState.PlayerState.RoomId = matchingExit.DestinationId;
 		
         Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.RoomChanged);
     }

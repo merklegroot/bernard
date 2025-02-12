@@ -43,8 +43,8 @@ public class InventoryController : IController
 		var inventoryItem = _iiEgoRepo.GetInventoryItemByInstanceId(manipulativeInstanceId);
 		_iiEgoRepo.RemoveInventoryItemByInstanceId(manipulativeInstanceId);
 
-		GD.Print($"Adding manipulative {inventoryItem.ManipulativeDefId} to room {GameStateContainer.GameState.RoomId}");
-		_roomStateRepo.AddManipulative(GameStateContainer.GameState.RoomId, inventoryItem.ManipulativeDefId);
+		GD.Print($"Adding manipulative {inventoryItem.ManipulativeDefId} to room {GameStateContainer.GameState.PlayerState.RoomId}");
+		_roomStateRepo.AddManipulative(GameStateContainer.GameState.PlayerState.RoomId, inventoryItem.ManipulativeDefId);
 
 		Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.InventoryChanged);
 		Events.EventBus.Instance.EmitSignal(Events.EventBus.SignalName.RoomChanged);
@@ -72,7 +72,7 @@ public class InventoryController : IController
 			throw new ApplicationException($"Unexpected source: {selectionData.Source}");
 		
 		var instanceId = selectionData.ManipulativeInstanceId;
-		var inventoryItem = GameStateContainer.GameState.Inventory
+		var inventoryItem = GameStateContainer.GameState.PlayerState.Inventory
 			.First(item => item.Id == instanceId);
 
 		inventoryItem.IsEquipped = shouldEquip;

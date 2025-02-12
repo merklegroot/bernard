@@ -63,9 +63,9 @@ public partial class InventoryListPanel : Panel
         
         _handlers.Clear();
         
-        for (var index = 0; index < GameStateContainer.GameState.Inventory.Count; index++)
+        for (var index = 0; index < GameStateContainer.GameState.PlayerState.Inventory.Count; index++)
         {
-            var item = GameStateContainer.GameState.Inventory[index];
+            var item = GameStateContainer.GameState.PlayerState.Inventory[index];
             AddInventoryItem(item, item.Id);
         }
     }

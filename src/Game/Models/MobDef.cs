@@ -10,12 +10,12 @@ public record MobDef : ICreature
     [YamlMember(Alias = "name")]
     public string Name { get; init; }
 
-    [YamlMember(Alias = "imageAsset")]
+    [YamlMember(Alias = "img")]
     public string ImageAsset { get; init; }
 
     [YamlMember(Alias = "con")]
-    public int Con { get; init; }
+    public int Constitution { get; init; }
     
     [YamlMember(Alias = "str")]
-    public int Str { get; init; }
+    public int Strength { get; init; }
 }

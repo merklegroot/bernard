@@ -122,7 +122,7 @@ public partial class InventoryDetailsPanel : Panel
 	{
 		GD.Print($"ProcessRoomItemSelected: {_itemSelection}");
 		
-		var manipulativeInstance = _roomStateRepo.GetManipulativeByInstanceId(GameStateContainer.GameState.RoomId, _itemSelection.ManipulativeInstanceId);
+		var manipulativeInstance = _roomStateRepo.GetManipulativeByInstanceId(GameStateContainer.GameState.PlayerState.RoomId, _itemSelection.ManipulativeInstanceId);
 		var manipulativeDefId = manipulativeInstance.ManipulativeDefId;
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(manipulativeDefId);
 

@@ -47,10 +47,10 @@ public class CombatRepo : ICombatRepo
         var allMobDefs = _mobDefRepo.List();
         var mobDef = allMobDefs[_random.Next(0, allMobDefs.Count)];
 
-        var constitution = Math.Max(mobDef.Con, GameConstants.MinConstitution);
+        var constitution = Math.Max(mobDef.Constitution, GameConstants.MinConstitution);
         var maxHp = CreatureUtility.GetMaxHp(constitution);
         
-        var strength = Math.Max(mobDef.Str, GameConstants.MinStrength);
+        var strength = Math.Max(mobDef.Strength, GameConstants.MinStrength);
         
         // TODO: Factor in equipped items
         var attack = strength;

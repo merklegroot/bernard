@@ -1,4 +1,3 @@
-using System;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +62,7 @@ public partial class RoomExitsPanel : Panel
 
 	private void UpdateDisplay()
 	{
-		var roomDef = _roomDefRepo.Get(GameStateContainer.GameState.RoomId);
+		var roomDef = _roomDefRepo.Get(GameStateContainer.GameState.PlayerState.RoomId);
 
 		UpdateExits(roomDef.Exits);
 	}

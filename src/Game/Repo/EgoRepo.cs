@@ -41,10 +41,10 @@ public class EgoRepo : IEgoRepo
         };
     
     private int GetCon() =>
-        GameStateContainer.GameState.Con;
+        GameStateContainer.GameState.PlayerState.Constitution;
     
     private int GetStr() =>
-        GameStateContainer.GameState.Str;
+        GameStateContainer.GameState.PlayerState.Strength;
 
     private int GetAtk()
     {
@@ -54,7 +54,7 @@ public class EgoRepo : IEgoRepo
                 .Select(item => _manipulativeDefRepo.Get(item.ManipulativeDefId).Atk)
                 .Sum();
             
-        return GameStateContainer.GameState.Str + atkFromEquipment;
+        return GameStateContainer.GameState.PlayerState.Strength + atkFromEquipment;
     }
     
     private int GetDef()
@@ -65,44 +65,44 @@ public class EgoRepo : IEgoRepo
                 .Select(item => _manipulativeDefRepo.Get(item.ManipulativeDefId).Def)
                 .Sum();
         
-        return GameStateContainer.GameState.Con
+        return GameStateContainer.GameState.PlayerState.Constitution
                + defFromEquipment;
     }
 
     private int GetCurrentHp() =>
-        GameStateContainer.GameState.CurrentHp;
+        GameStateContainer.GameState.PlayerState.CurrentHp;
     
     private int GetMaxHp() =>
         CreatureUtility.GetMaxHp(GetCon());
     
     private int GetGold() =>
-        GameStateContainer.GameState.Gold;
+        GameStateContainer.GameState.PlayerState.Gold;
 
     public List<InventoryItem> ListInventory()
     {
-        return GameStateContainer.GameState.Inventory;
+        return GameStateContainer.GameState.PlayerState.Inventory;
     }
 
     public InventoryItem GetInventoryItemByInstanceId(Guid instanceId)
     {
-        return GameStateContainer.GameState.Inventory
+        return GameStateContainer.GameState.PlayerState.Inventory
             .First(item => item.Id == instanceId);
     }
 
     public void RemoveInventoryItemByInstanceId(Guid inventoryInstanceId)
     {
-        var matchingIndex = GameStateContainer.GameState.Inventory
+        var matchingIndex = GameStateContainer.GameState.PlayerState.Inventory
             .FindIndex(item => item.Id == inventoryInstanceId);
 
         if (matchingIndex < 0)
             throw new ApplicationException($"Inventory item not found with instance id {inventoryInstanceId}");
         
-        GameStateContainer.GameState.Inventory.RemoveAt(matchingIndex);        
+        GameStateContainer.GameState.PlayerState.Inventory.RemoveAt(matchingIndex);        
     }
 
     public void AddInventoryItemByDefId(Guid manipulativeDefId)
     {
-        GameStateContainer.GameState.Inventory.Add(
+        GameStateContainer.GameState.PlayerState.Inventory.Add(
             new InventoryItem
             {
                 Id = Guid.NewGuid(),

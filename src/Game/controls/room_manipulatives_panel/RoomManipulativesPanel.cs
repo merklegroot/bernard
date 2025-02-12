@@ -29,7 +29,7 @@ public partial class RoomManipulativesPanel : Panel
 	
 	private void UpdateDisplay()
 	{
-		var currentRoomId = GameStateContainer.GameState.RoomId;
+		var currentRoomId = GameStateContainer.GameState.PlayerState.RoomId;
 		var roomState = _roomStateRepo.Get(currentRoomId);
 		
 		UpdateManipulatives(roomState.ManipulativeInstances);

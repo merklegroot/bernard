@@ -32,7 +32,7 @@ public partial class RoomPanel : Panel
 
 	private void UpdateDisplay()
 	{
-		var currentRoomId = GameStateContainer.GameState.RoomId;
+		var currentRoomId = GameStateContainer.GameState.PlayerState.RoomId;
 		
 		var roomDef = _roomDefRepo.Get(currentRoomId);
 
