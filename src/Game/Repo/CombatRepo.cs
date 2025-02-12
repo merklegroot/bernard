@@ -12,6 +12,8 @@ public interface ICombatRepo
     CombatViewModel GetCombatViewModel();
 
     void InitCombat();
+    
+    void SetMobHp(int hp);
 }
 
 public class CombatRepo : ICombatRepo
@@ -63,5 +65,10 @@ public class CombatRepo : ICombatRepo
             MobStrength = strength,
             MobAttack = attack
         };
+    }
+
+    public void SetMobHp(int hp)
+    {
+        GameStateContainer.GameState.CombatState.MobHp = hp;
     }
 }

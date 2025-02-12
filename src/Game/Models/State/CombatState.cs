@@ -2,19 +2,19 @@ namespace Game.Models.State;
 
 public record CombatState
 {
-    public string MobDefId { get; init; }
+    public string MobDefId { get; set; }
     
-    public string MobName { get; init; }
+    public string MobName { get; set; }
     
-    public string MobImageRes { get; init; }
+    public string MobImageRes { get; set; }
     
-    public int MobConstitution { get; init; }
+    public int MobConstitution { get; set; }
     
-    public int MobMaxHp { get; init; }
+    public int MobMaxHp { get; set; }
     
-    public int MobHp { get; init; }
+    public int MobHp { get; set; }
     
-    public int MobStrength { get; init; }
+    public int MobStrength { get; set; }
 
-    public int MobAttack { get; init; }
+    public int MobAttack { get; set; }
 }

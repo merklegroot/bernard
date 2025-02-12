@@ -14,6 +14,7 @@ public class CombatController : IController
     public void Register()
     {
         EventBus.Instance.InitiateCombat += OnInitiateCombat;
+        EventBus.Instance.CombatPlayerAttack += OnPlayerAttack;
     }
 
     private void OnInitiateCombat()
@@ -21,5 +22,15 @@ public class CombatController : IController
         _combatRepo.InitCombat();
         EventBus.Instance.EmitSignal(EventBus.SignalName.CombatChanged);
         EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.Combat);
+    }
+
+    private void OnPlayerAttack()
+    {
+        const int damage = 1;
+        
+        var viewModel = _combatRepo.GetCombatViewModel();
+        _combatRepo.SetMobHp(viewModel.MobHp - damage);
+        
+        EventBus.Instance.EmitSignal(EventBus.SignalName.CombatChanged);
     }
 }

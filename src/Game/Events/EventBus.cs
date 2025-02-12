@@ -46,6 +46,9 @@ public partial class EventBus : Node
 	[Signal]
 	public delegate void CombatChangedEventHandler();
 
+	[Signal]
+	public delegate void CombatPlayerAttackEventHandler();
+
 	public static EventBus Instance { get; private set; } = new();
 	
 	public override void _Ready()
