@@ -13,4 +13,8 @@ public static class GameConstants
         { PanelEnum.InventoryDetails, "InventoryDetailsPanel" },
         { PanelEnum.Combat, "CombatPanel" },
     };
+
+    public const int MinConstitution = 1;
+    
+    public const int MinStrength = 1;
 }

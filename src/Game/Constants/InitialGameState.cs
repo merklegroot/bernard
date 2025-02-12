@@ -10,7 +10,7 @@ public static class InitialGameState
 {
     public static GameState Get()
     {
-        const int initialCon = 1;
+        const int initialCon = 2;
         var currentHp = CreatureUtility.GetMaxHp(initialCon);
         
         return new GameState
@@ -18,7 +18,7 @@ public static class InitialGameState
             RoomId = KnownRooms.StartingRoomId,
             CurrentHp = currentHp,
             Gold = 70,
-            Str = 1,
+            Str = 2,
             Con = initialCon,
             CurrentMainPanel = PanelEnum.Room,
             Inventory = InitialInventory(),

@@ -13,6 +13,9 @@ public record MobDef : ICreature
     [YamlMember(Alias = "imageAsset")]
     public string ImageAsset { get; init; }
 
-    [YamlMember(Alias = "description")]
+    [YamlMember(Alias = "con")]
     public int Con { get; init; }
+    
+    [YamlMember(Alias = "str")]
+    public int Str { get; init; }
 }

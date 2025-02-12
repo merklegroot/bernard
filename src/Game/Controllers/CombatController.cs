@@ -18,9 +18,6 @@ public class CombatController : IController
 
     private void OnInitiateCombat()
     {
-        // var mobDef = _mobDefRepo.List().First();
-        // UseMob(mobDef);
-        
         _combatRepo.InitCombat();
         EventBus.Instance.EmitSignal(EventBus.SignalName.CombatChanged);
         EventBus.Instance.EmitSignal(EventBus.SignalName.SetMainPanel, (int)PanelEnum.Combat);
