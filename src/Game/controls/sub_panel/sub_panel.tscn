@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://boimt6m4i86x"]
 
-[ext_resource type="PackedScene" path="res://controls/game_panel/game_panel.tscn" id="1_base"]
+[ext_resource type="PackedScene" uid="uid://cx1wu2mk6hbic" path="res://controls/game_panel/game_panel.tscn" id="1_base"]
 
 [node name="SubPanel" instance=ExtResource("1_base")]
 
@@ -14,4 +14,9 @@ theme_override_constants/margin_right = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/BodyContainer/ContentContainer" index="0"]
 layout_mode = 2
-theme_override_constants/separation = 10 
+theme_override_constants/separation = 10
+
+[node name="CloseButton" type="Button" parent="VBoxContainer/FooterContainer" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Close"
