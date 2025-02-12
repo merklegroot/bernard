@@ -19,7 +19,7 @@ public interface ICombatRepo
 public class CombatRepo : ICombatRepo
 {
     private readonly IMobDefRepo _mobDefRepo;
-    // private readonly ICharac
+    private readonly Random _random = new Random();
 
     public CombatRepo(IMobDefRepo mobDefRepo)
     {
@@ -44,7 +44,8 @@ public class CombatRepo : ICombatRepo
 
     public void InitCombat()
     {
-        var mobDef = _mobDefRepo.List().First();
+        var allMobDefs = _mobDefRepo.List();
+        var mobDef = allMobDefs[_random.Next(0, allMobDefs.Count)];
 
         var constitution = Math.Max(mobDef.Con, GameConstants.MinConstitution);
         var maxHp = CreatureUtility.GetMaxHp(constitution);

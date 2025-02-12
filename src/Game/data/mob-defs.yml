@@ -3,5 +3,21 @@
   imageAsset: res://assets/rpg-beings-all/Shrimp.png
 
 - id: bat
-  name: Bat
+  name: Vampiric Nightwing Terror
   imageAsset: res://assets/rpg-beings-all/Bat.png
+
+- id: duck
+  name: Quackening Destroyer
+  imageAsset: res://assets/rpg-beings-all/Mallard.png
+
+- id: ant
+  name: Ant of the Swamp
+  imageAsset: res://assets/rpg-beings-all/Ant.png
+
+- id: bee
+  name: Pollenator with a Stinger
+  imageAsset: res://assets/rpg-beings-all/Bee.png
+
+- id: spider
+  name: Spidey of the Spider Web
+  imageAsset: res://assets/rpg-beings-all/Coral spider.png
