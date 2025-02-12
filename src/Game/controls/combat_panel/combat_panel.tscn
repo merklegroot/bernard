@@ -1,89 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://d21ppxxuevb8e"]
+[gd_scene load_steps=2 format=3 uid="uid://d21ppxxuevb8e"]
 
-[ext_resource type="Script" path="res://controls/combat_panel/CombatPanel.cs" id="1_combat"]
-[ext_resource type="Texture2D" uid="uid://dkmvww607uo8o" path="res://assets/rpg-beings-all/Shrimp.png" id="2_mob"]
+[ext_resource type="PackedScene" path="res://controls/game_panel/game_panel.tscn" id="1_base"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
-bg_color = Color(0.1, 0.1, 0.1, 0.6)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.8, 0.8, 0.8, 0.5)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[node name="CombatPanel" instance=ExtResource("1_base")]
 
-[node name="CombatPanel" type="Panel"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_1")
-script = ExtResource("1_combat")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TitleLabel" type="Label" parent="VBoxContainer"]
-layout_mode = 2
+[node name="TitleLabel" parent="VBoxContainer" index="0"]
 text = "Combat"
-horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="MobContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="MobContainer" type="VBoxContainer" parent="VBoxContainer/BodyContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="MobImage" type="TextureRect" parent="VBoxContainer/MobContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_mob")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="MobName" type="Label" parent="VBoxContainer/MobContainer"]
+[node name="MobName" type="Label" parent="VBoxContainer/BodyContainer/MobContainer"]
 layout_mode = 2
 text = "Giant Battle Shrimp"
 horizontal_alignment = 1
-
-[node name="DebugLabel" type="Label" parent="VBoxContainer"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-text = "{}"
-autowrap_mode = 3
-
-[node name="ButtonContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 5
-alignment = 1
-
-[node name="AttackButton" type="Button" parent="VBoxContainer/ButtonContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Attack"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 10
-theme_override_constants/separation = 5
-alignment = 1
-
-[node name="CloseButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Close"
