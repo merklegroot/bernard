@@ -17,12 +17,14 @@ public partial class EquipmentPanel : Panel
 	
 	public override void _Ready()
 	{
+		base._Ready();
+		
 		_manipulativeDefRepo = GlobalContainer.Host.Services.GetRequiredService<IManipulativeDefRepo>();
 		
-		_weaponSlot = GetNode<Label>("VBoxContainer/WeaponSlot");
-		_armorSlot = GetNode<Label>("VBoxContainer/ArmorSlot");
-		_helmetContainer = GetNode<HBoxContainer>("VBoxContainer/HelmetSlot");
-		_vboxContainer = GetNode<VBoxContainer>("VBoxContainer");
+		_weaponSlot = GetNode<Label>("VBoxContainer/BodyContainer/EquipmentContainer/WeaponSlot");
+		_armorSlot = GetNode<Label>("VBoxContainer/BodyContainer/EquipmentContainer/ArmorSlot");
+		_helmetContainer = GetNode<HBoxContainer>("VBoxContainer/BodyContainer/EquipmentContainer/HelmetSlot");
+		_vboxContainer = GetNode<VBoxContainer>("VBoxContainer/BodyContainer/EquipmentContainer");
 		
 		Game.Events.EventBus.Instance.InventoryChanged += OnInventoryChanged;
 		
