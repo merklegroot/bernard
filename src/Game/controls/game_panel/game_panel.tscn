@@ -13,10 +13,8 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="LabelSettings" id="LabelSettings_1"]
-font_size = 28
+font_size = 24
 font_color = Color(0.004, 0.004, 0.008, 1)
-outline_size = 10
-outline_color = Color(0.5, 0.5, 0.5, 1)
 
 [sub_resource type="Theme" id="Theme_1"]
 Label/colors/font_color = Color(0.004, 0.004, 0.008, 1)

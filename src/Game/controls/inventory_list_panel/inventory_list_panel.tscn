@@ -15,7 +15,7 @@ grow_vertical = 2
 script = ExtResource("2_inventory")
 
 [node name="TitleLabel" parent="VBoxContainer" index="0"]
-text = "Inventory List"
+text = "Inventory"
 
 [node name="ItemContainer" type="VBoxContainer" parent="VBoxContainer/BodyContainer" index="0"]
 layout_mode = 2
