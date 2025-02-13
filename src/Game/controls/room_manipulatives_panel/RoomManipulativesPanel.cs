@@ -16,7 +16,7 @@ public partial class RoomManipulativesPanel : Panel
 	{
 		_roomStateRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomStateRepo>();
 		
-		_manipulativesContainer = GetNode<HFlowContainer>("ItemContainer");
+		_manipulativesContainer = GetNode<HFlowContainer>("VBoxContainer/BodyContainer/ItemContainer");
 		Game.Events.EventBus.Instance.RoomChanged += OnRoomChanged;
 		
 		UpdateDisplay();
