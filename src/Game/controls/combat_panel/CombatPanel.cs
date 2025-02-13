@@ -18,18 +18,19 @@ public partial class CombatPanel : Panel
     {
         _combatRepo = GlobalContainer.Host.Services.GetRequiredService<ICombatRepo>();
         
-        // _closeButton = GetNode<Button>("VBoxContainer/HBoxContainer/CloseButton");
+        _closeButton = GetNode<Button>("VBoxContainer/FooterContainer/CloseButton");
+
         // _attackButton = GetNode<Button>("VBoxContainer/ButtonContainer/AttackButton");
-        // _mobNameLabel = GetNode<Label>("VBoxContainer/MobContainer/MobName");
-        // _mobImage = GetNode<TextureRect>("VBoxContainer/MobContainer/MobImage");
-        // _debugLabel = GetNode<Label>("VBoxContainer/DebugLabel");
+        _mobNameLabel = GetNode<Label>("VBoxContainer/MobContainer/MobName");
+        _mobImage = GetNode<TextureRect>("VBoxContainer/BodyContainer/MobContainer/MobImage");
+        _debugLabel = GetNode<Label>("VBoxContainer/DebugLabel");
         //
-        // _closeButton.Pressed += OnCloseButtonPressed;
+        _closeButton.Pressed += OnCloseButtonPressed;
         // _attackButton.Pressed += OnAttackButtonPressed;
-        //
-        // EventBus.Instance.CombatChanged += OnCombatChanged;
-        //
-        // UpdateDisplay();
+
+        EventBus.Instance.CombatChanged += OnCombatChanged;
+        
+        UpdateDisplay();
     }
 
     private void OnAttackButtonPressed()
@@ -45,15 +46,14 @@ public partial class CombatPanel : Panel
     
     private void UpdateDisplay()
     {
-        // var viewModel = _combatRepo.GetCombatViewModel();
-        //
-        // _mobNameLabel.Text = viewModel.MobName;
-        // _mobImage.Texture = !string.IsNullOrWhiteSpace(viewModel.MobImageRes)
-        //     ? GD.Load<Texture2D>(viewModel.MobImageRes)
-        //     : null;
-        //     
-        // var options = new JsonSerializerOptions { WriteIndented = true };
-        // _debugLabel.Text = JsonSerializer.Serialize(viewModel, options);
+        var viewModel = _combatRepo.GetCombatViewModel();
+        
+        _mobNameLabel.Text = viewModel.MobName;
+        _mobImage.Texture = !string.IsNullOrWhiteSpace(viewModel.MobImageRes)
+            ? GD.Load<Texture2D>(viewModel.MobImageRes)
+            : null;
+            
+        _debugLabel.Text = JsonSerializer.Serialize(viewModel, new JsonSerializerOptions { WriteIndented = true });
     }
 
     private void OnCloseButtonPressed()
@@ -64,8 +64,9 @@ public partial class CombatPanel : Panel
     public override void _ExitTree()
     {
         base._ExitTree();
+
         _closeButton.Pressed -= OnCloseButtonPressed;
-        _attackButton.Pressed -= OnAttackButtonPressed;
+        // _attackButton.Pressed -= OnAttackButtonPressed;
         EventBus.Instance.CombatChanged -= OnCombatChanged;
     }
 } 
