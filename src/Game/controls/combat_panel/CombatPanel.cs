@@ -19,14 +19,13 @@ public partial class CombatPanel : Panel
         _combatRepo = GlobalContainer.Host.Services.GetRequiredService<ICombatRepo>();
         
         _closeButton = GetNode<Button>("VBoxContainer/FooterContainer/CloseButton");
-
-        // _attackButton = GetNode<Button>("VBoxContainer/ButtonContainer/AttackButton");
-        _mobNameLabel = GetNode<Label>("VBoxContainer/MobContainer/MobName");
+        _attackButton = GetNode<Button>("VBoxContainer/BodyContainer/ButtonContainer/AttackButton");
+        _mobNameLabel = GetNode<Label>("VBoxContainer/BodyContainer/MobContainer/MobName");
         _mobImage = GetNode<TextureRect>("VBoxContainer/BodyContainer/MobContainer/MobImage");
-        _debugLabel = GetNode<Label>("VBoxContainer/DebugLabel");
-        //
+        _debugLabel = GetNode<Label>("VBoxContainer/BodyContainer/MobContainer/DebugLabel");
+
         _closeButton.Pressed += OnCloseButtonPressed;
-        // _attackButton.Pressed += OnAttackButtonPressed;
+        _attackButton.Pressed += OnAttackButtonPressed;
 
         EventBus.Instance.CombatChanged += OnCombatChanged;
         
@@ -66,7 +65,7 @@ public partial class CombatPanel : Panel
         base._ExitTree();
 
         _closeButton.Pressed -= OnCloseButtonPressed;
-        // _attackButton.Pressed -= OnAttackButtonPressed;
+        _attackButton.Pressed -= OnAttackButtonPressed;
         EventBus.Instance.CombatChanged -= OnCombatChanged;
     }
 } 
