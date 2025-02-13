@@ -13,7 +13,7 @@ public partial class InventoryListPanel : Panel
 	
     public override void _Ready()
     {
-        _container = GetNode<VBoxContainer>("VBoxContainer");
+        _container = GetNode<VBoxContainer>("VBoxContainer/BodyContainer/ItemContainer");
         
         Game.Events.EventBus.Instance.InventoryChanged += OnInventoryChanged;
 
