@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://controls/room_panel/RoomPanel.cs" id="1_room"]
 [ext_resource type="PackedScene" path="res://controls/room_manipulatives_panel/room_manipulatives_panel.tscn" id="2_manipulatives"]
-[ext_resource type="PackedScene" uid="uid://73wef6ike4gd" path="res://controls/room_exits_panel/room_exits_panel.tscn" id="3_exits"]
+[ext_resource type="PackedScene" path="res://controls/room_exits_panel/room_exits_panel.tscn" id="3_exits"]
 [ext_resource type="Texture2D" uid="uid://budpay10171mn" path="res://assets/nightcafe/nightcafe-barracks.webp" id="4_background"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
