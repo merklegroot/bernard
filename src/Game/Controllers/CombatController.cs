@@ -1,3 +1,4 @@
+using System;
 using Game.Constants;
 using Game.Events;
 using Game.Repo;
@@ -28,9 +29,18 @@ public class CombatController : IController
     {
         const int damage = 1;
         
-        var viewModel = _combatRepo.GetCombatViewModel();
-        _combatRepo.SetMobHp(viewModel.MobHp - damage);
-        
+        var combatViewModel = _combatRepo.GetCombatViewModel();
+        var updatedHp = Math.Max(combatViewModel.Mob.MobHp - damage, 0);
+
+        if (updatedHp <= 0)
+        {
+            _combatRepo.KillMob();    
+        }
+        else
+        {
+            _combatRepo.SetMobHp(updatedHp);
+        }
+
         EventBus.Instance.EmitSignal(EventBus.SignalName.CombatChanged);
     }
 }

@@ -45,14 +45,14 @@ public partial class CombatPanel : Panel
     
     private void UpdateDisplay()
     {
-        var viewModel = _combatRepo.GetCombatViewModel();
+        var combatViewModel = _combatRepo.GetCombatViewModel();
         
-        _mobNameLabel.Text = viewModel.MobName;
-        _mobImage.Texture = !string.IsNullOrWhiteSpace(viewModel.MobImageRes)
-            ? GD.Load<Texture2D>(viewModel.MobImageRes)
+        _mobNameLabel.Text = combatViewModel.Mob?.MobName;
+        _mobImage.Texture = !string.IsNullOrWhiteSpace(combatViewModel.Mob?.MobImageRes)
+            ? GD.Load<Texture2D>(combatViewModel.Mob.MobImageRes)
             : null;
             
-        _debugLabel.Text = JsonSerializer.Serialize(viewModel, new JsonSerializerOptions { WriteIndented = true });
+        _debugLabel.Text = JsonSerializer.Serialize(combatViewModel, new JsonSerializerOptions { WriteIndented = true });
     }
 
     private void OnCloseButtonPressed()
