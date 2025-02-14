@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" uid="uid://b425isy1am3jq" path="res://controls/game_panel/game_panel.tscn" id="1_base"]
+[ext_resource type="Script" path="res://controls/room_display_panel/RoomDisplayPanel.cs" id="2_display"]
+
+[node name="RoomDisplayPanel" instance=ExtResource("1_base")]
+script = ExtResource("2_display")
+
+[node name="TitleLabel" parent="VBoxContainer" index="0"]
+text = "Room"
+
+[node name="DescriptionLabel" type="Label" parent="VBoxContainer/BodyContainer" index="0"]
+layout_mode = 2
+text = "Room description goes here..."
+autowrap_mode = 1 

@@ -3,7 +3,8 @@
 [ext_resource type="Script" path="res://controls/room_panel/RoomPanel.cs" id="1_room"]
 [ext_resource type="PackedScene" path="res://controls/room_manipulatives_panel/room_manipulatives_panel.tscn" id="2_manipulatives"]
 [ext_resource type="PackedScene" path="res://controls/room_exits_panel/room_exits_panel.tscn" id="3_exits"]
-[ext_resource type="Texture2D" uid="uid://budpay10171mn" path="res://assets/nightcafe/nightcafe-barracks.webp" id="4_background"]
+[ext_resource type="PackedScene" path="res://controls/room_display_panel/room_display_panel.tscn" id="4_display"]
+[ext_resource type="Texture2D" uid="uid://budpay10171mn" path="res://assets/nightcafe/nightcafe-barracks.webp" id="5_background"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
 bg_color = Color(0.1, 0.1, 0.1, 0.6)
@@ -45,7 +46,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_background")
+texture = ExtResource("5_background")
 expand_mode = 1
 stretch_mode = 6
 
@@ -58,41 +59,15 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.1, 0.1, 0.1, 0.9)
 
-[node name="TitleLabel" type="Label" parent="."]
+[node name="DisplayPanel" parent="." instance=ExtResource("4_display")]
 layout_mode = 1
 anchors_preset = 10
-anchor_right = 1.0
+anchor_bottom = 0.0
 offset_left = 10.0
-offset_top = 5.0
+offset_top = 10.0
 offset_right = -10.0
-offset_bottom = 31.0
-grow_horizontal = 2
-text = "Room"
-horizontal_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="."]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 5.0
-offset_top = 30.0
-offset_right = -5.0
-offset_bottom = 34.0
-grow_horizontal = 2
-
-[node name="DescriptionLabel" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 42.0
-offset_right = -10.0
-offset_bottom = -100.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Room description goes here..."
-autowrap_mode = 1
+offset_bottom = 200.0
+grow_vertical = 1
 
 [node name="PanelsContainer" type="HFlowContainer" parent="."]
 layout_mode = 1
