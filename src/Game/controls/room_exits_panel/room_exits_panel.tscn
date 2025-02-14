@@ -1,25 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://73wef6ike4gd"]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://controls/room_exits_panel/RoomExitsPanel.cs" id="1_exits"]
+[ext_resource type="PackedScene" uid="uid://b425isy1am3jq" path="res://controls/game_panel/game_panel.tscn" id="1_base"]
+[ext_resource type="Script" path="res://controls/room_exits_panel/RoomExitsPanel.cs" id="1_room"]
 [ext_resource type="PackedScene" uid="uid://wccg8vhqx57y" path="res://controls/direction_button/direction_button.tscn" id="2_24n0k"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2"]
-bg_color = Color(0.1, 0.1, 0.1, 0.3)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.8, 0.8, 0.8, 0.3)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[node name="RoomExitsPanel" instance=ExtResource("1_base")]
+script = ExtResource("1_room")
 
-[node name="RoomExitsPanel" type="Panel"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_2")
-script = ExtResource("1_exits")
+[node name="TitleLabel" parent="VBoxContainer" index="0"]
+text = ""
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/BodyContainer" index="0"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -34,43 +25,43 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 3
 
-[node name="Spacer1" type="Control" parent="GridContainer"]
+[node name="Spacer1" type="Control" parent="VBoxContainer/BodyContainer/GridContainer" index="0"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="NorthButton" parent="GridContainer" instance=ExtResource("2_24n0k")]
+[node name="NorthButton" parent="VBoxContainer/BodyContainer/GridContainer" index="1" instance=ExtResource("2_24n0k")]
 layout_mode = 2
 text = "North"
 
-[node name="Spacer2" type="Control" parent="GridContainer"]
+[node name="Spacer2" type="Control" parent="VBoxContainer/BodyContainer/GridContainer" index="2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="WestButton" parent="GridContainer" instance=ExtResource("2_24n0k")]
+[node name="WestButton" parent="VBoxContainer/BodyContainer/GridContainer" index="3" instance=ExtResource("2_24n0k")]
 layout_mode = 2
 text = "West"
 
-[node name="Spacer3" type="Control" parent="GridContainer"]
+[node name="Spacer3" type="Control" parent="VBoxContainer/BodyContainer/GridContainer" index="4"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="EastButton" parent="GridContainer" instance=ExtResource("2_24n0k")]
+[node name="EastButton" parent="VBoxContainer/BodyContainer/GridContainer" index="5" instance=ExtResource("2_24n0k")]
 layout_mode = 2
 text = "East"
 
-[node name="Spacer4" type="Control" parent="GridContainer"]
+[node name="Spacer4" type="Control" parent="VBoxContainer/BodyContainer/GridContainer" index="6"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="SouthButton" parent="GridContainer" instance=ExtResource("2_24n0k")]
+[node name="SouthButton" parent="VBoxContainer/BodyContainer/GridContainer" index="7" instance=ExtResource("2_24n0k")]
 layout_mode = 2
 text = "South"
 
-[node name="Spacer5" type="Control" parent="GridContainer"]
+[node name="Spacer5" type="Control" parent="VBoxContainer/BodyContainer/GridContainer" index="8"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

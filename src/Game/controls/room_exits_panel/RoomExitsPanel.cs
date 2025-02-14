@@ -6,7 +6,7 @@ using Game.Models.State;
 using Game.Repo;
 using Microsoft.Extensions.DependencyInjection;
 
-public partial class RoomExitsPanel : Panel
+public partial class RoomExitsPanel : GamePanel
 {
 	private Button _northButton;
 	private Button _eastButton;
@@ -17,10 +17,12 @@ public partial class RoomExitsPanel : Panel
 
 	public override void _Ready()
 	{
-		_northButton = GetNode<Button>("GridContainer/NorthButton");
-		_eastButton = GetNode<Button>("GridContainer/EastButton");
-		_southButton = GetNode<Button>("GridContainer/SouthButton");
-		_westButton = GetNode<Button>("GridContainer/WestButton");
+		base._Ready();
+		
+		_northButton = GetNode<Button>("VBoxContainer/BodyContainer/GridContainer/NorthButton");
+		_eastButton = GetNode<Button>("VBoxContainer/BodyContainer/GridContainer/EastButton");
+		_southButton = GetNode<Button>("VBoxContainer/BodyContainer/GridContainer/SouthButton");
+		_westButton = GetNode<Button>("VBoxContainer/BodyContainer/GridContainer/WestButton");
 		
 		_northButton.Pressed += () => OnDirectionButtonPressed(Direction.North);
 		_eastButton.Pressed += () => OnDirectionButtonPressed(Direction.East);
