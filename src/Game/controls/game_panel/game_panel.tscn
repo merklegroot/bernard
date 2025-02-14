@@ -14,8 +14,8 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="LabelSettings" id="LabelSettings_1"]
-font_size = 24
+[sub_resource type="LabelSettings" id="TitleLabelSettings"]
+font_size = 16
 font_color = Color(0.004, 0.004, 0.008, 1)
 
 [sub_resource type="Theme" id="Theme_1"]
@@ -46,7 +46,7 @@ grow_vertical = 2
 [node name="TitleLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Title"
-label_settings = SubResource("LabelSettings_1")
+label_settings = SubResource("TitleLabelSettings")
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
