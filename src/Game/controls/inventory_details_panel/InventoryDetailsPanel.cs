@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Game.Models;
 using Game.Models.State;
@@ -10,12 +12,13 @@ public partial class InventoryDetailsPanel : GamePanel
 {
 	private IManipulativeDefRepo _manipulativeDefRepo;
 	private IRoomStateRepo _roomStateRepo;
-	private IEgoRepo _iiEgoRepo;
+	private IEgoRepo _egoRepo;
 	
 	private TextureRect _itemIcon;
 	private readonly Texture2D _defaultTexture = GD.Load<Texture2D>("res://assets/Pixel Art Icon Pack - RPG/Misc/Gear.png");
 
 	private Label _titleLabel;
+	private Label _itemNameLabel;
 	private Label _label;
 	private Button _closeButton;
 	private	Button _dropButton;
@@ -24,23 +27,23 @@ public partial class InventoryDetailsPanel : GamePanel
 	private Button _unequipButton;
 
 	private InventoryItemSelectionData _itemSelection;
-	private Label _descriptionLabel;
 
 	public override void _Ready()
 	{
 		base._Ready();
 		_manipulativeDefRepo = GlobalContainer.Host.Services.GetRequiredService<IManipulativeDefRepo>();
 		_roomStateRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomStateRepo>();
-		_iiEgoRepo = GlobalContainer.Host.Services.GetRequiredService<IEgoRepo>();
+		_egoRepo = GlobalContainer.Host.Services.GetRequiredService<IEgoRepo>();
 		
-		_itemIcon = GetNode<TextureRect>("ItemIcon");
-		_label = GetNode<Label>("VBoxContainer/BodyContainer/DescriptionLabel");
+		_itemIcon = GetNode<TextureRect>("VBoxContainer/BodyContainer/HBoxContainer/LeftColumn/ItemIcon");
+		_itemNameLabel = GetNode<Label>("VBoxContainer/BodyContainer/HBoxContainer/LeftColumn/ItemName");
+		_label = GetNode<Label>("VBoxContainer/BodyContainer/HBoxContainer/RightColumn/DescriptionLabel");
 		_titleLabel = GetNode<Label>("VBoxContainer/TitleLabel");
-		_closeButton = GetNode<Button>("HBoxContainer/CloseButton");
-		_dropButton = GetNode<Button>("HBoxContainer/DropButton");
-		_pickupButton = GetNode<Button>("HBoxContainer/PickupButton");
-		_equipButton = GetNode<Button>("HBoxContainer/EquipButton");
-		_unequipButton = GetNode<Button>("HBoxContainer/UnequipButton");
+		_closeButton = GetNode<Button>("ButtonsContainer/CloseButton");
+		_dropButton = GetNode<Button>("ButtonsContainer/DropButton");
+		_pickupButton = GetNode<Button>("ButtonsContainer/PickupButton");
+		_equipButton = GetNode<Button>("ButtonsContainer/EquipButton");
+		_unequipButton = GetNode<Button>("ButtonsContainer/UnequipButton");
 		
 		_closeButton.Pressed += OnCloseButtonPressed;
 		_dropButton.Pressed += OnDropButtonPressed;
@@ -49,7 +52,6 @@ public partial class InventoryDetailsPanel : GamePanel
 		_unequipButton.Pressed += OnUnequipButtonPressed;
 		
 		Game.Events.EventBus.Instance.InventoryItemSelectedFlexible += OnInventoryItemSelectedFlexible;
-		_descriptionLabel = GetNode<Label>("VBoxContainer/BodyContainer/DescriptionLabel");
 	}
 	
 	private void OnInventoryItemSelectedFlexible(string data)
@@ -76,30 +78,33 @@ public partial class InventoryDetailsPanel : GamePanel
 		throw new ApplicationException($"Unexpected source: {_itemSelection.Source}");
 	}
 
+
 	private void ProcessInventoryItemSelected()
 	{
-		var inventoryItem = _iiEgoRepo.GetInventoryItemByInstanceId(_itemSelection.ManipulativeInstanceId);
+		var inventoryItem = _egoRepo.GetInventoryItemByInstanceId(_itemSelection.ManipulativeInstanceId);
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(inventoryItem.ManipulativeDefId);
 
-		_titleLabel.Text = matchingManipulativeDef.Name;
-		var labelDescriptionBuilder = new StringBuilder()
-			.AppendLine(matchingManipulativeDef.Name)
-			.AppendLine(inventoryItem.IsEquipped ? "(Equipped)" : "(Not Equipped)")
-			.AppendLine($"IsWeapon: {matchingManipulativeDef.IsWeapon}")
-			.AppendLine($"IsHelmet: {matchingManipulativeDef.IsHelmet}")
-			.AppendLine($"IsArmor: {matchingManipulativeDef.IsArmor}");
+		_titleLabel.Text = "Item Details";
+		var equippedText = inventoryItem.IsEquipped
+			? "(Equipped)"
+			: string.Empty;
+		
+		_itemNameLabel.Text = $"{matchingManipulativeDef.Name} {equippedText}".Trim();
+		
+		var labelDescriptionBuilder = new StringBuilder();
+		labelDescriptionBuilder.AppendLine(GetEquipmentTypeText(matchingManipulativeDef));
 
 		if (matchingManipulativeDef.Atk != 0)
 		{
-			labelDescriptionBuilder.AppendLine($"Atk: {matchingManipulativeDef.Atk}");
+			labelDescriptionBuilder.AppendLine($"Attack: {matchingManipulativeDef.Atk}");
 		}
 		
 		if (matchingManipulativeDef.Def != 0)
 		{
-			labelDescriptionBuilder.AppendLine($"Def: {matchingManipulativeDef.Def}");
+			labelDescriptionBuilder.AppendLine($"Defense: {matchingManipulativeDef.Def}");
 		}
 
-		_label.Text = labelDescriptionBuilder.ToString();
+		_label.Text = labelDescriptionBuilder.ToString().TrimEnd();
 
 		_equipButton.Visible =
 			_itemSelection.Source == InventoryItemSelectionSource.Inventory
@@ -118,6 +123,26 @@ public partial class InventoryDetailsPanel : GamePanel
 		Visible = true;
 	}
 
+
+	private string GetEquipmentTypeText(ManipulativeDef manipulativeDef)
+	{
+		var equipmentTypes = new List<(bool isType, string typeName)>
+		{
+			(manipulativeDef.IsWeapon, "Weapon"),
+			(manipulativeDef.IsHelmet, "Helmet"),
+			(manipulativeDef.IsArmor, "Armor"),
+		}
+		.Where(equipmentType => equipmentType.isType)
+		.Select(equipmentType => equipmentType.typeName)
+		.ToList();
+
+		var typeTexts = equipmentTypes.Any()
+			? $"Type: {string.Join(", ", equipmentTypes)}"
+			: "Type: Other";
+
+		return typeTexts;
+	}
+
 	private bool IsEquipment(ManipulativeDef item) =>
 		item.IsWeapon || item.IsArmor || item.IsHelmet;
 
@@ -125,21 +150,27 @@ public partial class InventoryDetailsPanel : GamePanel
 	{
 		GD.Print($"ProcessRoomItemSelected: {_itemSelection}");
 		
-		var manipulativeInstance = _roomStateRepo.GetManipulativeByInstanceId(GameStateContainer.GameState.PlayerState.RoomId, _itemSelection.ManipulativeInstanceId);
+		var manipulativeInstance = _roomStateRepo.GetManipulativeByInstanceId(
+			GameStateContainer.GameState.PlayerState.RoomId, 
+			_itemSelection.ManipulativeInstanceId
+		);
 		var manipulativeDefId = manipulativeInstance.ManipulativeDefId;
 		var matchingManipulativeDef = _manipulativeDefRepo.Get(manipulativeDefId);
 
-		_titleLabel.Text = matchingManipulativeDef.Name;
+		_titleLabel.Text = "Item Details";
+		_itemNameLabel.Text = matchingManipulativeDef.Name;
 		
-		var labelDescriptionBuilder = new StringBuilder()
-			.AppendLine(matchingManipulativeDef.Name);
+		var labelDescriptionBuilder = new StringBuilder();
+		var typeText = GetEquipmentTypeText(matchingManipulativeDef);
+		labelDescriptionBuilder.AppendLine($"Type: {typeText}");
 		
 		if (matchingManipulativeDef.Atk > 0)
-		{
-			labelDescriptionBuilder.AppendLine($"Atk: {matchingManipulativeDef.Atk}");
-		}
+			labelDescriptionBuilder.AppendLine($"Attack: {matchingManipulativeDef.Atk}");
+		
+		if (matchingManipulativeDef.Def > 0)
+			labelDescriptionBuilder.AppendLine($"Defense: {matchingManipulativeDef.Def}");
 
-		_label.Text = labelDescriptionBuilder.ToString();
+		_label.Text = labelDescriptionBuilder.ToString().Trim();
 
 		_equipButton.Visible = false;
 		_unequipButton.Visible = false;
@@ -198,6 +229,6 @@ public partial class InventoryDetailsPanel : GamePanel
 
 	public void ShowDetails(string description)
 	{
-		_descriptionLabel.Text = description;
+		_label.Text = description;
 	}
 }
