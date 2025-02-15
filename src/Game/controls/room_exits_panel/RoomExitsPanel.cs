@@ -19,10 +19,10 @@ public partial class RoomExitsPanel : GamePanel
 	{
 		base._Ready();
 		
-		_northButton = GetNode<Button>("VBoxContainer/BodyContainer/GridContainer/NorthButton");
-		_eastButton = GetNode<Button>("VBoxContainer/BodyContainer/GridContainer/EastButton");
-		_southButton = GetNode<Button>("VBoxContainer/BodyContainer/GridContainer/SouthButton");
-		_westButton = GetNode<Button>("VBoxContainer/BodyContainer/GridContainer/WestButton");
+		_northButton = GetNode<Button>("VBoxContainer/BodyContainer/ExitsContainer/NorthButton");
+		_eastButton = GetNode<Button>("VBoxContainer/BodyContainer/ExitsContainer/EastButton");
+		_southButton = GetNode<Button>("VBoxContainer/BodyContainer/ExitsContainer/SouthButton");
+		_westButton = GetNode<Button>("VBoxContainer/BodyContainer/ExitsContainer/WestButton");
 		
 		_northButton.Pressed += () => OnDirectionButtonPressed(Direction.North);
 		_eastButton.Pressed += () => OnDirectionButtonPressed(Direction.East);

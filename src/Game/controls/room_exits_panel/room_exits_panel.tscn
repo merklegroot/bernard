@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://c5yip6wib4m2s"]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="PackedScene" uid="uid://b425isy1am3jq" path="res://controls/game_panel/game_panel.tscn" id="1_base"]
 [ext_resource type="Script" path="res://controls/room_exits_panel/RoomExitsPanel.cs" id="1_room"]
@@ -10,47 +10,48 @@ script = ExtResource("1_room")
 [node name="TitleLabel" parent="VBoxContainer" index="0"]
 text = ""
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/BodyContainer" index="0"]
+[node name="ExitsContainer" type="Control" parent="VBoxContainer/BodyContainer" index="0"]
 layout_mode = 2
-columns = 3
-
-[node name="Spacer1" type="Control" parent="VBoxContainer/BodyContainer/GridContainer" index="0"]
-layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="NorthButton" parent="VBoxContainer/BodyContainer/GridContainer" index="1" instance=ExtResource("2_24n0k")]
-layout_mode = 2
+[node name="NorthButton" parent="VBoxContainer/BodyContainer/ExitsContainer" index="0" instance=ExtResource("2_24n0k")]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 40.0
+grow_horizontal = 2
 text = "North"
 
-[node name="Spacer2" type="Control" parent="VBoxContainer/BodyContainer/GridContainer" index="2"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="WestButton" parent="VBoxContainer/BodyContainer/GridContainer" index="3" instance=ExtResource("2_24n0k")]
-layout_mode = 2
+[node name="WestButton" parent="VBoxContainer/BodyContainer/ExitsContainer" index="1" instance=ExtResource("2_24n0k")]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 45.0
+offset_right = 75.0
+offset_bottom = -45.0
+grow_vertical = 2
 text = "West"
 
-[node name="Spacer3" type="Control" parent="VBoxContainer/BodyContainer/GridContainer" index="4"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="EastButton" parent="VBoxContainer/BodyContainer/GridContainer" index="5" instance=ExtResource("2_24n0k")]
-layout_mode = 2
+[node name="EastButton" parent="VBoxContainer/BodyContainer/ExitsContainer" index="2" instance=ExtResource("2_24n0k")]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -75.0
+offset_top = 45.0
+offset_bottom = -45.0
+grow_horizontal = 0
+grow_vertical = 2
 text = "East"
 
-[node name="Spacer4" type="Control" parent="VBoxContainer/BodyContainer/GridContainer" index="6"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="SouthButton" parent="VBoxContainer/BodyContainer/GridContainer" index="7" instance=ExtResource("2_24n0k")]
-layout_mode = 2
+[node name="SouthButton" parent="VBoxContainer/BodyContainer/ExitsContainer" index="3" instance=ExtResource("2_24n0k")]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+grow_horizontal = 2
+grow_vertical = 0
 text = "South"
-
-[node name="Spacer5" type="Control" parent="VBoxContainer/BodyContainer/GridContainer" index="8"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
