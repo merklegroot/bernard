@@ -6,7 +6,7 @@ using Game.Repo;
 using Godot;
 using Microsoft.Extensions.DependencyInjection;
 
-public partial class InventoryDetailsPanel : Panel
+public partial class InventoryDetailsPanel : GamePanel
 {
 	private IManipulativeDefRepo _manipulativeDefRepo;
 	private IRoomStateRepo _roomStateRepo;
@@ -24,16 +24,18 @@ public partial class InventoryDetailsPanel : Panel
 	private Button _unequipButton;
 
 	private InventoryItemSelectionData _itemSelection;
+	private Label _descriptionLabel;
 
 	public override void _Ready()
 	{
+		base._Ready();
 		_manipulativeDefRepo = GlobalContainer.Host.Services.GetRequiredService<IManipulativeDefRepo>();
 		_roomStateRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomStateRepo>();
 		_iiEgoRepo = GlobalContainer.Host.Services.GetRequiredService<IEgoRepo>();
 		
 		_itemIcon = GetNode<TextureRect>("ItemIcon");
-		_label = GetNode<Label>("Label");
-		_titleLabel = GetNode<Label>("TitleLabel");
+		_label = GetNode<Label>("VBoxContainer/BodyContainer/DescriptionLabel");
+		_titleLabel = GetNode<Label>("VBoxContainer/TitleLabel");
 		_closeButton = GetNode<Button>("HBoxContainer/CloseButton");
 		_dropButton = GetNode<Button>("HBoxContainer/DropButton");
 		_pickupButton = GetNode<Button>("HBoxContainer/PickupButton");
@@ -47,6 +49,7 @@ public partial class InventoryDetailsPanel : Panel
 		_unequipButton.Pressed += OnUnequipButtonPressed;
 		
 		Game.Events.EventBus.Instance.InventoryItemSelectedFlexible += OnInventoryItemSelectedFlexible;
+		_descriptionLabel = GetNode<Label>("VBoxContainer/BodyContainer/DescriptionLabel");
 	}
 	
 	private void OnInventoryItemSelectedFlexible(string data)
@@ -191,5 +194,10 @@ public partial class InventoryDetailsPanel : Panel
 			return;
 		
 		Game.Events.EventBus.Instance.InventoryItemSelectedFlexible -= OnInventoryItemSelectedFlexible;
+	}
+
+	public void ShowDetails(string description)
+	{
+		_descriptionLabel.Text = description;
 	}
 }
