@@ -78,7 +78,6 @@ public partial class InventoryDetailsPanel : GamePanel
 		throw new ApplicationException($"Unexpected source: {_itemSelection.Source}");
 	}
 
-
 	private void ProcessInventoryItemSelected()
 	{
 		var inventoryItem = _egoRepo.GetInventoryItemByInstanceId(_itemSelection.ManipulativeInstanceId);
@@ -122,7 +121,6 @@ public partial class InventoryDetailsPanel : GamePanel
 
 		Visible = true;
 	}
-
 
 	private string GetEquipmentTypeText(ManipulativeDef manipulativeDef)
 	{

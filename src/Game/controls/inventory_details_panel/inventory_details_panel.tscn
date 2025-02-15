@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://kaqqmhjaklkp"]
 
 [ext_resource type="PackedScene" uid="uid://b425isy1am3jq" path="res://controls/game_panel/game_panel.tscn" id="1_base"]
 [ext_resource type="Script" path="res://controls/inventory_details_panel/InventoryDetailsPanel.cs" id="2_details"]
@@ -6,49 +6,39 @@
 [node name="InventoryDetailsPanel" instance=ExtResource("1_base")]
 script = ExtResource("2_details")
 
-[node name="VBoxContainer" parent="."]
-layout_mode = 1
-
-[node name="TitleLabel" parent="VBoxContainer"]
-layout_mode = 2
+[node name="TitleLabel" parent="VBoxContainer" index="0"]
 text = "Details"
 
-[node name="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="BodyContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/BodyContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/BodyContainer" index="0"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="LeftColumn" type="VBoxContainer" parent="VBoxContainer/BodyContainer/HBoxContainer"]
+[node name="LeftColumn" type="VBoxContainer" parent="VBoxContainer/BodyContainer/HBoxContainer" index="0"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ItemIcon" type="TextureRect" parent="VBoxContainer/BodyContainer/HBoxContainer/LeftColumn"]
+[node name="ItemIcon" type="TextureRect" parent="VBoxContainer/BodyContainer/HBoxContainer/LeftColumn" index="0"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 size_flags_horizontal = 4
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="VBoxContainer/BodyContainer/HBoxContainer/LeftColumn"]
+[node name="ItemName" type="Label" parent="VBoxContainer/BodyContainer/HBoxContainer/LeftColumn" index="1"]
 layout_mode = 2
 horizontal_alignment = 1
 autowrap_mode = 1
 
-[node name="RightColumn" type="VBoxContainer" parent="VBoxContainer/BodyContainer/HBoxContainer"]
+[node name="RightColumn" type="VBoxContainer" parent="VBoxContainer/BodyContainer/HBoxContainer" index="1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DescriptionLabel" type="Label" parent="VBoxContainer/BodyContainer/HBoxContainer/RightColumn"]
+[node name="DescriptionLabel" type="Label" parent="VBoxContainer/BodyContainer/HBoxContainer/RightColumn" index="0"]
 layout_mode = 2
 text = "Select an item to see its details..."
 autowrap_mode = 1
 
-[node name="ButtonsContainer" type="HBoxContainer" parent="."]
+[node name="ButtonsContainer" type="HBoxContainer" parent="." index="1"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -63,28 +53,28 @@ grow_vertical = 0
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="CloseButton" type="Button" parent="ButtonsContainer"]
+[node name="CloseButton" type="Button" parent="ButtonsContainer" index="0"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Close"
 
-[node name="DropButton" type="Button" parent="ButtonsContainer"]
+[node name="DropButton" type="Button" parent="ButtonsContainer" index="1"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Drop"
 
-[node name="PickupButton" type="Button" parent="ButtonsContainer"]
+[node name="PickupButton" type="Button" parent="ButtonsContainer" index="2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Pickup"
 
-[node name="EquipButton" type="Button" parent="ButtonsContainer"]
+[node name="EquipButton" type="Button" parent="ButtonsContainer" index="3"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Equip"
 
-[node name="UnequipButton" type="Button" parent="ButtonsContainer"]
+[node name="UnequipButton" type="Button" parent="ButtonsContainer" index="4"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
