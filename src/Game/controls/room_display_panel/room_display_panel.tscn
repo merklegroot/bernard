@@ -33,7 +33,9 @@ script = ExtResource("2_display")
 text = "Room"
 
 [node name="DescriptionLabel" type="Label" parent="VBoxContainer/BodyContainer" index="0"]
+custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
+size_flags_vertical = 0
 text = "Room description goes here..."
 autowrap_mode = 1
 
