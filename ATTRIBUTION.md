@@ -29,3 +29,15 @@ Required attribution text:
   - Potion
   - Weapon & Tool
 
+### Dungeon Gathering - Under The Castle Set
+- Author: SnowHex
+- Source: https://snowhex.itch.io/dungeon-gathering
+- License: Can be used in all types of games (commercial or non-commercial). Cannot be resold (even if edited). Credit appreciated but not required.
+- Used for: Dungeon tiles, props, and environment
+- Contents: 16x16 pixel art assets including:
+  - Floor and wall tiles
+  - Animated doors
+  - Props and furniture
+  - Traps and gameplay objects
+  - Animated water effects
+
