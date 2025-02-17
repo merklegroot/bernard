@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 public partial class RoomDisplayPanel : GamePanel
 {
     private Label _descriptionLabel;
-    private TileMap _tileMap;
     private IRoomDefRepo _roomDefRepo;
 
     public override void _Ready()
@@ -15,7 +14,6 @@ public partial class RoomDisplayPanel : GamePanel
         base._Ready();
         
         _descriptionLabel = GetNode<Label>("VBoxContainer/BodyContainer/DescriptionLabel");
-        _tileMap = GetNode<TileMap>("VBoxContainer/BodyContainer/TileMap");
         _roomDefRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomDefRepo>();
 
         UpdateDisplay();
@@ -34,9 +32,6 @@ public partial class RoomDisplayPanel : GamePanel
 
         Title = string.IsNullOrWhiteSpace(roomDef.Name) ? "Room" : roomDef.Name;
         _descriptionLabel.Text = roomDef.Description;
-
-        // TileMap is already set up in the scene, no need to modify it here
-        // unless you want to change tiles based on room data
     }
 
     public override void _ExitTree()

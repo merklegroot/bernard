@@ -1,96 +1,48 @@
-[gd_scene load_steps=7 format=3 uid="uid://dbaqywbubsjts"]
+[gd_scene load_steps=6 format=3 uid="uid://dbaqywbubsjts"]
 
-[ext_resource type="Script" path="res://controls/room_panel/RoomPanel.cs" id="1_room"]
+[ext_resource type="PackedScene" uid="uid://b425isy1am3jq" path="res://controls/game_panel/game_panel.tscn" id="1_base"]
+[ext_resource type="PackedScene" path="res://controls/room_display_panel/room_display_panel.tscn" id="2_display"]
 [ext_resource type="PackedScene" path="res://controls/room_manipulatives_panel/room_manipulatives_panel.tscn" id="2_manipulatives"]
+[ext_resource type="PackedScene" uid="uid://dfn4ppgk6fb02" path="res://controls/animation_panel/animation_panel.tscn" id="3_animation"]
 [ext_resource type="PackedScene" path="res://controls/room_exits_panel/room_exits_panel.tscn" id="3_exits"]
-[ext_resource type="PackedScene" path="res://controls/room_display_panel/room_display_panel.tscn" id="4_display"]
-[ext_resource type="Texture2D" uid="uid://budpay10171mn" path="res://assets/nightcafe/nightcafe-barracks.webp" id="5_background"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
-bg_color = Color(0.1, 0.1, 0.1, 0.6)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.8, 0.8, 0.8, 0.5)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[node name="RoomPanel" instance=ExtResource("1_base")]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2"]
-bg_color = Color(0.1, 0.1, 0.1, 0.3)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.8, 0.8, 0.8, 0.3)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[node name="RoomPanel" type="Panel"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_1")
-script = ExtResource("1_room")
-
-[node name="BackgroundImage" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_background")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="OverlayRect" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.1, 0.1, 0.1, 0.9)
-
-[node name="DisplayPanel" parent="." instance=ExtResource("4_display")]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="VBoxContainer" parent="." index="0"]
 offset_left = 0.0
 offset_top = 0.0
 offset_right = 0.0
-offset_bottom = -155.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_bottom = 0.0
 
-[node name="PanelsContainer" type="HFlowContainer" parent="."]
+[node name="TitleLabel" parent="VBoxContainer" index="0"]
+text = "Room"
+
+[node name="DisplayPanel" parent="VBoxContainer/BodyContainer" index="0" instance=ExtResource("2_display")]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="AnimationPanel" parent="VBoxContainer/BodyContainer" index="1" instance=ExtResource("3_animation")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelsContainer" type="HFlowContainer" parent="." index="1"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.0
 offset_top = -150.0
-offset_right = 0.0
-offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/h_separation = 10
 
-[node name="ExitsPanel" parent="PanelsContainer" instance=ExtResource("3_exits")]
+[node name="ExitsPanel" parent="PanelsContainer" index="0" instance=ExtResource("3_exits")]
 custom_minimum_size = Vector2(180, 150)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="ManipulativesPanel" parent="PanelsContainer" instance=ExtResource("2_manipulatives")]
+[node name="ManipulativesPanel" parent="PanelsContainer" index="1" instance=ExtResource("2_manipulatives")]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 size_flags_horizontal = 3
