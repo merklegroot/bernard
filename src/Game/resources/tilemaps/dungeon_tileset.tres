@@ -1,10 +1,9 @@
-[gd_resource type="TileSetAtlasSource" load_steps=2 format=3]
+[gd_resource type="TileSetAtlasSource" load_steps=2 format=3 uid="uid://ew23d3mpjowm"]
 
-[ext_resource type="Texture2D" path="res://assets/Dungeon Gathering Free Version/Set 1.0.png" id="1_tileset"]
+[ext_resource type="Texture2D" uid="uid://doh80hm6h7osm" path="res://assets/Dungeon Gathering Free Version/Set 1.0.png" id="1_tileset"]
 
 [resource]
 texture = ExtResource("1_tileset")
-texture_region_size = Vector2i(16, 16)
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -52,4 +51,4 @@ texture_region_size = Vector2i(16, 16)
 8:3/0 = 0
 9:3/0 = 0
 10:3/0 = 0
-11:3/0 = 0 
+11:3/0 = 0
