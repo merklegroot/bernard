@@ -7,7 +7,9 @@ using Godot;
 
 public partial class AnimationPanel : GamePanel
 {
-    private TileMapLayer _tileMapLayer;
+    private TileMapLayer _wallsLayer;
+    private TileMapLayer _allDirsLayer;
+    private TileMapLayer _noDirsLayer;
 
     private static class TileFile
     {
@@ -19,23 +21,26 @@ public partial class AnimationPanel : GamePanel
     {
         base._Ready();
         
-        _tileMapLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_Walls");
+        _wallsLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_Walls");
+        _allDirsLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_AllDirs");
+        _noDirsLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_NoDirs");
         SetupTileMap();
     }
 
     private void SetupTileMap()
     {
         // ExportNumericTilemap("some.txt");
-        ExportTileMap(TileFile.NoDirs);
+        // ExportTileMap(TileFile.NoDirs);
+        ExportTileMap(TileFile.AllDirs);
         
         // var contents = new ResourceReader().ReadEmbedded("all-dirs.txt");
         // var contents = new ResourceReader().ReadEmbedded("ns.txt");
         // var data = Convert.FromBase64String(contents);
 
-        // var allDirs = ReadAllDirs();
-        // var noDirs = ReadNoDirs();
+        var allDirs = ReadAllDirs();
+        var noDirs = ReadNoDirs();
         
-        // GenerateDirection(Direction.North, allDirs, noDirs);
+        GenerateDirection(Direction.North, allDirs, noDirs);
         // FirstCellEverywhere(allDirs, noDirs);
     }
 
@@ -54,7 +59,7 @@ public partial class AnimationPanel : GamePanel
     {
         var cellInfos = new List<CellInfo>();
         
-        _tileMapLayer.TileMapData = allDirs;
+        _wallsLayer.TileMapData = allDirs;
         
         const int maxX = 16;
         const int maxY = 16;
@@ -62,7 +67,7 @@ public partial class AnimationPanel : GamePanel
         for (var y = 0; y < maxY; y++)
         {
             var cellCoord = new Vector2I(x, y);
-            var atlasCoord = _tileMapLayer.GetCellAtlasCoords(new Vector2I(1, 1));
+            var atlasCoord = _wallsLayer.GetCellAtlasCoords(new Vector2I(1, 1));
             cellInfos.Add(new CellInfo
             {
                 CellCoord = cellCoord,
@@ -70,10 +75,10 @@ public partial class AnimationPanel : GamePanel
             });
         }
         
-        _tileMapLayer.TileMapData = noDirs;
+        _wallsLayer.TileMapData = noDirs;
         foreach (var cellInfo in cellInfos)
         {
-            _tileMapLayer.SetCell(cellInfo.CellCoord, 0, cellInfo.AtlasCoord);
+            _wallsLayer.SetCell(cellInfo.CellCoord, 0, cellInfo.AtlasCoord);
         }
     }
     
@@ -84,7 +89,7 @@ public partial class AnimationPanel : GamePanel
     {
         var cellInfos = new List<CellInfo>();
         
-        _tileMapLayer.TileMapData = allDirs;
+        _wallsLayer.TileMapData = allDirs;
         
         const int maxX = 8;
         const int maxY = 8;
@@ -95,7 +100,7 @@ public partial class AnimationPanel : GamePanel
                 continue;
             
             var cellCoord = new Vector2I(x, y);
-            var atlasCoord = _tileMapLayer.GetCellAtlasCoords(cellCoord);
+            var atlasCoord = _wallsLayer.GetCellAtlasCoords(cellCoord);
             cellInfos.Add(new CellInfo
             {
                 CellCoord = cellCoord,
@@ -103,10 +108,10 @@ public partial class AnimationPanel : GamePanel
             });
         }
         
-        _tileMapLayer.TileMapData = noDirs;
+        _wallsLayer.TileMapData = noDirs;
         foreach (var cellInfo in cellInfos)
         {
-            _tileMapLayer.SetCell(cellInfo.CellCoord, 0, cellInfo.AtlasCoord);
+            _wallsLayer.SetCell(cellInfo.CellCoord, 0, cellInfo.AtlasCoord);
         }
     }
 
@@ -128,11 +133,21 @@ public partial class AnimationPanel : GamePanel
         return false;
     }
     
-    private byte[] ReadAllDirs() =>
-        ReadTileFile(TileFile.AllDirs);
+    // private byte[] ReadAllDirs() =>
+    //     ReadTileFile(TileFile.AllDirs);
+
+    private byte[] ReadAllDirs()
+    {
+        return _allDirsLayer.TileMapData;
+    }
     
-    private byte[] ReadNoDirs() =>
-        ReadTileFile(TileFile.NoDirs);
+    // private byte[] ReadNoDirs() =>
+    //     ReadTileFile(TileFile.NoDirs);
+    
+    private byte[] ReadNoDirs()
+    {
+        return _noDirsLayer.TileMapData;
+    }
 
     private byte[] ReadTileFile(string resourceName)
     {
@@ -142,7 +157,7 @@ public partial class AnimationPanel : GamePanel
 
     private void ExportTileMap(string fileName)
     {
-        var contents = Convert.ToBase64String(_tileMapLayer.TileMapData);
+        var contents = Convert.ToBase64String(_wallsLayer.TileMapData);
         
         var fullFileName = Path.Join("/home/goose/repo/bernard/src/Game/res/", fileName);
         File.WriteAllText(fullFileName, contents);
@@ -150,7 +165,7 @@ public partial class AnimationPanel : GamePanel
 
     private void ExportNumericTilemap(string fileName)
     {
-        var contents = string.Join(System.Environment.NewLine, _tileMapLayer.TileMapData);
+        var contents = string.Join(System.Environment.NewLine, _wallsLayer.TileMapData);
         var fullFileName = Path.Join("/home/goose/repo/bernard/src/Game/res/", "numeric-" + fileName);
         File.WriteAllText(fullFileName, contents);
     }
