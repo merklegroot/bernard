@@ -31,6 +31,7 @@ public partial class RoomExitsPanel : GamePanel
 		
 		_roomDefRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomDefRepo>();
 		Game.Events.EventBus.Instance.RoomChanged += OnRoomChanged;
+		
 		UpdateDisplay();
 	}
 

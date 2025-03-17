@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Game.Models;
+using Game.Models.State;
+using Game.Repo;
 using Godot;
+using Microsoft.Extensions.DependencyInjection;
 
 public partial class AnimationPanel : GamePanel
 {
     private TileMapLayer _wallsLayer;
     private TileMapLayer _allDirsLayer;
     private TileMapLayer _noDirsLayer;
+
+    private IRoomDefRepo _roomDefRepo;
+
+    // private IGameStateRepo _gameStateRepo;
 
     private static class TileFile
     {
@@ -19,19 +26,24 @@ public partial class AnimationPanel : GamePanel
     
     public override void _Ready()
     {
+        _roomDefRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomDefRepo>();
+        
         base._Ready();
         
         _wallsLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_Walls");
         _allDirsLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_AllDirs");
         _noDirsLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_NoDirs");
-        SetupTileMap();
+        
+        Game.Events.EventBus.Instance.RoomChanged += OnRoomChanged;
+        
+        OnRoomChanged();
     }
 
-    private void SetupTileMap()
+    private void OnRoomChanged()
     {
         // ExportNumericTilemap("some.txt");
         // ExportTileMap(TileFile.NoDirs);
-        ExportTileMap(TileFile.AllDirs);
+        
         
         // var contents = new ResourceReader().ReadEmbedded("all-dirs.txt");
         // var contents = new ResourceReader().ReadEmbedded("ns.txt");
@@ -40,7 +52,19 @@ public partial class AnimationPanel : GamePanel
         var allDirs = ReadAllDirs();
         var noDirs = ReadNoDirs();
         
-        GenerateDirection(Direction.North, allDirs, noDirs);
+        // _wallsLayer.TileMapData = noDirs;
+        
+        // ExportCoordMap("allDoorsCoords.txt");
+        
+        var currentRoomDef = _roomDefRepo.Get(GameStateContainer.GameState.PlayerState.RoomId);
+
+        var currentRoomExits = currentRoomDef.Exits.Select(roomExit => roomExit.Direction).ToList();        
+        
+        // GenerateDirection(new List<Direction> { Direction.South, Direction.West }, allDirs, noDirs);
+        
+        GenerateDirection(currentRoomExits, allDirs, noDirs);
+        
+        // GenerateDirection(Direction.West, allDirs, noDirs);
         // FirstCellEverywhere(allDirs, noDirs);
     }
 
@@ -89,7 +113,7 @@ public partial class AnimationPanel : GamePanel
     {
         var cellInfos = new List<CellInfo>();
         
-        _wallsLayer.TileMapData = allDirs;
+        _wallsLayer.TileMapData = noDirs;
         
         const int maxX = 8;
         const int maxY = 8;
@@ -100,7 +124,7 @@ public partial class AnimationPanel : GamePanel
                 continue;
             
             var cellCoord = new Vector2I(x, y);
-            var atlasCoord = _wallsLayer.GetCellAtlasCoords(cellCoord);
+            var atlasCoord = _allDirsLayer.GetCellAtlasCoords(cellCoord);
             cellInfos.Add(new CellInfo
             {
                 CellCoord = cellCoord,
@@ -108,20 +132,20 @@ public partial class AnimationPanel : GamePanel
             });
         }
         
-        _wallsLayer.TileMapData = noDirs;
+        // _wallsLayer.TileMapData = noDirs;
         foreach (var cellInfo in cellInfos)
         {
-            _wallsLayer.SetCell(cellInfo.CellCoord, 0, cellInfo.AtlasCoord);
+            _wallsLayer.SetCell(cellInfo.CellCoord, 1, cellInfo.AtlasCoord);
         }
     }
 
     private bool IsDirectionInSection(Direction direction, int x, int y)
     {
         const int lowerY = 2;
-        const int upperY = 6;
+        const int upperY = 5;
 
         const int lowerX = 2;
-        const int upperX = 6;
+        const int upperX = 5;
 
         if (direction == Direction.North)
             return y <= lowerY && x >= lowerX && x <= upperX;
@@ -129,6 +153,11 @@ public partial class AnimationPanel : GamePanel
         if (direction == Direction.South)
             return y >= upperY && x >= lowerX && x <= upperX;
         
+        if (direction == Direction.East)
+            return x >= upperX && y >= lowerY && y <= upperY;
+        
+        if (direction == Direction.West)
+            return x <= lowerX && y >= lowerY && y <= upperY;
         
         return false;
     }
@@ -163,10 +192,49 @@ public partial class AnimationPanel : GamePanel
         File.WriteAllText(fullFileName, contents);
     }
 
-    private void ExportNumericTilemap(string fileName)
+    private void ExportCoordMap(string fileName)
     {
-        var contents = string.Join(System.Environment.NewLine, _wallsLayer.TileMapData);
-        var fullFileName = Path.Join("/home/goose/repo/bernard/src/Game/res/", "numeric-" + fileName);
+        var fullFileName = Path.Join("/home/goose/repo/bernard/src/Game/res/", fileName);
+        
+        const int maxX = 8;
+        const int maxY = 8;
+
+        var lines = new List<string>();
+        for (var y = 0; y < maxY; y++)
+        {
+            var lineAtlasCoords = new List<Vector2I>();
+            for (var x = 0; x < maxX; x++)
+            {
+                var cellCoord = new Vector2I(x, y);
+                var atlasCoord = _wallsLayer.GetCellAtlasCoords(cellCoord);
+                lineAtlasCoords.Add(atlasCoord);
+            }
+            
+            var line = string.Join("  ", lineAtlasCoords.Select(AtlasCoordToString));
+            lines.Add(line);
+        }
+        
+        var contents = string.Join(System.Environment.NewLine, lines);
+        
         File.WriteAllText(fullFileName, contents);
     }
+
+    private string AtlasCoordToString(Vector2I source)
+    {
+        string Format(int val)
+        {
+            var prefix = val >= 0 ? " " : string.Empty;
+
+            return $"{prefix}{val:00}";
+        }
+        
+        return $"[{Format(source.X)}, {Format(source.Y)}]";
+    }
+    
+    // private void ExportNumericTilemap(string fileName)
+    // {
+    //     var contents = string.Join(System.Environment.NewLine, _wallsLayer.TileMapData);
+    //     var fullFileName = Path.Join("/home/goose/repo/bernard/src/Game/res/", "numeric-" + fileName);
+    //     File.WriteAllText(fullFileName, contents);
+    // }
 } 
