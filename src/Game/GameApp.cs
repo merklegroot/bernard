@@ -37,21 +37,6 @@ public partial class GameApp : Node
 			
 		if (!keyEvent.Pressed || keyEvent.Echo)
 			return;
-
-		if (GameStateContainer.GameState.CurrentMainPanel == PanelEnum.Room)
-		{
-			var direction = keyEvent.Keycode switch
-			{
-				Key.W => Direction.North,
-				Key.A => Direction.West,
-				Key.S => Direction.South,
-				Key.D => Direction.East,
-				_ => Direction.Invalid
-			};
-
-			if (direction != Direction.Invalid)
-				Game.Events.EventBus.Instance.EmitSignal(Game.Events.EventBus.SignalName.ExitRoom, (int)direction);
-		}
 	}
 	
 	private void InitControllers(IHost host)
