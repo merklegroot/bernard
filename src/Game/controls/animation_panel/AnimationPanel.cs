@@ -39,33 +39,47 @@ public partial class AnimationPanel : GamePanel
         OnRoomChanged();
     }
 
+    private readonly List<Label> _roomLabels = new();
+    
     private void OnRoomChanged()
     {
-        // ExportNumericTilemap("some.txt");
-        // ExportTileMap(TileFile.NoDirs);
-        
-        
-        // var contents = new ResourceReader().ReadEmbedded("all-dirs.txt");
-        // var contents = new ResourceReader().ReadEmbedded("ns.txt");
-        // var data = Convert.FromBase64String(contents);
+        var roomDef = _roomDefRepo.Get(GameStateContainer.GameState.PlayerState.RoomId);
+        GenerateDirectionForRoom(roomDef, 0);
 
-        var allDirs = ReadAllDirs();
-        var noDirs = ReadNoDirs();
-        
-        // _wallsLayer.TileMapData = noDirs;
-        
-        // ExportCoordMap("allDoorsCoords.txt");
-        
-        var currentRoomDef = _roomDefRepo.Get(GameStateContainer.GameState.PlayerState.RoomId);
+        var westExit = roomDef.Exits
+            .FirstOrDefault(queryExit => queryExit.Direction == Direction.West);
 
-        var currentRoomExits = currentRoomDef.Exits.Select(roomExit => roomExit.Direction).ToList();        
+        foreach (var label in _roomLabels)
+        {
+            RemoveChild(label);
+            label.Dispose();
+        }
         
-        // GenerateDirection(new List<Direction> { Direction.South, Direction.West }, allDirs, noDirs);
+        _roomLabels.Clear();
         
-        GenerateDirection(currentRoomExits, allDirs, noDirs);
+        if (westExit != null)
+        {
+            var westRoom = _roomDefRepo.Get(westExit.DestinationId);
+            GenerateDirectionForRoom(westRoom, -1);
+        }
+        else
+        {
+            GenerateDirection(new List<Direction>(), -1, "Sorry, nothing");
+        }
+    }
+
+    private void GenerateDirectionForRoom(string roomId, int offsetX, string title)
+    {
+        var roomDef = _roomDefRepo.Get(roomId);
+        var roomExits = roomDef.Exits.Select(roomExit => roomExit.Direction).ToList();        
         
-        // GenerateDirection(Direction.West, allDirs, noDirs);
-        // FirstCellEverywhere(allDirs, noDirs);
+        GenerateDirection(roomExits, offsetX, title);
+    }
+    
+    private void GenerateDirectionForRoom(RoomDef roomDef, int offsetX)
+    {
+        var roomExits = roomDef.Exits.Select(roomExit => roomExit.Direction).ToList();
+        GenerateDirection(roomExits, offsetX, roomDef.Name);
     }
 
     private record CellInfo
@@ -74,57 +88,32 @@ public partial class AnimationPanel : GamePanel
         public Vector2I AtlasCoord { get; init; }
     }
 
-    private void GenerateDirection(Direction direction, byte[] allDirs, byte[] noDirs) =>
-        GenerateDirection(new List<Direction> { direction }, allDirs, noDirs);
+    private void GenerateDirection(Direction direction, int offsetX, string title) =>
+        GenerateDirection(new List<Direction> { direction }, offsetX, title);
 
-    private void FirstCellEverywhere(
-        byte[] allDirs,
-        byte[] noDirs)
-    {
-        var cellInfos = new List<CellInfo>();
-        
-        _wallsLayer.TileMapData = allDirs;
-        
-        const int maxX = 16;
-        const int maxY = 16;
-        for (var x = 0; x < maxX; x++)
-        for (var y = 0; y < maxY; y++)
-        {
-            var cellCoord = new Vector2I(x, y);
-            var atlasCoord = _wallsLayer.GetCellAtlasCoords(new Vector2I(1, 1));
-            cellInfos.Add(new CellInfo
-            {
-                CellCoord = cellCoord,
-                AtlasCoord = atlasCoord
-            });
-        }
-        
-        _wallsLayer.TileMapData = noDirs;
-        foreach (var cellInfo in cellInfos)
-        {
-            _wallsLayer.SetCell(cellInfo.CellCoord, 0, cellInfo.AtlasCoord);
-        }
-    }
-    
     private void GenerateDirection(
         List<Direction> directions,
-        byte[] allDirs,
-        byte[] noDirs)
+        int offsetX,
+        string title)
     {
         var cellInfos = new List<CellInfo>();
-        
-        _wallsLayer.TileMapData = noDirs;
         
         const int maxX = 8;
         const int maxY = 8;
         for (var x = 0; x < maxX; x++)
         for (var y = 0; y < maxY; y++)
         {
-            if (!directions.Any(direction => IsDirectionInSection(direction, x, y)))
-                continue;
-            
             var cellCoord = new Vector2I(x, y);
-            var atlasCoord = _allDirsLayer.GetCellAtlasCoords(cellCoord);
+
+            var hasDirection = directions.Any(direction => IsDirectionInSection(direction, x, y));
+
+            var sourceLayer = hasDirection ? _allDirsLayer : _noDirsLayer;
+            
+            // if (!directions.Any(direction => IsDirectionInSection(direction, x, y)))
+            //     continue;
+            
+            var atlasCoord = sourceLayer.GetCellAtlasCoords(cellCoord);
+            
             cellInfos.Add(new CellInfo
             {
                 CellCoord = cellCoord,
@@ -132,11 +121,21 @@ public partial class AnimationPanel : GamePanel
             });
         }
         
-        // _wallsLayer.TileMapData = noDirs;
         foreach (var cellInfo in cellInfos)
         {
-            _wallsLayer.SetCell(cellInfo.CellCoord, 1, cellInfo.AtlasCoord);
+            _wallsLayer.SetCell(new Vector2I(cellInfo.CellCoord.X + 8 * offsetX, cellInfo.CellCoord.Y), 1, cellInfo.AtlasCoord);
         }
+
+        var roomLabel = new Label();
+        roomLabel.Text = title;
+        
+        roomLabel.Position = new Vector2(
+            _wallsLayer.Position.X + 8 * 16 * offsetX,
+            _wallsLayer.Position.Y + 100
+            );
+        
+        _roomLabels.Add(roomLabel);
+        AddChild(roomLabel);
     }
 
     private bool IsDirectionInSection(Direction direction, int x, int y)
