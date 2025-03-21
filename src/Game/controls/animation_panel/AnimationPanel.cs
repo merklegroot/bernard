@@ -17,18 +17,16 @@ public partial class AnimationPanel : GamePanel
     private IRoomDefRepo _roomDefRepo;
 
     // private IGameStateRepo _gameStateRepo;
-
-    private static class TileFile
-    {
-        public const string AllDirs = "all-dirs.txt";
-        public const string NoDirs = "no-dirs.txt";
-    }
     
     public override void _Ready()
     {
-        _roomDefRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomDefRepo>();
-        
         base._Ready();
+
+        var asdf = new Label();
+        asdf.Text = "Asdf";
+        AddChild(asdf);
+        
+        _roomDefRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomDefRepo>();
         
         _wallsLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_Walls");
         _allDirsLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_AllDirs");
@@ -40,15 +38,9 @@ public partial class AnimationPanel : GamePanel
     }
 
     private readonly List<Label> _roomLabels = new();
-    
-    private void OnRoomChanged()
+
+    private void ClearLabels()
     {
-        var roomDef = _roomDefRepo.Get(GameStateContainer.GameState.PlayerState.RoomId);
-        GenerateDirectionForRoom(roomDef, 0);
-
-        var westExit = roomDef.Exits
-            .FirstOrDefault(queryExit => queryExit.Direction == Direction.West);
-
         foreach (var label in _roomLabels)
         {
             RemoveChild(label);
@@ -56,6 +48,16 @@ public partial class AnimationPanel : GamePanel
         }
         
         _roomLabels.Clear();
+    }
+    
+    private void OnRoomChanged()
+    {
+        var roomDef = _roomDefRepo.Get(GameStateContainer.GameState.PlayerState.RoomId);
+
+        var westExit = roomDef.Exits
+            .FirstOrDefault(queryExit => queryExit.Direction == Direction.West);
+
+        GenerateDirectionForRoom(roomDef, 0);
         
         if (westExit != null)
         {
@@ -109,9 +111,6 @@ public partial class AnimationPanel : GamePanel
 
             var sourceLayer = hasDirection ? _allDirsLayer : _noDirsLayer;
             
-            // if (!directions.Any(direction => IsDirectionInSection(direction, x, y)))
-            //     continue;
-            
             var atlasCoord = sourceLayer.GetCellAtlasCoords(cellCoord);
             
             cellInfos.Add(new CellInfo
@@ -127,13 +126,15 @@ public partial class AnimationPanel : GamePanel
         }
 
         var roomLabel = new Label();
-        roomLabel.Text = title;
+        roomLabel.Text = $"{_roomLabels.Count} {title}";
+
+        const int tileSize = 250;
         
         roomLabel.Position = new Vector2(
-            _wallsLayer.Position.X + 8 * 16 * offsetX,
-            _wallsLayer.Position.Y + 100
-            );
-        
+            _wallsLayer.Position.X + tileSize / 2 * offsetX,
+            _wallsLayer.Position.Y + tileSize / 3
+        );
+
         _roomLabels.Add(roomLabel);
         AddChild(roomLabel);
     }
