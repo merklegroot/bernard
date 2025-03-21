@@ -51,11 +51,10 @@ public partial class AnimationPanel : GamePanel
         ClearLabels();
         
         var roomDef = _roomDefRepo.Get(GameStateContainer.GameState.PlayerState.RoomId);
-
+        GenerateDirectionForRoom(roomDef, 0);
+        
         var westExit = roomDef.Exits
             .FirstOrDefault(queryExit => queryExit.Direction == Direction.West);
-
-        GenerateDirectionForRoom(roomDef, 0);
         
         if (westExit != null)
         {
@@ -65,6 +64,18 @@ public partial class AnimationPanel : GamePanel
         else
         {
             GenerateDirection(new List<Direction>(), -1, "Sorry, nothing");
+        }
+        
+        var eastExit = roomDef.Exits
+            .FirstOrDefault(queryExit => queryExit.Direction == Direction.East);
+        
+        if (eastExit != null)
+        {
+            GenerateDirectionForRoom(_roomDefRepo.Get(eastExit.DestinationId), 1);
+        }
+        else
+        {
+            GenerateDirection(new List<Direction>(), 1, "Sorry, nothing");
         }
     }
 

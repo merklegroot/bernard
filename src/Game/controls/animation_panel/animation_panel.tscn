@@ -25,6 +25,7 @@ tile_map_data = PackedByteArray("AAAGAAEAAQADAAAAAAABAAIAAQADAAIAAAAGAAIAAQABAAI
 tile_set = ExtResource("5_tileset")
 
 [node name="TileMapLayer_AllDirs" type="TileMapLayer" parent="VBoxContainer/BodyContainer" index="2"]
+visible = false
 use_parent_material = true
 position = Vector2(500, 2)
 scale = Vector2(1.5, 1.5)
@@ -32,6 +33,7 @@ tile_map_data = PackedByteArray("AAAGAAEAAQADAAAAAAABAAIAAQADAAIAAAAGAAIAAQABAAI
 tile_set = ExtResource("5_tileset")
 
 [node name="TileMapLayer_NoDirs" type="TileMapLayer" parent="VBoxContainer/BodyContainer" index="3"]
+visible = false
 use_parent_material = true
 position = Vector2(750, 2)
 scale = Vector2(1.5, 1.5)
