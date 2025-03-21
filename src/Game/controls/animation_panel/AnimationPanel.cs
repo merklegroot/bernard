@@ -21,10 +21,6 @@ public partial class AnimationPanel : GamePanel
     public override void _Ready()
     {
         base._Ready();
-
-        var asdf = new Label();
-        asdf.Text = "Asdf";
-        AddChild(asdf);
         
         _roomDefRepo = GlobalContainer.Host.Services.GetRequiredService<IRoomDefRepo>();
         
@@ -52,6 +48,8 @@ public partial class AnimationPanel : GamePanel
     
     private void OnRoomChanged()
     {
+        ClearLabels();
+        
         var roomDef = _roomDefRepo.Get(GameStateContainer.GameState.PlayerState.RoomId);
 
         var westExit = roomDef.Exits
@@ -108,9 +106,7 @@ public partial class AnimationPanel : GamePanel
             var cellCoord = new Vector2I(x, y);
 
             var hasDirection = directions.Any(direction => IsDirectionInSection(direction, x, y));
-
             var sourceLayer = hasDirection ? _allDirsLayer : _noDirsLayer;
-            
             var atlasCoord = sourceLayer.GetCellAtlasCoords(cellCoord);
             
             cellInfos.Add(new CellInfo
@@ -126,7 +122,7 @@ public partial class AnimationPanel : GamePanel
         }
 
         var roomLabel = new Label();
-        roomLabel.Text = $"{_roomLabels.Count} {title}";
+        roomLabel.Text = title;
 
         const int tileSize = 250;
         
