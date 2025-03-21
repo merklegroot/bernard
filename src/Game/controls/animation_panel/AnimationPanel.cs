@@ -123,13 +123,17 @@ public partial class AnimationPanel : GamePanel
 
         var roomLabel = new Label();
         roomLabel.Text = title;
-
-        const int tileSize = 250;
+        roomLabel.HorizontalAlignment = HorizontalAlignment.Center;
+        
+        const int tileSize = 200;
+        const int roomWidth = tileSize;
         
         roomLabel.Position = new Vector2(
-            _wallsLayer.Position.X + tileSize / 2 * offsetX,
-            _wallsLayer.Position.Y + tileSize / 3
+            _wallsLayer.Position.X + tileSize * offsetX,
+            _wallsLayer.Position.Y + tileSize / 2
         );
+        
+        roomLabel.CustomMinimumSize = new Vector2(roomWidth, 0);
 
         _roomLabels.Add(roomLabel);
         AddChild(roomLabel);
