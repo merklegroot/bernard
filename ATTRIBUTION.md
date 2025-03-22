@@ -41,3 +41,15 @@ Required attribution text:
   - Traps and gameplay objects
   - Animated water effects
 
+### Cute Fantasy RPG
+- Author: Kenmi
+- Source: https://kenmi-art.itch.io/cute-fantasy-rpg
+- License: Free version can be used in any non-commercial project, assets may be modified. Cannot be resold or redistributed even if modified.
+- Used for: Character sprites, tiles, and environment
+- Contents (Free Version): 
+  - Grass, Water and Path tiles
+  - Character sprites with basic animations (walking, idling, attacking, dying)
+  - Enemy sprites with animations
+  - Animal sprites with basic animations
+- Required Attribution: Please credit "Kenmi" or link to https://kenmi-art.itch.io/cute-fantasy-rpg
+
