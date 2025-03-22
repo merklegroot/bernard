@@ -54,7 +54,7 @@
     A faint smell of leather and polish hangs in the air.
   exits:
   - direction: s
-    destinationId: training_ground
+    destinationId: training_grounds
 
 - id: dining_hall
   name: Dining Hall

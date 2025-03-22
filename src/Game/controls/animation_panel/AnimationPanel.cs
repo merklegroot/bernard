@@ -99,12 +99,12 @@ public partial class AnimationPanel : GamePanel
         public Vector2I AtlasCoord { get; init; }
     }
 
-    private void GenerateDirection(Direction direction, int offsetX, string title) =>
-        GenerateDirection(new List<Direction> { direction }, offsetX, title);
+    private void GenerateDirection(Direction direction, int roomOffsetX, string title) =>
+        GenerateDirection(new List<Direction> { direction }, roomOffsetX, title);
 
     private void GenerateDirection(
         List<Direction> directions,
-        int offsetX,
+        int roomOffsetX,
         string title)
     {
         var cellInfos = new List<CellInfo>();
@@ -115,21 +115,31 @@ public partial class AnimationPanel : GamePanel
         for (var y = 0; y < maxY; y++)
         {
             var cellCoord = new Vector2I(x, y);
-
-            var hasDirection = directions.Any(direction => IsDirectionInSection(direction, x, y));
-            var sourceLayer = hasDirection ? _allDirsLayer : _noDirsLayer;
-            var atlasCoord = sourceLayer.GetCellAtlasCoords(cellCoord);
-            
-            cellInfos.Add(new CellInfo
+            if (!directions.Any())
             {
-                CellCoord = cellCoord,
-                AtlasCoord = atlasCoord
-            });
+                cellInfos.Add(new CellInfo
+                {
+                    CellCoord = cellCoord,
+                    AtlasCoord = new Vector2I(-1, 0)
+                });
+            }
+            else
+            {
+                var hasDirection = directions.Any(direction => IsDirectionInSection(direction, x, y));
+                var sourceLayer = hasDirection ? _allDirsLayer : _noDirsLayer;
+                var atlasCoord = sourceLayer.GetCellAtlasCoords(cellCoord);
+
+                cellInfos.Add(new CellInfo
+                {
+                    CellCoord = cellCoord,
+                    AtlasCoord = atlasCoord
+                });
+            }
         }
         
         foreach (var cellInfo in cellInfos)
         {
-            _wallsLayer.SetCell(new Vector2I(cellInfo.CellCoord.X + 8 * offsetX, cellInfo.CellCoord.Y), 1, cellInfo.AtlasCoord);
+            _wallsLayer.SetCell(new Vector2I(cellInfo.CellCoord.X + 8 * roomOffsetX, cellInfo.CellCoord.Y), 1, cellInfo.AtlasCoord);
         }
 
         var roomLabel = new Label();
@@ -140,7 +150,7 @@ public partial class AnimationPanel : GamePanel
         const int roomWidth = tileSize;
         
         roomLabel.Position = new Vector2(
-            _wallsLayer.Position.X + tileSize * offsetX,
+            _wallsLayer.Position.X + tileSize * roomOffsetX,
             _wallsLayer.Position.Y + tileSize / 2
         );
         
