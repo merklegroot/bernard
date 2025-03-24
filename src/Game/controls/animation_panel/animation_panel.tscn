@@ -10,7 +10,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -27,7 +27,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -71,14 +71,16 @@ scale = Vector2(1.5, 1.5)
 tile_map_data = PackedByteArray("AAAGAAEAAQADAAAAAAABAAIAAQADAAIAAAAGAAIAAQABAAIAAAABAAUAAQADAAAAAAABAAYAAQAIAAMAAAABAAEAAQABAAAAAAACAAYAAQADAAAAAAACAAEAAQADAAIAAAAFAAEAAQABAAIAAAAFAAYAAQABAAAAAAAGAAYAAQALAAMAAAAGAAUAAQABAAAAAAACAAAAAQAAAAEAAAACAAcAAQAAAAEAAAAFAAcAAQAAAAEAAAAFAAAAAQAAAAEAAAAAAAIAAQAAAAMAAAAAAAUAAQAAAAMAAAAHAAUAAQAAAAMAAAAHAAIAAQAAAAMAAAA=")
 tile_set = ExtResource("5_tileset")
 
-[node name="PlayerSprite" type="Sprite2D" parent="VBoxContainer/BodyContainer" index="3"]
+[node name="Player" type="CharacterBody2D" parent="VBoxContainer/BodyContainer" index="3"]
 position = Vector2(375, 125)
 scale = Vector2(2, 2)
+
+[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/BodyContainer/Player" index="0"]
 texture = ExtResource("6_player")
 hframes = 6
 vframes = 10
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="VBoxContainer/BodyContainer/PlayerSprite" index="0"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="VBoxContainer/BodyContainer/Player" index="1"]
 libraries = {
 "": SubResource("AnimationLibrary_8ykx4")
 }
