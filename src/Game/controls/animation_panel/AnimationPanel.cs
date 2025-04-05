@@ -13,6 +13,7 @@ public partial class AnimationPanel : GamePanel
     private TileMapLayer _wallsLayer;
     private TileMapLayer _allDirsLayer;
     private TileMapLayer _noDirsLayer;
+	private TileMapLayer _floorLayer;
 
     private IRoomDefRepo _roomDefRepo;
 
@@ -27,13 +28,58 @@ public partial class AnimationPanel : GamePanel
         _wallsLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_Walls");
         _allDirsLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_AllDirs");
         _noDirsLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_NoDirs");
-        
+		_floorLayer = GetNode<TileMapLayer>("VBoxContainer/BodyContainer/TileMapLayer_Floor");
         Game.Events.EventBus.Instance.RoomChanged += OnRoomChanged;
         
         OnRoomChanged();
     }
 
     private readonly List<Label> _roomLabels = new();
+
+    private int _updateAttempts = 0;
+    private const int MAX_UPDATE_ATTEMPTS = 10;
+
+	private void UpdateTilePos()
+	{
+		var panelSize = GetNode<Control>("VBoxContainer/BodyContainer").Size;
+
+		// Wait until the panel is ready and has a proper size
+		if (panelSize == Vector2.Zero)
+		{
+			if (_updateAttempts < MAX_UPDATE_ATTEMPTS)
+			{
+				_updateAttempts++;
+				CallDeferred(nameof(UpdateTilePos));
+				return;
+			}
+			
+			GD.PrintErr("Failed to update tile position after maximum attempts");
+			return;
+		}
+
+		var tileSize = _wallsLayer.TileSet.TileSize;
+		GD.Print($"Tile size: {tileSize}");
+
+		var tileScale = _wallsLayer.Scale;
+		GD.Print($"Tile scale: {tileScale}");
+
+		_updateAttempts = 0;
+		
+		GD.Print($"Panel size: {panelSize}");
+
+		const int tilesPerRoom = 8;
+		var roomWidth = tilesPerRoom * tileSize.X * tileScale.X;
+		var roomHeight = tilesPerRoom * tileSize.Y * tileScale.Y;
+
+		// Center horizontally and vertically
+		var posX = (panelSize.X - roomWidth) / 2f;
+		var posY = (panelSize.Y - roomHeight) / 2f;
+		
+		_wallsLayer.Position = new Vector2(posX, _wallsLayer.Position.Y);
+		_allDirsLayer.Position = _wallsLayer.Position;
+		_noDirsLayer.Position = _wallsLayer.Position;
+		_floorLayer.Position = _wallsLayer.Position;
+	}
 
     private void ClearLabels()
     {
@@ -48,6 +94,7 @@ public partial class AnimationPanel : GamePanel
     
     private void OnRoomChanged()
     {
+		UpdateTilePos();
         ClearLabels();
         
         var roomDef = _roomDefRepo.Get(GameStateContainer.GameState.PlayerState.RoomId);
